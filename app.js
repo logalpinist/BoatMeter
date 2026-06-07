@@ -1,8 +1,8 @@
-let baseRoll = 0;
-let basePitch = 0;
+let baseX = 0;
+let baseY = 0;
 
-let rollRaw = 0;
-let pitchRaw = 0;
+let x = 0;
+let y = 0;
 
 function startSensor() {
 
@@ -19,13 +19,13 @@ function startSensor() {
     }
 }
 
-function isLandscape() {
-    return window.matchMedia("(orientation: landscape)").matches;
+function getAngleRad() {
+    return (window.orientation || 0) * Math.PI / 180;
 }
 
 function resetZero() {
-    baseRoll = rollRaw;
-    basePitch = pitchRaw;
+    baseX = x;
+    baseY = y;
 }
 
 function attach() {
@@ -34,33 +34,30 @@ function attach() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        rollRaw = event.gamma;
-        pitchRaw = event.beta;
+        // 🌍 重力ベクトル
+        let gx = event.gamma;
+        let gy = event.beta;
 
-        let roll, pitch;
+        // 🔥 画面回転補正（ここが本体）
+        let angle = getAngleRad();
 
-        // 🔥 常に現在の向きで切り替え
-        if (!isLandscape()) {
-            roll = rollRaw;
-            pitch = pitchRaw;
-        } else {
-            roll = pitchRaw;
-            pitch = -rollRaw;
-        }
+        x = gx * Math.cos(angle) - gy * Math.sin(angle);
+        y = gx * Math.sin(angle) + gy * Math.cos(angle);
 
-        let r = roll - baseRoll;
-        let p = pitch - basePitch;
+        let rx = x - baseX;
+        let ry = y - baseY;
 
+        // 表示
         document.getElementById("rollBoat").style.transform =
-            `rotate(${r}deg)`;
+            `rotate(${rx}deg)`;
 
         document.getElementById("pitchBoat").style.transform =
-            `rotate(${p}deg)`;
+            `rotate(${ry}deg)`;
 
         document.getElementById("rollValue").innerText =
-            Math.round(r) + "°";
+            Math.round(rx) + "°";
 
         document.getElementById("pitchValue").innerText =
-            Math.round(p) + "°";
+            Math.round(ry) + "°";
     });
 }
