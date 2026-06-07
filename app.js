@@ -13,35 +13,27 @@ function requestPermission() {
 
         DeviceOrientationEvent.requestPermission()
             .then(response => {
-
                 if (response === "granted") {
                     startSensor();
                 }
-
             })
             .catch(console.error);
 
     } else {
-
         startSensor();
-
     }
 }
 
 function resetZero() {
-
     rollOffset = currentRoll;
     pitchOffset = currentPitch;
-
 }
 
 function startSensor() {
 
     window.addEventListener("deviceorientation", (event) => {
 
-        if (event.beta == null || event.gamma == null) {
-            return;
-        }
+        if (event.beta == null || event.gamma == null) return;
 
         currentPitch = event.beta;
         currentRoll = event.gamma;
@@ -49,19 +41,26 @@ function startSensor() {
         let roll;
         let pitch;
 
-        // 縦持ち判定
-        if (Math.abs(event.beta) > 45) {
+        // 画面の向き
+        const angle = (screen.orientation && screen.orientation.angle) || 0;
+        const isLandscape = angle === 90 || angle === -90 || angle === 270;
 
-            // 縦持ち
+        if (!isLandscape) {
+
+            // 📱 縦持ち
             roll = event.gamma - rollOffset;
             pitch = event.beta - pitchOffset;
 
         } else {
 
-            // 横持ち
+            // 📱 横持ち（軸入れ替え＋反転補正）
             roll = event.beta - pitchOffset;
-            pitch = event.gamma - rollOffset;
 
+            if (angle === 90 || angle === -90) {
+                pitch = -event.gamma + rollOffset;
+            } else {
+                pitch = event.gamma - rollOffset;
+            }
         }
 
         document.getElementById("rollBoat").style.transform =
@@ -75,7 +74,5 @@ function startSensor() {
 
         document.getElementById("pitchValue").innerText =
             `Pitch ${Math.round(pitch)}°`;
-
     });
-
 }
