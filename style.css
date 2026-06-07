@@ -6,7 +6,7 @@ body{
     overflow:hidden;
 }
 
-/* 横でも縦でも自動縮尺 */
+/* 横前提レイアウト */
 .container{
     height:100vh;
     display:flex;
@@ -14,35 +14,27 @@ body{
     align-items:center;
 }
 
+/* 横なので横長に最適化 */
 .meter{
     width:45vw;
-    max-width:400px;
+    max-width:420px;
     min-width:180px;
 
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
 }
 
-.title{
-    font-size:14px;
-    opacity:0.7;
-    margin-bottom:10px;
-}
-
-/* 船 */
 img{
-    width:100%;
+    width:70%;
     max-width:260px;
     transition:0.08s linear;
     transform-origin:center;
 }
 
-/* 数値 */
 .value{
     margin-top:10px;
-    font-size:32px;
+    font-size:34px;
 }
 
 /* ボタン */
