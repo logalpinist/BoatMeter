@@ -1,81 +1,77 @@
-let rollOffset = 0;
-let pitchOffset = 0;
+let roll = 0;
+let isRunning = false;
 
-let currentRoll = 0;
-let currentPitch = 0;
+// 角度補正用（デバイスによってズレるので初期値）
+let baseGamma = 0;
 
-function requestPermission() {
+// ボタンから呼ぶ
+async function requestPermission() {
+    try {
+        // iOS対応（許可が必要）
+        if (typeof DeviceOrientationEvent !== "undefined" &&
+            typeof DeviceOrientationEvent.requestPermission === "function") {
 
-    if (
-        typeof DeviceOrientationEvent !== "undefined" &&
-        typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
-
-        DeviceOrientationEvent.requestPermission()
-            .then(response => {
-
-                if (response === "granted") {
-                    startSensor();
-                }
-
-            })
-            .catch(console.error);
-
-    } else {
+            const response = await DeviceOrientationEvent.requestPermission();
+            if (response !== "granted") {
+                alert("センサーの許可が必要です");
+                return;
+            }
+        }
 
         startSensor();
-
+    } catch (e) {
+        console.error(e);
+        alert("センサー開始に失敗しました");
     }
 }
 
-function resetZero() {
-
-    rollOffset = currentRoll;
-    pitchOffset = currentPitch;
-
+// センサー開始
+function startSensor() {
+    isRunning = true;
+    window.addEventListener("deviceorientation", handleOrientation);
 }
 
-function startSensor() {
+// センサー処理
+function handleOrientation(event) {
+    if (!isRunning) return;
 
-    window.addEventListener("deviceorientation", (event) => {
+    // 左右傾き（-90〜90）
+    let gamma = event.gamma;
 
-        if (event.beta == null || event.gamma == null) {
-            return;
-        }
+    if (gamma === null) return;
 
-        currentPitch = event.beta;
-        currentRoll = event.gamma;
+    // 初回だけ基準を取る
+    if (baseGamma === 0) {
+        baseGamma = gamma;
+    }
 
-        let roll;
-        let pitch;
+    // 差分でロール計算
+    roll = gamma - baseGamma;
 
-        // 縦持ち判定
-        if (Math.abs(event.beta) > 45) {
+    // 制限（見やすく）
+    if (roll > 45) roll = 45;
+    if (roll < -45) roll = -45;
 
-            // 縦持ち
-            roll = event.gamma - rollOffset;
-            pitch = event.beta - pitchOffset;
+    updateDisplay();
+}
 
-        } else {
+// 表示更新
+function updateDisplay() {
+    const boat = document.getElementById("rollBoat");
+    const value = document.getElementById("rollValue");
 
-            // 横持ち
-            roll = event.beta - pitchOffset;
-            pitch = event.gamma - rollOffset;
+    if (boat) {
+        boat.style.transform = `rotate(${roll}deg)`;
+    }
 
-        }
+    if (value) {
+        value.innerText = roll.toFixed(1) + "°";
+    }
+}
 
-        document.getElementById("rollBoat").style.transform =
-            `rotate(${roll}deg)`;
-
-        document.getElementById("pitchBoat").style.transform =
-            `rotate(${pitch}deg)`;
-
-        document.getElementById("rollValue").innerText =
-            `Roll ${Math.round(roll)}°`;
-
-        document.getElementById("pitchValue").innerText =
-            `Pitch ${Math.round(pitch)}°`;
-
-    });
-
+// もしリセットしたい場合用
+function resetSensor() {
+    baseGamma = 0;
+    roll = 0;
+    updateDisplay();
 }
