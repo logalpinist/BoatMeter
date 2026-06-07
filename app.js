@@ -4,7 +4,7 @@ let basePitch = 0;
 let rollRaw = 0;
 let pitchRaw = 0;
 
-let isLandscapeMode = false;
+let modeLandscape = false; // ←固定モード
 
 function requestPermission() {
 
@@ -23,20 +23,21 @@ function requestPermission() {
     }
 }
 
-function isLandscape() {
+/* 🚀 ここ重要：常に最新状態を取得 */
+function getLandscape() {
     return window.innerWidth > window.innerHeight;
 }
 
-/* 🔥 リセット修正版 */
+/* 🔥 リセット（ここが修正ポイント） */
 function resetZero() {
 
-    isLandscapeMode = isLandscape();
+    modeLandscape = getLandscape();
 
-    if (!isLandscapeMode) {
+    if (!modeLandscape) {
         baseRoll = rollRaw;
         basePitch = pitchRaw;
     } else {
-        // 横は軸変換後の状態で保存
+        // 横モードは軸変換後で保存
         baseRoll = pitchRaw;
         basePitch = -rollRaw;
     }
@@ -53,7 +54,8 @@ function startSensor() {
 
         let roll, pitch;
 
-        if (!isLandscape()) {
+        // 🔥 重要：リセット時のモードを使う
+        if (!modeLandscape) {
             roll = rollRaw;
             pitch = pitchRaw;
         } else {
