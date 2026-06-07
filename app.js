@@ -4,46 +4,22 @@ let basePitch = 0;
 let rollRaw = 0;
 let pitchRaw = 0;
 
-let modeLandscape = false; // ←固定モード
-
-function requestPermission() {
+function startSensor() {
 
     if (
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
     ) {
-
         DeviceOrientationEvent.requestPermission()
             .then(res => {
-                if (res === "granted") startSensor();
+                if (res === "granted") attach();
             });
-
     } else {
-        startSensor();
+        attach();
     }
 }
 
-/* 🚀 ここ重要：常に最新状態を取得 */
-function getLandscape() {
-    return window.innerWidth > window.innerHeight;
-}
-
-/* 🔥 リセット（ここが修正ポイント） */
-function resetZero() {
-
-    modeLandscape = getLandscape();
-
-    if (!modeLandscape) {
-        baseRoll = rollRaw;
-        basePitch = pitchRaw;
-    } else {
-        // 横モードは軸変換後で保存
-        baseRoll = pitchRaw;
-        basePitch = -rollRaw;
-    }
-}
-
-function startSensor() {
+function attach() {
 
     window.addEventListener("deviceorientation", (event) => {
 
@@ -52,30 +28,26 @@ function startSensor() {
         rollRaw = event.gamma;
         pitchRaw = event.beta;
 
-        let roll, pitch;
+        let r = rollRaw - baseRoll;
+        let p = pitchRaw - basePitch;
 
-        // 🔥 重要：リセット時のモードを使う
-        if (!modeLandscape) {
-            roll = rollRaw;
-            pitch = pitchRaw;
-        } else {
-            roll = pitchRaw;
-            pitch = -rollRaw;
-        }
-
-        let r = roll - baseRoll;
-        let p = pitch - basePitch;
-
-        document.getElementById("rollBoat").style.transform =
-            `translate(-50%, -50%) rotate(${r}deg)`;
-
-        document.getElementById("pitchBoat").style.transform =
-            `translate(-50%, -50%) rotate(${p}deg)`;
+        update("rollBoat", r);
+        update("pitchBoat", p);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(r)}°`;
+            Math.round(r) + "°";
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(p)}°`;
+            Math.round(p) + "°";
     });
+}
+
+function resetZero() {
+    baseRoll = rollRaw;
+    basePitch = pitchRaw;
+}
+
+function update(id, angle) {
+    document.getElementById(id).style.transform =
+        `rotate(${angle}deg)`;
 }
