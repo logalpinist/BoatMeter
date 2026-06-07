@@ -32,42 +32,40 @@ function startSensor() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        let beta = event.beta;
-        let gamma = event.gamma;
+        let beta = event.beta;   // 前後
+        let gamma = event.gamma;  // 左右
 
-        // 📌 iOS補正（ここが重要）
-        const isUpsideDown = beta > 90 || beta < -90;
+        // 📌 ★ここが本体（画面依存しない）
+        let roll = gamma;
+        let pitch = beta;
 
-        if (Math.abs(beta) < 45) {
-            // 横持ちっぽい状態
-            currentRoll = beta;
-            currentPitch = gamma;
-        } else {
-            // 縦持ち
-            currentRoll = gamma;
-            currentPitch = beta;
+        // 横向き補正（ここが重要）
+        if (window.innerWidth > window.innerHeight) {
+            // 横画面なら入れ替え＋反転補正
+            const temp = roll;
+            roll = pitch;
+            pitch = -temp;
         }
 
-        // ゼロ補正
-        let roll = currentRoll - rollOffset;
-        let pitch = currentPitch - pitchOffset;
+        currentRoll = roll - rollOffset;
+        currentPitch = pitch - pitchOffset;
 
-        move("rollBoat", roll);
-        move("pitchBoat", pitch);
+        move("rollBoat", currentRoll);
+        move("pitchBoat", currentPitch);
 
-        marker("rollMarker", roll);
-        marker("pitchMarker", pitch);
+        setMarker("rollMarker", currentRoll);
+        setMarker("pitchMarker", currentPitch);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(roll)}°`;
+            `${Math.round(currentRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(pitch)}°`;
+            `${Math.round(currentPitch)}°`;
 
     });
 }
 
-/* 船の動き */
+/* ボール移動 */
 function move(id, angle) {
 
     const r = 120;
@@ -77,11 +75,11 @@ function move(id, angle) {
     const y = -Math.cos(rad) * r;
 
     document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        `translate(calc(-50% + ${x}px), ${y}px)`;
 }
 
 /* マーカー */
-function marker(id, angle) {
+function setMarker(id, angle) {
 
     const r = 130;
     const rad = angle * Math.PI / 180;
@@ -90,5 +88,5 @@ function marker(id, angle) {
     const y = -Math.cos(rad) * r;
 
     document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        `translate(calc(-50% + ${x}px), ${y}px)`;
 }
