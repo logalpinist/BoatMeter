@@ -1,48 +1,81 @@
-let roll = 0;
+let rollOffset = 0;
+let pitchOffset = 0;
+
+let currentRoll = 0;
+let currentPitch = 0;
 
 function requestPermission() {
-    // iOS対応
+
     if (
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
     ) {
+
         DeviceOrientationEvent.requestPermission()
             .then(response => {
+
                 if (response === "granted") {
                     startSensor();
-                } else {
-                    alert("センサー許可が必要です");
                 }
+
             })
             .catch(console.error);
+
     } else {
-        // Android / PC
+
         startSensor();
+
     }
 }
 
+function resetZero() {
+
+    rollOffset = currentRoll;
+    pitchOffset = currentPitch;
+
+}
+
 function startSensor() {
+
     window.addEventListener("deviceorientation", (event) => {
-        let gamma = event.gamma;
 
-        if (gamma === null) return;
-
-        // そのままロールに使う（まずはシンプルに動かす）
-        roll = gamma;
-
-        // 制限
-        if (roll > 45) roll = 45;
-        if (roll < -45) roll = -45;
-
-        const boat = document.getElementById("rollBoat");
-        const value = document.getElementById("rollValue");
-
-        if (boat) {
-            boat.style.transform = `translate(-50%, -50%) rotate(${roll}deg)`;
+        if (event.beta == null || event.gamma == null) {
+            return;
         }
 
-        if (value) {
-            value.innerText = roll.toFixed(1) + "°";
+        currentPitch = event.beta;
+        currentRoll = event.gamma;
+
+        let roll;
+        let pitch;
+
+        // 縦持ち判定
+        if (Math.abs(event.beta) > 45) {
+
+            // 縦持ち
+            roll = event.gamma - rollOffset;
+            pitch = event.beta - pitchOffset;
+
+        } else {
+
+            // 横持ち
+            roll = event.beta - pitchOffset;
+            pitch = event.gamma - rollOffset;
+
         }
+
+        document.getElementById("rollBoat").style.transform =
+            `rotate(${roll}deg)`;
+
+        document.getElementById("pitchBoat").style.transform =
+            `rotate(${pitch}deg)`;
+
+        document.getElementById("rollValue").innerText =
+            `Roll ${Math.round(roll)}°`;
+
+        document.getElementById("pitchValue").innerText =
+            `Pitch ${Math.round(pitch)}°`;
+
     });
+
 }
