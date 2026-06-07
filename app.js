@@ -1,9 +1,6 @@
 let baseRoll = 0;
 let basePitch = 0;
 
-let lastRoll = 0;
-let lastPitch = 0;
-
 let currentRoll = 0;
 let currentPitch = 0;
 
@@ -26,18 +23,14 @@ function requestPermission() {
 
 function resetZero() {
 
-    // 👉 “今表示されてる値”をそのまま基準にする
+    // 👉 今“表示されてる値”をゼロ基準にする
     baseRoll = currentRoll;
     basePitch = currentPitch;
 }
 
 function getIsLandscape() {
-
-    if (screen.orientation && screen.orientation.angle !== undefined) {
-        return Math.abs(screen.orientation.angle) === 90;
-    }
-
-    return window.innerWidth > window.innerHeight;
+    return (screen.orientation && Math.abs(screen.orientation.angle) === 90)
+        || window.innerWidth > window.innerHeight;
 }
 
 function startSensor() {
@@ -51,25 +44,16 @@ function startSensor() {
 
         const isLandscape = getIsLandscape();
 
-        let roll, pitch;
+        let roll = !isLandscape ? gamma : beta;
+        let pitch = !isLandscape ? beta : -gamma;
 
-        if (!isLandscape) {
-            roll = gamma;
-            pitch = beta;
-        } else {
-            roll = beta;
-            pitch = -gamma;
-        }
-
-        lastRoll = roll;
-        lastPitch = pitch;
-
-        // 🎯 表示値（ここが唯一の正解ソース）
+        // 🎯 差分を1本化（ここが重要）
         currentRoll = roll - baseRoll;
         currentPitch = pitch - basePitch;
 
-        update("rollBoat", currentRoll);
-        update("pitchBoat", currentPitch);
+        // 🚤 画像も数字も同じ値を使う
+        render("rollBoat", currentRoll);
+        render("pitchBoat", currentPitch);
 
         document.getElementById("rollValue").innerText =
             `${Math.round(currentRoll)}°`;
@@ -79,7 +63,7 @@ function startSensor() {
     });
 }
 
-function update(id, angle) {
+function render(id, angle) {
 
     document.getElementById(id).style.transform =
         `translate(-50%, -50%) rotate(${angle}deg)`;
