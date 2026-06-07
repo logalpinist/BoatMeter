@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boat HUD</title>
+<title>Boat Meter</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -17,20 +17,22 @@
 
         <h2>ROLL</h2>
 
-        <div class="dial">
-            <div class="ticks"></div>
-            <div class="marker" id="rollMarker"></div>
-
-            <div class="boatWrap" id="rollBoat">
-                <img src="ponam-rear.png">
-            </div>
+        <!-- ボタン（ロール専用） -->
+        <div class="btnArea">
+            <button onclick="requestPermission()">開始</button>
+            <button onclick="resetZero()">リセット</button>
         </div>
 
-        <div class="angleBig" id="rollValue">0°</div>
+        <div class="dial">
+            <div class="sea"></div>
 
-        <button onclick="requestPermission()">センサー開始</button>
-        <button onclick="resetZero()">ゼロ</button>
+            <div class="boatWrap" id="rollBoat">
+                🚤
+            </div>
 
+        </div>
+
+        <div class="angle" id="rollValue">0°</div>
     </div>
 
     <!-- PITCH -->
@@ -38,17 +40,22 @@
 
         <h2>PITCH</h2>
 
-        <div class="dial">
-            <div class="ticks"></div>
-            <div class="marker" id="pitchMarker"></div>
-
-            <div class="boatWrap" id="pitchBoat">
-                <img src="ponam-side.png">
-            </div>
+        <!-- ボタン（ピッチ専用） -->
+        <div class="btnArea">
+            <button onclick="requestPermission()">開始</button>
+            <button onclick="resetZero()">リセット</button>
         </div>
 
-        <div class="angleBig" id="pitchValue">0°</div>
+        <div class="dial">
+            <div class="sea"></div>
 
+            <div class="boatWrap" id="pitchBoat">
+                🚤
+            </div>
+
+        </div>
+
+        <div class="angle" id="pitchValue">0°</div>
     </div>
 
 </div>
