@@ -31,10 +31,8 @@ body{
     position:absolute;
     top:20px;
     margin:0;
-    letter-spacing:2px;
 }
 
-/* 操作ボタン */
 .btnArea{
     position:absolute;
     top:10px;
@@ -42,7 +40,7 @@ body{
     transform:translateX(-50%);
     display:flex;
     gap:6px;
-    z-index:20;
+    z-index:10;
 }
 
 .btnArea button{
@@ -54,7 +52,6 @@ body{
     border-radius:6px;
 }
 
-/* 表示エリア */
 .dial{
     position:relative;
     width:100%;
@@ -62,6 +59,7 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
+    overflow:hidden;
 }
 
 .sea{
@@ -74,10 +72,9 @@ body{
     border-bottom-right-radius:50%;
 }
 
-/* 船 */
 .boatWrap{
     position:absolute;
-    font-size:80px;
+    font-size:clamp(40px, 8vw, 80px);
     transition:0.08s linear;
     transform-origin:center;
 }
