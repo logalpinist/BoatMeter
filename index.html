@@ -15,11 +15,6 @@
     <div class="gauge">
         <h2>ROLL</h2>
 
-        <div class="btnArea">
-            <button onclick="requestPermission()">開始</button>
-            <button onclick="resetZero()">リセット</button>
-        </div>
-
         <div class="dial">
             <div class="sea"></div>
 
@@ -36,11 +31,6 @@
     <div class="gauge">
         <h2>PITCH</h2>
 
-        <div class="btnArea">
-            <button onclick="requestPermission()">開始</button>
-            <button onclick="resetZero()">リセット</button>
-        </div>
-
         <div class="dial">
             <div class="sea"></div>
 
@@ -53,6 +43,12 @@
         <div class="angle" id="pitchValue">0°</div>
     </div>
 
+</div>
+
+<!-- 🚤 ボタンは完全に外へ -->
+<div class="controls">
+    <button onclick="requestPermission()">センサー開始</button>
+    <button onclick="resetZero()">ゼロリセット</button>
 </div>
 
 <script src="app.js"></script>
