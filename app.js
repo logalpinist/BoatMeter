@@ -1,18 +1,19 @@
 function startSensor() {
-    window.addEventListener("deviceorientation", (e) => {
 
-        let roll = e.gamma || 0;
-        let pitch = e.beta || 0;
+    window.addEventListener("deviceorientation", (event) => {
 
-        document.getElementById("rollBoat").style.transform =
+        let roll = Math.round(event.gamma);
+
+        document.getElementById("rollBoat")
+            .style.transform =
             `rotate(${roll}deg)`;
 
-        document.getElementById("rollValue").innerText =
-            Math.round(roll) + "°";
+        document.getElementById("rollValue")
+            .innerText =
+            `${roll}°`;
 
-        document.getElementById("pitchValue").innerText =
-            Math.round(pitch) + "°";
     });
+
 }
 
 function requestPermission() {
@@ -23,18 +24,18 @@ function requestPermission() {
     ) {
 
         DeviceOrientationEvent.requestPermission()
-            .then(permissionState => {
+            .then(permission => {
 
-                if (permissionState === "granted") {
+                if (permission === "granted") {
                     startSensor();
-                } else {
-                    alert("センサー許可が必要です");
                 }
 
-            })
-            .catch(console.error);
+            });
 
     } else {
+
         startSensor();
+
     }
+
 }
