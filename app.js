@@ -1,64 +1,42 @@
-let rollOffset = 0;
-let pitchOffset = 0;
+window.addEventListener("deviceorientation", (event) => {
 
-function resetZero() {
-    rollOffset = currentRoll;
-    pitchOffset = currentPitch;
-}
+    currentRoll = Math.round(event.gamma);
+    currentPitch = Math.round(event.beta);
 
-let currentRoll = 0;
-let currentPitch = 0;
+    let roll;
+    let pitch;
 
-function startSensor() {
+    const angle =
+        window.screen.orientation?.angle ??
+        window.orientation ??
+        0;
 
-    window.addEventListener("deviceorientation", (event) => {
+    if (Math.abs(angle) === 90) {
 
-        currentRoll = Math.round(event.gamma);
-        currentPitch = Math.round(event.beta);
-
-        let roll = currentRoll - rollOffset;
-        let pitch = currentPitch - pitchOffset;
-
-        document.getElementById("rollBoat")
-            .style.transform =
-            `rotate(${roll}deg)`;
-
-        document.getElementById("pitchBoat")
-            .style.transform =
-            `rotate(${pitch}deg)`;
-
-        document.getElementById("rollValue")
-            .innerText =
-            `${roll}°`;
-
-        document.getElementById("pitchValue")
-            .innerText =
-            `${pitch}°`;
-
-    });
-
-}
-
-function requestPermission() {
-
-    if (
-        typeof DeviceOrientationEvent !== "undefined" &&
-        typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
-
-        DeviceOrientationEvent.requestPermission()
-            .then(permission => {
-
-                if (permission === "granted") {
-                    startSensor();
-                }
-
-            });
+        roll = currentPitch - pitchOffset;
+        pitch = currentRoll - rollOffset;
 
     } else {
 
-        startSensor();
+        roll = currentRoll - rollOffset;
+        pitch = currentPitch - pitchOffset;
 
     }
 
-}
+    document.getElementById("rollBoat")
+        .style.transform =
+        `rotate(${roll}deg)`;
+
+    document.getElementById("pitchBoat")
+        .style.transform =
+        `rotate(${pitch}deg)`;
+
+    document.getElementById("rollValue")
+        .innerText =
+        `${roll}°`;
+
+    document.getElementById("pitchValue")
+        .innerText =
+        `B:${Math.round(event.beta)} G:${Math.round(event.gamma)}`;
+
+});
