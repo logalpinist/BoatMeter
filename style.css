@@ -6,6 +6,7 @@ body{
     overflow:hidden;
 }
 
+/* 全体レイアウト固定 */
 .container{
     height:100vh;
     display:flex;
@@ -19,24 +20,21 @@ body{
 .gauge{
     width:44vw;
     height:44vw;
-
-    border-radius:22px;
-
     position:relative;
 
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
+    border-radius:22px;
     background: rgba(10, 25, 50, 0.6);
     backdrop-filter: blur(12px);
 
     border:1px solid rgba(0,229,255,0.35);
-
     box-shadow:
         0 0 25px rgba(0,229,255,0.15),
         inset 0 0 30px rgba(0,229,255,0.08);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
 }
 
 h2{
@@ -48,11 +46,14 @@ h2{
     opacity:0.8;
 }
 
-/* 円ダイヤル */
+/* ダイヤル基準（ここが超重要） */
 .dial{
     position:absolute;
     width:80%;
     height:80%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
     border-radius:50%;
 }
 
@@ -82,15 +83,17 @@ h2{
     left:50%;
     transform:translate(-50%, -50%);
     box-shadow:0 0 10px #00e5ff;
+    z-index:5;
 }
 
-/* 船画像 */
+/* 船 */
 .boatWrap{
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
     transition:0.08s linear;
+    z-index:6;
 }
 
 .boatWrap img{
