@@ -13,14 +13,18 @@
 
     <!-- ROLL -->
     <div class="gauge">
+
         <h2>ROLL</h2>
 
         <div class="dial">
-            <div class="sea"></div>
+
+            <div class="ring"></div>
 
             <div class="boatWrap" id="rollBoat">
                 <img src="ponam-rear.png">
             </div>
+
+            <div class="marker"></div>
 
         </div>
 
@@ -29,14 +33,18 @@
 
     <!-- PITCH -->
     <div class="gauge">
+
         <h2>PITCH</h2>
 
         <div class="dial">
-            <div class="sea"></div>
+
+            <div class="ring"></div>
 
             <div class="boatWrap" id="pitchBoat">
                 <img src="ponam-side.png">
             </div>
+
+            <div class="marker"></div>
 
         </div>
 
@@ -45,10 +53,10 @@
 
 </div>
 
-<!-- 操作ボタン（外固定） -->
+<!-- 操作 -->
 <div class="controls">
-    <button onclick="requestPermission()">センサー開始</button>
-    <button onclick="resetZero()">ゼロリセット</button>
+    <button onclick="requestPermission()">開始</button>
+    <button onclick="resetZero()">リセット</button>
 </div>
 
 <script src="app.js"></script>
