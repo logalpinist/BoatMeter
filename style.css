@@ -33,25 +33,6 @@ body{
     margin:0;
 }
 
-.btnArea{
-    position:absolute;
-    top:10px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:6px;
-    z-index:10;
-}
-
-.btnArea button{
-    font-size:12px;
-    padding:6px 10px;
-    background:rgba(0,212,255,0.15);
-    border:1px solid rgba(0,212,255,0.4);
-    color:#00d4ff;
-    border-radius:6px;
-}
-
 .dial{
     position:relative;
     width:100%;
@@ -86,8 +67,28 @@ body{
     display:block;
 }
 
+/* 📟 数字 */
 .angle{
     margin-top:10px;
     font-size:40px;
     font-weight:bold;
+}
+
+/* 🎮 ボタン（外固定） */
+.controls{
+    position:fixed;
+    bottom:15px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:10px;
+}
+
+.controls button{
+    padding:10px 14px;
+    font-size:14px;
+    background:rgba(0,212,255,0.15);
+    border:1px solid rgba(0,212,255,0.4);
+    color:#00d4ff;
+    border-radius:8px;
 }
