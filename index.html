@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boat Meter</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,10 +13,8 @@
 
     <!-- ROLL -->
     <div class="gauge">
-
         <h2>ROLL</h2>
 
-        <!-- ボタン（ロール専用） -->
         <div class="btnArea">
             <button onclick="requestPermission()">開始</button>
             <button onclick="resetZero()">リセット</button>
@@ -25,11 +22,7 @@
 
         <div class="dial">
             <div class="sea"></div>
-
-            <div class="boatWrap" id="rollBoat">
-                🚤
-            </div>
-
+            <div class="boatWrap" id="rollBoat">🚤</div>
         </div>
 
         <div class="angle" id="rollValue">0°</div>
@@ -37,10 +30,8 @@
 
     <!-- PITCH -->
     <div class="gauge">
-
         <h2>PITCH</h2>
 
-        <!-- ボタン（ピッチ専用） -->
         <div class="btnArea">
             <button onclick="requestPermission()">開始</button>
             <button onclick="resetZero()">リセット</button>
@@ -48,11 +39,7 @@
 
         <div class="dial">
             <div class="sea"></div>
-
-            <div class="boatWrap" id="pitchBoat">
-                🚤
-            </div>
-
+            <div class="boatWrap" id="pitchBoat">🚤</div>
         </div>
 
         <div class="angle" id="pitchValue">0°</div>
