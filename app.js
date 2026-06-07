@@ -1,8 +1,8 @@
-let baseX = 0;
-let baseY = 0;
+let baseRoll = 0;
+let basePitch = 0;
 
-let x = 0;
-let y = 0;
+let rollRaw = 0;
+let pitchRaw = 0;
 
 function startSensor() {
 
@@ -19,10 +19,15 @@ function startSensor() {
     }
 }
 
-/* 重力ベクトルリセット */
+/* 横かどうか判定 */
+function isLandscape() {
+    return Math.abs(window.orientation) === 90;
+}
+
+/* リセット */
 function resetZero() {
-    baseX = x;
-    baseY = y;
+    baseRoll = rollRaw;
+    basePitch = pitchRaw;
 }
 
 function attach() {
@@ -31,26 +36,33 @@ function attach() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        // 重力ベクトル
-        let gx = event.gamma;
-        let gy = event.beta;
+        rollRaw = event.gamma;
+        pitchRaw = event.beta;
 
-        x = gx;
-        y = gy;
+        let roll, pitch;
 
-        let rx = x - baseX;
-        let ry = y - baseY;
+        /* 🔥 ここが核心（横で入れ替え） */
+        if (isLandscape()) {
+            roll = pitchRaw;
+            pitch = -rollRaw;
+        } else {
+            roll = rollRaw;
+            pitch = pitchRaw;
+        }
+
+        let r = roll - baseRoll;
+        let p = pitch - basePitch;
 
         document.getElementById("rollBoat").style.transform =
-            `rotate(${rx}deg)`;
+            `rotate(${r}deg)`;
 
         document.getElementById("pitchBoat").style.transform =
-            `rotate(${ry}deg)`;
+            `rotate(${p}deg)`;
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(rx)}°`;
+            Math.round(r) + "°";
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(ry)}°`;
+            Math.round(p) + "°";
     });
 }
