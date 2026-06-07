@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boat Meter</title>
+<title>Boat HUD Meter</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -12,41 +12,38 @@
 
 <div class="container">
 
+    <!-- ROLL -->
     <div class="gauge">
 
         <h2>ROLL</h2>
 
-        <button onclick="requestPermission()">
-            センサー開始
-        </button>
-<button onclick="resetZero()">
-    ゼロリセット
-</button>
-        <div class="sea"></div>
-
-        <div class="boat" id="rollBoat">
-            🚤
+        <div class="dial">
+            <div class="ticks"></div>
+            <div class="marker" id="rollMarker"></div>
         </div>
 
-        <div class="angle" id="rollValue">
-            0°
-        </div>
+        <div class="boatWrap" id="rollBoat">🚤</div>
+
+        <div class="angleBig" id="rollValue">0°</div>
+
+        <button onclick="requestPermission()">センサー開始</button>
+        <button onclick="resetZero()">ゼロ</button>
 
     </div>
 
+    <!-- PITCH -->
     <div class="gauge">
 
         <h2>PITCH</h2>
 
-        <div class="sea"></div>
-
-        <div class="boat" id="pitchBoat">
-            🚤
+        <div class="dial">
+            <div class="ticks"></div>
+            <div class="marker" id="pitchMarker"></div>
         </div>
 
-        <div class="angle" id="pitchValue">
-            0°
-        </div>
+        <div class="boatWrap" id="pitchBoat">🚤</div>
+
+        <div class="angleBig" id="pitchValue">0°</div>
 
     </div>
 
