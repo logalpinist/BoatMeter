@@ -3,88 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boat Roll Meter</title>
+<title>Boat Meter</title>
 
-<style>
-body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #0b1b2b;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-}
-
-/* メーター枠 */
-.gauge {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    border: 3px solid #4fc3f7;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-/* 船アイコン（簡易） */
-#rollBoat {
-    width: 60px;
-    height: 20px;
-    background: #ffcc00;
-    border-radius: 10px;
-    position: absolute;
-    transition: transform 0.1s linear;
-}
-
-/* 中心線 */
-.gauge::before {
-    content: "";
-    position: absolute;
-    width: 2px;
-    height: 100%;
-    background: rgba(255,255,255,0.2);
-}
-
-/* 数値 */
-#rollValue {
-    font-size: 32px;
-    margin-top: 10px;
-}
-
-/* ボタン */
-button {
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 10px;
-    background: #4fc3f7;
-    color: black;
-    cursor: pointer;
-}
-button:active {
-    transform: scale(0.98);
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h2>ROLL METER</h2>
+<div class="container">
 
-<div class="gauge">
-    <div id="rollBoat"></div>
+    <h2>ROLL</h2>
+
+    <div class="gauge">
+        <div id="rollBoat"></div>
+    </div>
+
+    <div id="rollValue">0°</div>
+
+    <button onclick="requestPermission()">
+        センサー開始
+    </button>
+
 </div>
-
-<div id="rollValue">0°</div>
-
-<button onclick="requestPermission()">
-    センサー開始
-</button>
 
 <script src="app.js"></script>
 
