@@ -4,6 +4,8 @@ let basePitch = 0;
 let rollRaw = 0;
 let pitchRaw = 0;
 
+let isLandscapeMode = false;
+
 function requestPermission() {
 
     if (
@@ -21,13 +23,23 @@ function requestPermission() {
     }
 }
 
-function resetZero() {
-    baseRoll = rollRaw;
-    basePitch = pitchRaw;
-}
-
 function isLandscape() {
     return window.innerWidth > window.innerHeight;
+}
+
+/* 🔥 リセット修正版 */
+function resetZero() {
+
+    isLandscapeMode = isLandscape();
+
+    if (!isLandscapeMode) {
+        baseRoll = rollRaw;
+        basePitch = pitchRaw;
+    } else {
+        // 横は軸変換後の状態で保存
+        baseRoll = pitchRaw;
+        basePitch = -rollRaw;
+    }
 }
 
 function startSensor() {
