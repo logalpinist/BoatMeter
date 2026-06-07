@@ -1,9 +1,6 @@
 let baseRoll = 0;
 let basePitch = 0;
 
-let rollRaw = 0;
-let pitchRaw = 0;
-
 function startSensor() {
 
     if (
@@ -19,15 +16,18 @@ function startSensor() {
     }
 }
 
-/* 横かどうか判定 */
+/* 横判定 */
 function isLandscape() {
     return Math.abs(window.orientation) === 90;
 }
 
-/* リセット */
+/* 🔥 リセットは“表示値ベース”でやる */
+let currentRoll = 0;
+let currentPitch = 0;
+
 function resetZero() {
-    baseRoll = rollRaw;
-    basePitch = pitchRaw;
+    baseRoll = currentRoll;
+    basePitch = currentPitch;
 }
 
 function attach() {
@@ -36,12 +36,11 @@ function attach() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        rollRaw = event.gamma;
-        pitchRaw = event.beta;
+        let rollRaw = event.gamma;
+        let pitchRaw = event.beta;
 
         let roll, pitch;
 
-        /* 🔥 ここが核心（横で入れ替え） */
         if (isLandscape()) {
             roll = pitchRaw;
             pitch = -rollRaw;
@@ -50,19 +49,21 @@ function attach() {
             pitch = pitchRaw;
         }
 
-        let r = roll - baseRoll;
-        let p = pitch - basePitch;
+        // 補正後の値（ここが唯一の正解）
+        currentRoll = roll - baseRoll;
+        currentPitch = pitch - basePitch;
 
+        // 表示（数値と絵を完全一致させる）
         document.getElementById("rollBoat").style.transform =
-            `rotate(${r}deg)`;
+            `rotate(${currentRoll}deg)`;
 
         document.getElementById("pitchBoat").style.transform =
-            `rotate(${p}deg)`;
+            `rotate(${currentPitch}deg)`;
 
         document.getElementById("rollValue").innerText =
-            Math.round(r) + "°";
+            Math.round(currentRoll) + "°";
 
         document.getElementById("pitchValue").innerText =
-            Math.round(p) + "°";
+            Math.round(currentPitch) + "°";
     });
 }
