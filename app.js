@@ -18,7 +18,8 @@ function requestPermission() {
                     startSensor();
                 }
 
-            });
+            })
+            .catch(console.error);
 
     } else {
 
@@ -42,22 +43,24 @@ function startSensor() {
             return;
         }
 
-        currentRoll = event.gamma;
         currentPitch = event.beta;
+        currentRoll = event.gamma;
 
         let roll;
         let pitch;
 
-        // βが小さいときは横持ちと判定
-        if (Math.abs(currentPitch) < 45) {
+        // 縦持ち判定
+        if (Math.abs(event.beta) > 45) {
 
-            roll = currentPitch - pitchOffset;
-            pitch = currentRoll - rollOffset;
+            // 縦持ち
+            roll = event.gamma - rollOffset;
+            pitch = event.beta - pitchOffset;
 
         } else {
 
-            roll = currentRoll - rollOffset;
-            pitch = currentPitch - pitchOffset;
+            // 横持ち
+            roll = event.beta - pitchOffset;
+            pitch = event.gamma - rollOffset;
 
         }
 
@@ -68,10 +71,10 @@ function startSensor() {
             `rotate(${pitch}deg)`;
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(roll)}°`;
+            `Roll ${Math.round(roll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(pitch)}°`;
+            `Pitch ${Math.round(pitch)}°`;
 
     });
 
