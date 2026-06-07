@@ -1,8 +1,8 @@
 body{
     margin:0;
-    background:#071a2f;
-    color:white;
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    background: radial-gradient(circle at top, #0b2a4a, #020814);
+    color:#00e5ff;
+    font-family: Arial, sans-serif;
     overflow:hidden;
 }
 
@@ -11,14 +11,15 @@ body{
     display:flex;
     justify-content:space-evenly;
     align-items:center;
+    gap:20px;
+    padding:20px;
 }
 
 .gauge{
-    width:42vw;
-    height:42vw;
+    width:44vw;
+    height:44vw;
 
-    border-radius:50%;
-    border:4px solid #00d4ff;
+    border-radius:20px;
 
     position:relative;
 
@@ -27,53 +28,89 @@ body{
     align-items:center;
     justify-content:center;
 
-    background:radial-gradient(
-        circle,
-        #102744 0%,
-        #071a2f 100%
-    );
+    background: rgba(10, 25, 50, 0.6);
+    backdrop-filter: blur(12px);
+
+    border:1px solid rgba(0,229,255,0.4);
 
     box-shadow:
-        0 0 20px rgba(0,212,255,.3),
-        inset 0 0 20px rgba(0,212,255,.15);
+        0 0 25px rgba(0,229,255,0.15),
+        inset 0 0 30px rgba(0,229,255,0.08);
 }
 
-.gauge h2{
-    position:absolute;
-    top:20px;
-    margin:0;
-    letter-spacing:2px;
-}
-
-.sea{
-    position:absolute;
-    bottom:0;
-
-    width:100%;
-    height:50%;
-
-    background:#0a4d8f;
-
-    border-bottom-left-radius:50%;
-    border-bottom-right-radius:50%;
-}
-
-.boat{
-    font-size:80px;
-    z-index:10;
-    transition:.08s linear;
-}
-
-.angle{
-    margin-top:15px;
-    font-size:42px;
-    font-weight:bold;
-    z-index:10;
-}
-
-.marker{
+h2{
     position:absolute;
     top:10px;
-    font-size:24px;
-    color:#00d4ff;
-		}
+    margin:0;
+    font-size:18px;
+    letter-spacing:3px;
+    opacity:0.8;
+}
+
+/* 円ダイヤル */
+.dial{
+    position:absolute;
+    width:80%;
+    height:80%;
+    border-radius:50%;
+}
+
+/* 目盛りリング */
+.ticks{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            rgba(0,229,255,0.25) 0deg 2deg,
+            transparent 2deg 10deg
+        );
+    opacity:0.6;
+}
+
+/* マーカー */
+.marker{
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:#00e5ff;
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    box-shadow:0 0 10px #00e5ff;
+}
+
+/* 船 */
+.boatWrap{
+    font-size:70px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    transition:0.08s linear;
+    filter: drop-shadow(0 0 10px rgba(0,229,255,0.4));
+}
+
+/* 数値 */
+.angleBig{
+    position:absolute;
+    bottom:20px;
+    font-size:44px;
+    font-weight:bold;
+}
+
+/* ボタン */
+button{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    font-size:12px;
+    padding:5px 10px;
+    background:rgba(0,229,255,0.1);
+    border:1px solid rgba(0,229,255,0.4);
+    color:#00e5ff;
+    border-radius:6px;
+}
