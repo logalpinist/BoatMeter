@@ -1,6 +1,6 @@
 body{
     margin:0;
-    background:linear-gradient(180deg,#061726,#071a2f);
+    background:#071a2f;
     color:white;
     font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     overflow:hidden;
@@ -13,60 +13,51 @@ body{
     align-items:center;
 }
 
-/* 🎛 メーター本体 */
 .gauge{
     width:42vw;
     height:42vw;
     border-radius:50%;
+    border:4px solid #00d4ff;
     position:relative;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-
-    background:radial-gradient(circle at 30% 30%, #1a3a5a, #061726);
-    box-shadow:
-        inset 0 0 30px rgba(0,0,0,0.6),
-        0 0 30px rgba(0,200,255,0.15);
-
-    border:1px solid rgba(0,200,255,0.2);
+    background:radial-gradient(circle,#102744 0%,#071a2f 100%);
+    box-shadow:0 0 20px rgba(0,212,255,.3), inset 0 0 20px rgba(0,212,255,.15);
 }
 
 .gauge h2{
     position:absolute;
-    top:18px;
-    font-size:14px;
-    letter-spacing:2px;
-    opacity:0.8;
+    top:20px;
+    margin:0;
 }
 
-/* ダイアル */
 .dial{
     position:relative;
     width:100%;
-    height:65%;
+    height:60%;
     display:flex;
     align-items:center;
     justify-content:center;
+    overflow:hidden;
 }
 
-/* 外周リング */
-.ring{
+.sea{
     position:absolute;
-    width:85%;
-    height:85%;
-    border-radius:50%;
-    border:2px solid rgba(0,200,255,0.25);
-    box-shadow:inset 0 0 20px rgba(0,0,0,0.5);
+    bottom:0;
+    width:100%;
+    height:50%;
+    background:#0a4d8f;
+    border-bottom-left-radius:50%;
+    border-bottom-right-radius:50%;
 }
 
-/* 船 */
 .boatWrap{
     position:absolute;
-    width:clamp(50px, 9vw, 85px);
+    width:clamp(60px, 10vw, 100px);
     transition:0.08s linear;
     transform-origin:center;
-    z-index:2;
 }
 
 .boatWrap img{
@@ -74,42 +65,26 @@ body{
     display:block;
 }
 
-/* 針マーカー */
-.marker{
-    position:absolute;
-    width:2px;
-    height:35%;
-    background:#00e5ff;
-    top:10%;
-    left:50%;
-    transform-origin:bottom;
-    box-shadow:0 0 10px #00e5ff;
-    opacity:0.6;
-}
-
-/* 数値 */
 .angle{
     margin-top:10px;
     font-size:38px;
     font-weight:bold;
-    letter-spacing:1px;
 }
 
-/* 操作ボタン */
 .controls{
     position:fixed;
-    bottom:18px;
+    bottom:15px;
     left:50%;
     transform:translateX(-50%);
     display:flex;
-    gap:12px;
+    gap:10px;
 }
 
 .controls button{
-    padding:10px 16px;
+    padding:10px 14px;
     font-size:14px;
-    border-radius:10px;
-    border:1px solid rgba(0,200,255,0.4);
-    background:rgba(0,200,255,0.12);
+    background:rgba(0,212,255,0.15);
+    border:1px solid rgba(0,212,255,0.4);
     color:#00e5ff;
+    border-radius:8px;
 }
