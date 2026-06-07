@@ -1,22 +1,40 @@
-window.addEventListener("deviceorientation", (e) => {
+function startSensor() {
+    window.addEventListener("deviceorientation", (e) => {
 
-    // 横傾き（左右）
-    let roll = e.gamma || 0;
+        let roll = e.gamma || 0;
+        let pitch = e.beta || 0;
 
-    // 縦傾き（前後）
-    let pitch = e.beta || 0;
+        document.getElementById("rollBoat").style.transform =
+            `rotate(${roll}deg)`;
 
-    // ROLL
-    document.getElementById("rollBoat").style.transform =
-        `rotate(${roll}deg)`;
+        document.getElementById("rollValue").innerText =
+            Math.round(roll) + "°";
 
-    document.getElementById("rollValue").innerText =
-        Math.round(roll) + "°";
+        document.getElementById("pitchValue").innerText =
+            Math.round(pitch) + "°";
+    });
+}
 
-    // PITCH（上下動っぽく表現）
-    document.getElementById("pitchBoat").style.transform =
-        `translateY(${pitch}px)`;
+function requestPermission() {
 
-    document.getElementById("pitchValue").innerText =
-        Math.round(pitch) + "°";
-});
+    if (
+        typeof DeviceOrientationEvent !== "undefined" &&
+        typeof DeviceOrientationEvent.requestPermission === "function"
+    ) {
+
+        DeviceOrientationEvent.requestPermission()
+            .then(permissionState => {
+
+                if (permissionState === "granted") {
+                    startSensor();
+                } else {
+                    alert("センサー許可が必要です");
+                }
+
+            })
+            .catch(console.error);
+
+    } else {
+        startSensor();
+    }
+}
