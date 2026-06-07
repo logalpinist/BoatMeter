@@ -4,6 +4,9 @@ let basePitch = 0;
 let lastRoll = 0;
 let lastPitch = 0;
 
+let currentRoll = 0;
+let currentPitch = 0;
+
 function requestPermission() {
 
     if (
@@ -23,9 +26,9 @@ function requestPermission() {
 
 function resetZero() {
 
-    // 👉 今見えてる状態をゼロにする
-    baseRoll = lastRoll;
-    basePitch = lastPitch;
+    // 👉 “今表示されてる値”をそのまま基準にする
+    baseRoll = currentRoll;
+    basePitch = currentPitch;
 }
 
 function getIsLandscape() {
@@ -51,35 +54,31 @@ function startSensor() {
         let roll, pitch;
 
         if (!isLandscape) {
-            // 縦
             roll = gamma;
             pitch = beta;
         } else {
-            // 横（入れ替え安定版）
             roll = beta;
             pitch = -gamma;
         }
 
-        // 🧠 生データ保存
         lastRoll = roll;
         lastPitch = pitch;
 
-        // 🎯 基準との差分
-        let finalRoll = roll - baseRoll;
-        let finalPitch = pitch - basePitch;
+        // 🎯 表示値（ここが唯一の正解ソース）
+        currentRoll = roll - baseRoll;
+        currentPitch = pitch - basePitch;
 
-        update("rollBoat", finalRoll);
-        update("pitchBoat", finalPitch);
+        update("rollBoat", currentRoll);
+        update("pitchBoat", currentPitch);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(finalRoll)}°`;
+            `${Math.round(currentRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(finalPitch)}°`;
+            `${Math.round(currentPitch)}°`;
     });
 }
 
-/* 表示 */
 function update(id, angle) {
 
     document.getElementById(id).style.transform =
