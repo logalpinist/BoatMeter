@@ -1,8 +1,11 @@
 let baseRoll = 0;
 let basePitch = 0;
 
-let roll = 0;
-let pitch = 0;
+let rollRaw = 0;
+let pitchRaw = 0;
+
+let currentRoll = 0;
+let currentPitch = 0;
 
 function requestPermission() {
 
@@ -23,9 +26,22 @@ function requestPermission() {
 
 function resetZero() {
 
-    // 👉 “変換後の値”を基準にする（ここが重要）
-    baseRoll = roll;
-    basePitch = pitch;
+    baseRoll = rollRaw;
+    basePitch = pitchRaw;
+
+    // 👉 見た目も即リセット
+    currentRoll = 0;
+    currentPitch = 0;
+
+    render("rollBoat", 0);
+    render("pitchBoat", 0);
+
+    document.getElementById("rollValue").innerText = "0°";
+    document.getElementById("pitchValue").innerText = "0°";
+}
+
+function isLandscape() {
+    return window.innerWidth > window.innerHeight;
 }
 
 function startSensor() {
@@ -34,37 +50,27 @@ function startSensor() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        let beta = event.beta;
-        let gamma = event.gamma;
+        rollRaw = event.gamma;
+        pitchRaw = event.beta;
 
-        // 🧠 固定座標化（ここで全部統一）
-        const isLandscape = window.innerWidth > window.innerHeight;
+        let roll = !isLandscape() ? rollRaw : pitchRaw;
+        let pitch = !isLandscape() ? pitchRaw : -rollRaw;
 
-        if (!isLandscape) {
-            roll = gamma;
-            pitch = beta;
-        } else {
-            roll = beta;
-            pitch = -gamma;
-        }
+        currentRoll = roll - baseRoll;
+        currentPitch = pitch - basePitch;
 
-        // 🎯 オフセット適用（ここ1回だけ）
-        let finalRoll = roll - baseRoll;
-        let finalPitch = pitch - basePitch;
-
-        update("rollBoat", finalRoll);
-        update("pitchBoat", finalPitch);
+        render("rollBoat", currentRoll);
+        render("pitchBoat", currentPitch);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(finalRoll)}°`;
+            `${Math.round(currentRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(finalPitch)}°`;
+            `${Math.round(currentPitch)}°`;
     });
 }
 
-function update(id, angle) {
-
+function render(id, angle) {
     document.getElementById(id).style.transform =
         `translate(-50%, -50%) rotate(${angle}deg)`;
 }
