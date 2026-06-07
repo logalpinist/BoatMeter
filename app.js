@@ -4,8 +4,6 @@ let basePitch = 0;
 let rollRaw = 0;
 let pitchRaw = 0;
 
-let isLandscapeMode = false;
-
 function startSensor() {
 
     if (
@@ -21,21 +19,13 @@ function startSensor() {
     }
 }
 
-function getMode() {
+function isLandscape() {
     return window.matchMedia("(orientation: landscape)").matches;
 }
 
 function resetZero() {
-    // 🔥 現在のモードを固定して基準化
-    isLandscapeMode = getMode();
-
-    if (!isLandscapeMode) {
-        baseRoll = rollRaw;
-        basePitch = pitchRaw;
-    } else {
-        baseRoll = pitchRaw;
-        basePitch = -rollRaw;
-    }
+    baseRoll = rollRaw;
+    basePitch = pitchRaw;
 }
 
 function attach() {
@@ -47,10 +37,10 @@ function attach() {
         rollRaw = event.gamma;
         pitchRaw = event.beta;
 
-        // 🔥 重要：リセット時のモードを使う
         let roll, pitch;
 
-        if (!isLandscapeMode) {
+        // 🔥 常に現在の向きで切り替え
+        if (!isLandscape()) {
             roll = rollRaw;
             pitch = pitchRaw;
         } else {
