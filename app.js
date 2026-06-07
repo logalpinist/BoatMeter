@@ -22,6 +22,8 @@ function requestPermission() {
 }
 
 function resetZero() {
+
+    // 👉 今の“実測値”を基準にするのが正解
     rollOffset = currentRoll;
     pitchOffset = currentPitch;
 }
@@ -32,26 +34,33 @@ function startSensor() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        let beta = event.beta;
-        let gamma = event.gamma;
+        // 🧠 センサー値（固定軸）
+        let rawRoll = event.gamma;
+        let rawPitch = event.beta;
 
-        // 基本軸
-        currentRoll = gamma - rollOffset;
-        currentPitch = beta - pitchOffset;
+        // 🧠 オフセット適用（ここが正しい順番）
+        currentRoll = rawRoll - rollOffset;
+        currentPitch = rawPitch - pitchOffset;
 
-        // 🎯 ロール：後方ビューは左右回転だけ
-        document.getElementById("rollBoat").style.transform =
-            `translate(-50%, -50%) rotate(${currentRoll}deg)`;
-
-        // 🎯 ピッチ：側面ビューは上下回転だけ
-        document.getElementById("pitchBoat").style.transform =
-            `translate(-50%, -50%) rotate(${currentPitch}deg)`;
+        // 🚤 表示（ロール＝後方、ピッチ＝側面）
+        update("rollBoat", currentRoll);
+        update("pitchBoat", currentPitch);
 
         document.getElementById("rollValue").innerText =
             `${Math.round(currentRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
             `${Math.round(currentPitch)}°`;
-
     });
+}
+
+/* 共通表示 */
+function update(id, angle) {
+
+    const el = document.getElementById(id);
+
+    // ロール：左右回転
+    // ピッチ：上下回転（同じrotateでOK）
+    el.style.transform =
+        `translate(-50%, -50%) rotate(${angle}deg)`;
 }
