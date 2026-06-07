@@ -42,11 +42,9 @@ function startSensor() {
         let roll, pitch;
 
         if (!isLandscape()) {
-            // 縦
             roll = rollRaw;
             pitch = pitchRaw;
         } else {
-            // 横：軸入れ替え（スロープメーター仕様）
             roll = pitchRaw;
             pitch = -rollRaw;
         }
