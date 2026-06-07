@@ -1,92 +1,59 @@
-let rollOffset = 0;
-let pitchOffset = 0;
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boat HUD</title>
 
-let currentRoll = 0;
-let currentPitch = 0;
+<link rel="stylesheet" href="style.css">
+</head>
 
-function requestPermission() {
+<body>
 
-    if (
-        typeof DeviceOrientationEvent !== "undefined" &&
-        typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
+<div class="container">
 
-        DeviceOrientationEvent.requestPermission()
-            .then(res => {
-                if (res === "granted") startSensor();
-            });
+    <!-- ROLL -->
+    <div class="gauge">
 
-    } else {
-        startSensor();
-    }
-}
+        <h2>ROLL</h2>
 
-function resetZero() {
-    rollOffset = currentRoll;
-    pitchOffset = currentPitch;
-}
+        <div class="dial">
+            <div class="ticks"></div>
+            <div class="marker" id="rollMarker"></div>
 
-function startSensor() {
+            <div class="boatWrap" id="rollBoat">
+                <img src="ponam-rear.png">
+            </div>
+        </div>
 
-    window.addEventListener("deviceorientation", (event) => {
+        <div class="angleBig" id="rollValue">0°</div>
 
-        if (event.beta == null || event.gamma == null) return;
+        <button onclick="requestPermission()">センサー開始</button>
+        <button onclick="resetZero()">ゼロ</button>
 
-        let beta = event.beta;   // 前後
-        let gamma = event.gamma;  // 左右
+    </div>
 
-        // 📌 ★ここが本体（画面依存しない）
-        let roll = gamma;
-        let pitch = beta;
+    <!-- PITCH -->
+    <div class="gauge">
 
-        // 横向き補正（ここが重要）
-        if (window.innerWidth > window.innerHeight) {
-            // 横画面なら入れ替え＋反転補正
-            const temp = roll;
-            roll = pitch;
-            pitch = -temp;
-        }
+        <h2>PITCH</h2>
 
-        currentRoll = roll - rollOffset;
-        currentPitch = pitch - pitchOffset;
+        <div class="dial">
+            <div class="ticks"></div>
+            <div class="marker" id="pitchMarker"></div>
 
-        move("rollBoat", currentRoll);
-        move("pitchBoat", currentPitch);
+            <div class="boatWrap" id="pitchBoat">
+                <img src="ponam-side.png">
+            </div>
+        </div>
 
-        setMarker("rollMarker", currentRoll);
-        setMarker("pitchMarker", currentPitch);
+        <div class="angleBig" id="pitchValue">0°</div>
 
-        document.getElementById("rollValue").innerText =
-            `${Math.round(currentRoll)}°`;
+    </div>
 
-        document.getElementById("pitchValue").innerText =
-            `${Math.round(currentPitch)}°`;
+</div>
 
-    });
-}
+<script src="app.js"></script>
 
-/* ボール移動 */
-function move(id, angle) {
-
-    const r = 120;
-    const rad = angle * Math.PI / 180;
-
-    const x = Math.sin(rad) * r;
-    const y = -Math.cos(rad) * r;
-
-    document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), ${y}px)`;
-}
-
-/* マーカー */
-function setMarker(id, angle) {
-
-    const r = 130;
-    const rad = angle * Math.PI / 180;
-
-    const x = Math.sin(rad) * r;
-    const y = -Math.cos(rad) * r;
-
-    document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), ${y}px)`;
-}
+</body>
+</html>
