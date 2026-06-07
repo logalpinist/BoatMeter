@@ -32,19 +32,20 @@ function startSensor() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        let beta = event.beta;   // 前後
-        let gamma = event.gamma;  // 左右
+        let beta = event.beta;
+        let gamma = event.gamma;
 
-        // 📌 ★ここが本体（画面依存しない）
-        let roll = gamma;
-        let pitch = beta;
+        // 横画面判定（確実方式）
+        const isLandscape = window.innerWidth > window.innerHeight;
 
-        // 横向き補正（ここが重要）
-        if (window.innerWidth > window.innerHeight) {
-            // 横画面なら入れ替え＋反転補正
-            const temp = roll;
-            roll = pitch;
-            pitch = -temp;
+        let roll, pitch;
+
+        if (!isLandscape) {
+            roll = gamma;
+            pitch = beta;
+        } else {
+            roll = beta;
+            pitch = -gamma;
         }
 
         currentRoll = roll - rollOffset;
@@ -61,11 +62,10 @@ function startSensor() {
 
         document.getElementById("pitchValue").innerText =
             `${Math.round(currentPitch)}°`;
-
     });
 }
 
-/* ボール移動 */
+/* 船移動 */
 function move(id, angle) {
 
     const r = 120;
@@ -75,7 +75,7 @@ function move(id, angle) {
     const y = -Math.cos(rad) * r;
 
     document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), ${y}px)`;
+        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
 
 /* マーカー */
@@ -88,5 +88,5 @@ function setMarker(id, angle) {
     const y = -Math.cos(rad) * r;
 
     document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), ${y}px)`;
+        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
