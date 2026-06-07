@@ -1,8 +1,9 @@
 let rollOffset = 0;
 let pitchOffset = 0;
 
-let currentRoll = 0;
-let currentPitch = 0;
+// 🧠 生データ（これが基準）
+let rawRoll = 0;
+let rawPitch = 0;
 
 function requestPermission() {
 
@@ -22,8 +23,10 @@ function requestPermission() {
 }
 
 function resetZero() {
-    rollOffset = currentRoll;
-    pitchOffset = currentPitch;
+
+    // ✅ 必ず生データ基準でリセット
+    rollOffset = rawRoll;
+    pitchOffset = rawPitch;
 }
 
 function startSensor() {
@@ -35,36 +38,41 @@ function startSensor() {
         let beta = event.beta;
         let gamma = event.gamma;
 
-        // 🧠 重力ベース判定
+        // 🧠 生データ保存
+        rawRoll = gamma;
+        rawPitch = beta;
+
+        // 🧭 重力ベース判定（安定版）
         const isLandscapeLike = Math.abs(gamma) > Math.abs(beta);
 
         let roll, pitch;
 
         if (!isLandscapeLike) {
-            // 📱 縦持ち
+            // 縦持ち
             roll = gamma;
             pitch = beta;
         } else {
-            // 📱 横持ち（自動入れ替え）
+            // 横持ち（入れ替え）
             roll = beta;
             pitch = -gamma;
         }
 
-        currentRoll = roll - rollOffset;
-        currentPitch = pitch - pitchOffset;
+        // 🎯 オフセット適用（ここが最重要）
+        let finalRoll = roll - rollOffset;
+        let finalPitch = pitch - pitchOffset;
 
-        update("rollBoat", currentRoll);
-        update("pitchBoat", currentPitch);
+        update("rollBoat", finalRoll);
+        update("pitchBoat", finalPitch);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(currentRoll)}°`;
+            `${Math.round(finalRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(currentPitch)}°`;
+            `${Math.round(finalPitch)}°`;
     });
 }
 
-/* 表示 */
+/* 共通描画 */
 function update(id, angle) {
 
     const el = document.getElementById(id);
