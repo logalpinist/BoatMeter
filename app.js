@@ -4,9 +4,6 @@ let basePitch = 0;
 let rollRaw = 0;
 let pitchRaw = 0;
 
-let currentRoll = 0;
-let currentPitch = 0;
-
 function requestPermission() {
 
     if (
@@ -25,19 +22,8 @@ function requestPermission() {
 }
 
 function resetZero() {
-
     baseRoll = rollRaw;
     basePitch = pitchRaw;
-
-    // 👉 見た目も即リセット
-    currentRoll = 0;
-    currentPitch = 0;
-
-    render("rollBoat", 0);
-    render("pitchBoat", 0);
-
-    document.getElementById("rollValue").innerText = "0°";
-    document.getElementById("pitchValue").innerText = "0°";
 }
 
 function isLandscape() {
@@ -53,24 +39,33 @@ function startSensor() {
         rollRaw = event.gamma;
         pitchRaw = event.beta;
 
-        let roll = !isLandscape() ? rollRaw : pitchRaw;
-        let pitch = !isLandscape() ? pitchRaw : -rollRaw;
+        let roll, pitch;
 
-        currentRoll = roll - baseRoll;
-        currentPitch = pitch - basePitch;
+        if (!isLandscape()) {
+            // 縦
+            roll = rollRaw;
+            pitch = pitchRaw;
+        } else {
+            // 横は軸入れ替え（重要）
+            roll = pitchRaw;
+            pitch = -rollRaw;
+        }
 
-        render("rollBoat", currentRoll);
-        render("pitchBoat", currentPitch);
+        let r = roll - baseRoll;
+        let p = pitch - basePitch;
+
+        update("rollBoat", r);
+        update("pitchBoat", p);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(currentRoll)}°`;
+            `${Math.round(r)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(currentPitch)}°`;
+            `${Math.round(p)}°`;
     });
 }
 
-function render(id, angle) {
+function update(id, angle) {
     document.getElementById(id).style.transform =
         `translate(-50%, -50%) rotate(${angle}deg)`;
 }
