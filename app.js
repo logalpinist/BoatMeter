@@ -4,6 +4,8 @@ let basePitch = 0;
 let rollRaw = 0;
 let pitchRaw = 0;
 
+let isLandscapeMode = false;
+
 function startSensor() {
 
     if (
@@ -19,6 +21,23 @@ function startSensor() {
     }
 }
 
+function getMode() {
+    return window.matchMedia("(orientation: landscape)").matches;
+}
+
+function resetZero() {
+    // 🔥 現在のモードを固定して基準化
+    isLandscapeMode = getMode();
+
+    if (!isLandscapeMode) {
+        baseRoll = rollRaw;
+        basePitch = pitchRaw;
+    } else {
+        baseRoll = pitchRaw;
+        basePitch = -rollRaw;
+    }
+}
+
 function attach() {
 
     window.addEventListener("deviceorientation", (event) => {
@@ -28,11 +47,25 @@ function attach() {
         rollRaw = event.gamma;
         pitchRaw = event.beta;
 
-        let r = rollRaw - baseRoll;
-        let p = pitchRaw - basePitch;
+        // 🔥 重要：リセット時のモードを使う
+        let roll, pitch;
 
-        update("rollBoat", r);
-        update("pitchBoat", p);
+        if (!isLandscapeMode) {
+            roll = rollRaw;
+            pitch = pitchRaw;
+        } else {
+            roll = pitchRaw;
+            pitch = -rollRaw;
+        }
+
+        let r = roll - baseRoll;
+        let p = pitch - basePitch;
+
+        document.getElementById("rollBoat").style.transform =
+            `rotate(${r}deg)`;
+
+        document.getElementById("pitchBoat").style.transform =
+            `rotate(${p}deg)`;
 
         document.getElementById("rollValue").innerText =
             Math.round(r) + "°";
@@ -40,14 +73,4 @@ function attach() {
         document.getElementById("pitchValue").innerText =
             Math.round(p) + "°";
     });
-}
-
-function resetZero() {
-    baseRoll = rollRaw;
-    basePitch = pitchRaw;
-}
-
-function update(id, angle) {
-    document.getElementById(id).style.transform =
-        `rotate(${angle}deg)`;
 }
