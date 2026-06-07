@@ -4,45 +4,6 @@ let pitchOffset = 0;
 let currentRoll = 0;
 let currentPitch = 0;
 
-let sensorStarted = false;
-
-function resetZero() {
-    rollOffset = currentRoll;
-    pitchOffset = currentPitch;
-}
-
-function startSensor() {
-
-    if (sensorStarted) {
-        return;
-    }
-
-    sensorStarted = true;
-
-    window.addEventListener("deviceorientation", (event) => {
-
-        currentRoll = Math.round(event.gamma || 0);
-        currentPitch = Math.round(event.beta || 0);
-
-        let roll = currentRoll - rollOffset;
-        let pitch = currentPitch - pitchOffset;
-
-        document.getElementById("rollBoat").style.transform =
-            `rotate(${roll}deg)`;
-
-        document.getElementById("pitchBoat").style.transform =
-            `rotate(${pitch}deg)`;
-
-        document.getElementById("rollValue").innerText =
-            `${roll}°`;
-
-        document.getElementById("pitchValue").innerText =
-            `β:${Math.round(event.beta || 0)} γ:${Math.round(event.gamma || 0)}`;
-
-    });
-
-}
-
 function requestPermission() {
 
     if (
@@ -51,17 +12,12 @@ function requestPermission() {
     ) {
 
         DeviceOrientationEvent.requestPermission()
-            .then(permission => {
+            .then(response => {
 
-                if (permission === "granted") {
+                if (response === "granted") {
                     startSensor();
-                } else {
-                    alert("センサーの使用が許可されませんでした");
                 }
 
-            })
-            .catch(error => {
-                alert("エラー: " + error);
             });
 
     } else {
@@ -69,5 +25,54 @@ function requestPermission() {
         startSensor();
 
     }
+}
+
+function resetZero() {
+
+    rollOffset = currentRoll;
+    pitchOffset = currentPitch;
+
+}
+
+function startSensor() {
+
+    window.addEventListener("deviceorientation", (event) => {
+
+        if (event.beta == null || event.gamma == null) {
+            return;
+        }
+
+        currentRoll = event.gamma;
+        currentPitch = event.beta;
+
+        let roll;
+        let pitch;
+
+        // βが小さいときは横持ちと判定
+        if (Math.abs(currentPitch) < 45) {
+
+            roll = currentPitch - pitchOffset;
+            pitch = currentRoll - rollOffset;
+
+        } else {
+
+            roll = currentRoll - rollOffset;
+            pitch = currentPitch - pitchOffset;
+
+        }
+
+        document.getElementById("rollBoat").style.transform =
+            `rotate(${roll}deg)`;
+
+        document.getElementById("pitchBoat").style.transform =
+            `rotate(${pitch}deg)`;
+
+        document.getElementById("rollValue").innerText =
+            `${Math.round(roll)}°`;
+
+        document.getElementById("pitchValue").innerText =
+            `${Math.round(pitch)}°`;
+
+    });
 
 }
