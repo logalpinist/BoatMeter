@@ -22,8 +22,6 @@ function requestPermission() {
 }
 
 function resetZero() {
-
-    // 👉 今の“実測値”を基準にするのが正解
     rollOffset = currentRoll;
     pitchOffset = currentPitch;
 }
@@ -34,15 +32,27 @@ function startSensor() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        // 🧠 センサー値（固定軸）
-        let rawRoll = event.gamma;
-        let rawPitch = event.beta;
+        let beta = event.beta;
+        let gamma = event.gamma;
 
-        // 🧠 オフセット適用（ここが正しい順番）
-        currentRoll = rawRoll - rollOffset;
-        currentPitch = rawPitch - pitchOffset;
+        // 🧠 重力ベース判定
+        const isLandscapeLike = Math.abs(gamma) > Math.abs(beta);
 
-        // 🚤 表示（ロール＝後方、ピッチ＝側面）
+        let roll, pitch;
+
+        if (!isLandscapeLike) {
+            // 📱 縦持ち
+            roll = gamma;
+            pitch = beta;
+        } else {
+            // 📱 横持ち（自動入れ替え）
+            roll = beta;
+            pitch = -gamma;
+        }
+
+        currentRoll = roll - rollOffset;
+        currentPitch = pitch - pitchOffset;
+
         update("rollBoat", currentRoll);
         update("pitchBoat", currentPitch);
 
@@ -54,13 +64,11 @@ function startSensor() {
     });
 }
 
-/* 共通表示 */
+/* 表示 */
 function update(id, angle) {
 
     const el = document.getElementById(id);
 
-    // ロール：左右回転
-    // ピッチ：上下回転（同じrotateでOK）
     el.style.transform =
         `translate(-50%, -50%) rotate(${angle}deg)`;
 }
