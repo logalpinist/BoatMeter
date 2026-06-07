@@ -12,10 +12,9 @@ function requestPermission() {
     ) {
 
         DeviceOrientationEvent.requestPermission()
-            .then(response => {
-                if (response === "granted") startSensor();
-            })
-            .catch(console.error);
+            .then(res => {
+                if (res === "granted") startSensor();
+            });
 
     } else {
         startSensor();
@@ -33,59 +32,63 @@ function startSensor() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        const angle = (screen.orientation && screen.orientation.angle) || 0;
-        const isLandscape = angle === 90 || angle === -90 || angle === 270;
+        let beta = event.beta;
+        let gamma = event.gamma;
 
-        let roll, pitch;
+        // 📌 iOS補正（ここが重要）
+        const isUpsideDown = beta > 90 || beta < -90;
 
-        if (!isLandscape) {
-            roll = event.gamma;
-            pitch = event.beta;
+        if (Math.abs(beta) < 45) {
+            // 横持ちっぽい状態
+            currentRoll = beta;
+            currentPitch = gamma;
         } else {
-            // 横画面は軸を入れ替えて安定化
-            roll = event.beta;
-            pitch = -event.gamma;
+            // 縦持ち
+            currentRoll = gamma;
+            currentPitch = beta;
         }
 
-        currentRoll = roll - rollOffset;
-        currentPitch = pitch - pitchOffset;
+        // ゼロ補正
+        let roll = currentRoll - rollOffset;
+        let pitch = currentPitch - pitchOffset;
 
-        moveBoat("rollBoat", currentRoll);
-        moveBoat("pitchBoat", currentPitch);
+        move("rollBoat", roll);
+        move("pitchBoat", pitch);
 
-        setMarker("rollMarker", currentRoll);
-        setMarker("pitchMarker", currentPitch);
+        marker("rollMarker", roll);
+        marker("pitchMarker", pitch);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(currentRoll)}°`;
+            `${Math.round(roll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(currentPitch)}°`;
+            `${Math.round(pitch)}°`;
+
     });
 }
 
-/* ボール挙動（共通） */
-function moveBoat(id, angle) {
+/* 船の動き */
+function move(id, angle) {
 
-    const radius = 120;
+    const r = 120;
     const rad = angle * Math.PI / 180;
 
-    const x = Math.sin(rad) * radius;
-    const y = -Math.cos(rad) * radius;
+    const x = Math.sin(rad) * r;
+    const y = -Math.cos(rad) * r;
 
     document.getElementById(id).style.transform =
         `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
 
 /* マーカー */
-function setMarker(id, angle) {
+function marker(id, angle) {
 
-    const radius = 130;
+    const r = 130;
     const rad = angle * Math.PI / 180;
 
-    const x = Math.sin(rad) * radius;
-    const y = -Math.cos(rad) * radius;
+    const x = Math.sin(rad) * r;
+    const y = -Math.cos(rad) * r;
 
     document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), ${y}px)`;
+        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
