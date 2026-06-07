@@ -72,11 +72,18 @@ body{
     border-bottom-right-radius:50%;
 }
 
+/* 🚤 船 */
 .boatWrap{
     position:absolute;
-    font-size:clamp(40px, 8vw, 80px);
+    width:clamp(50px, 10vw, 90px);
     transition:0.08s linear;
     transform-origin:center;
+}
+
+.boatWrap img{
+    width:100%;
+    height:auto;
+    display:block;
 }
 
 .angle{
