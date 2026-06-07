@@ -1,8 +1,8 @@
-let baseRoll = 0;
-let basePitch = 0;
+let baseX = 0;
+let baseY = 0;
 
-let rollRaw = 0;
-let pitchRaw = 0;
+let x = 0;
+let y = 0;
 
 function startSensor() {
 
@@ -19,38 +19,38 @@ function startSensor() {
     }
 }
 
+/* 重力ベクトルリセット */
 function resetZero() {
-    baseRoll = rollRaw;
-    basePitch = pitchRaw;
+    baseX = x;
+    baseY = y;
 }
 
-/* 横専用補正（iOS安定版） */
 function attach() {
 
     window.addEventListener("deviceorientation", (event) => {
 
         if (event.beta == null || event.gamma == null) return;
 
-        // 横専用補正（ズレ防止）
-        const roll = event.gamma;
-        const pitch = event.beta;
+        // 重力ベクトル
+        let gx = event.gamma;
+        let gy = event.beta;
 
-        rollRaw = roll;
-        pitchRaw = pitch;
+        x = gx;
+        y = gy;
 
-        let r = roll - baseRoll;
-        let p = pitch - basePitch;
+        let rx = x - baseX;
+        let ry = y - baseY;
 
         document.getElementById("rollBoat").style.transform =
-            `rotate(${r}deg)`;
+            `rotate(${rx}deg)`;
 
         document.getElementById("pitchBoat").style.transform =
-            `rotate(${p}deg)`;
+            `rotate(${ry}deg)`;
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(r)}°`;
+            `${Math.round(rx)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(p)}°`;
+            `${Math.round(ry)}°`;
     });
 }
