@@ -19,7 +19,14 @@ function startSensor() {
     }
 }
 
+function getSign() {
+    // 横向き補正（iOS安定用）
+    const angle = screen.orientation?.angle ?? window.orientation ?? 90;
+    return (angle === 90 || angle === -90) ? 1 : 1;
+}
+
 function resetZero() {
+    // 現在値を基準化（同じ座標系で保存）
     baseRoll = rollRaw;
     basePitch = pitchRaw;
 }
@@ -30,7 +37,10 @@ function attach() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        rollRaw = event.gamma;
+        const sign = getSign();
+
+        // 横専用スロープメーター
+        rollRaw = event.gamma * sign;
         pitchRaw = event.beta;
 
         let r = rollRaw - baseRoll;
@@ -43,9 +53,9 @@ function attach() {
             `rotate(${p}deg)`;
 
         document.getElementById("rollValue").innerText =
-            Math.round(r) + "°";
+            `${Math.round(r)}°`;
 
         document.getElementById("pitchValue").innerText =
-            Math.round(p) + "°";
+            `${Math.round(p)}°`;
     });
 }
