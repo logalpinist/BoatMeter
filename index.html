@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boat Meter</title>
+<title>Slope Meter</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,18 +13,14 @@
 
     <!-- ROLL -->
     <div class="gauge">
-
         <h2>ROLL</h2>
 
         <div class="dial">
-
-            <div class="ring"></div>
+            <div class="sea"></div>
 
             <div class="boatWrap" id="rollBoat">
                 <img src="ponam-rear.png">
             </div>
-
-            <div class="marker"></div>
 
         </div>
 
@@ -33,18 +29,14 @@
 
     <!-- PITCH -->
     <div class="gauge">
-
         <h2>PITCH</h2>
 
         <div class="dial">
-
-            <div class="ring"></div>
+            <div class="sea"></div>
 
             <div class="boatWrap" id="pitchBoat">
                 <img src="ponam-side.png">
             </div>
-
-            <div class="marker"></div>
 
         </div>
 
@@ -53,7 +45,6 @@
 
 </div>
 
-<!-- 操作 -->
 <div class="controls">
     <button onclick="requestPermission()">開始</button>
     <button onclick="resetZero()">リセット</button>
