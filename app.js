@@ -33,30 +33,38 @@ function startSensor() {
 
         if (event.beta == null || event.gamma == null) return;
 
-        currentRoll = event.gamma;
-        currentPitch = event.beta;
+        const angle = (screen.orientation && screen.orientation.angle) || 0;
+        const isLandscape = angle === 90 || angle === -90 || angle === 270;
 
-        let roll = currentRoll - rollOffset;
-        let pitch = currentPitch - pitchOffset;
+        let roll, pitch;
 
-        // ロール表示
-        moveBoat("rollBoat", roll);
-        setMarker("rollMarker", roll);
+        if (!isLandscape) {
+            roll = event.gamma;
+            pitch = event.beta;
+        } else {
+            // 横画面は軸を入れ替えて安定化
+            roll = event.beta;
+            pitch = -event.gamma;
+        }
 
-        // ピッチ表示
-        moveBoat("pitchBoat", pitch);
-        setMarker("pitchMarker", pitch);
+        currentRoll = roll - rollOffset;
+        currentPitch = pitch - pitchOffset;
+
+        moveBoat("rollBoat", currentRoll);
+        moveBoat("pitchBoat", currentPitch);
+
+        setMarker("rollMarker", currentRoll);
+        setMarker("pitchMarker", currentPitch);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(roll)}°`;
+            `${Math.round(currentRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(pitch)}°`;
-
+            `${Math.round(currentPitch)}°`;
     });
 }
 
-/* 船を円内で動かす（ボール風） */
+/* ボール挙動（共通） */
 function moveBoat(id, angle) {
 
     const radius = 120;
@@ -69,7 +77,7 @@ function moveBoat(id, angle) {
         `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
 
-/* マーカーも同じ円上を動かす */
+/* マーカー */
 function setMarker(id, angle) {
 
     const radius = 130;
@@ -79,5 +87,5 @@ function setMarker(id, angle) {
     const y = -Math.cos(rad) * radius;
 
     document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        `translate(calc(-50% + ${x}px), ${y}px)`;
 }
