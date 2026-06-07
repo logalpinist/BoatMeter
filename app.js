@@ -35,58 +35,23 @@ function startSensor() {
         let beta = event.beta;
         let gamma = event.gamma;
 
-        // 横画面判定（確実方式）
-        const isLandscape = window.innerWidth > window.innerHeight;
+        // 基本軸
+        currentRoll = gamma - rollOffset;
+        currentPitch = beta - pitchOffset;
 
-        let roll, pitch;
+        // 🎯 ロール：後方ビューは左右回転だけ
+        document.getElementById("rollBoat").style.transform =
+            `translate(-50%, -50%) rotate(${currentRoll}deg)`;
 
-        if (!isLandscape) {
-            roll = gamma;
-            pitch = beta;
-        } else {
-            roll = beta;
-            pitch = -gamma;
-        }
-
-        currentRoll = roll - rollOffset;
-        currentPitch = pitch - pitchOffset;
-
-        move("rollBoat", currentRoll);
-        move("pitchBoat", currentPitch);
-
-        setMarker("rollMarker", currentRoll);
-        setMarker("pitchMarker", currentPitch);
+        // 🎯 ピッチ：側面ビューは上下回転だけ
+        document.getElementById("pitchBoat").style.transform =
+            `translate(-50%, -50%) rotate(${currentPitch}deg)`;
 
         document.getElementById("rollValue").innerText =
             `${Math.round(currentRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
             `${Math.round(currentPitch)}°`;
+
     });
-}
-
-/* 船移動 */
-function move(id, angle) {
-
-    const r = 120;
-    const rad = angle * Math.PI / 180;
-
-    const x = Math.sin(rad) * r;
-    const y = -Math.cos(rad) * r;
-
-    document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-}
-
-/* マーカー */
-function setMarker(id, angle) {
-
-    const r = 130;
-    const rad = angle * Math.PI / 180;
-
-    const x = Math.sin(rad) * r;
-    const y = -Math.cos(rad) * r;
-
-    document.getElementById(id).style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 }
