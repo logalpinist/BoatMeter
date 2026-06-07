@@ -1,5 +1,8 @@
-let rollOffset = 0;
-let pitchOffset = 0;
+let baseRoll = 0;
+let basePitch = 0;
+
+let lastRoll = 0;
+let lastPitch = 0;
 
 function requestPermission() {
 
@@ -20,14 +23,19 @@ function requestPermission() {
 
 function resetZero() {
 
-    // ✅ 今の“表示ロジック後”の値でリセット
-    rollOffset = currentRoll;
-    pitchOffset = currentPitch;
+    // 👉 今見えてる状態をゼロにする
+    baseRoll = lastRoll;
+    basePitch = lastPitch;
 }
 
-// 🧠 表示用グローバル（これが重要）
-let currentRoll = 0;
-let currentPitch = 0;
+function getIsLandscape() {
+
+    if (screen.orientation && screen.orientation.angle !== undefined) {
+        return Math.abs(screen.orientation.angle) === 90;
+    }
+
+    return window.innerWidth > window.innerHeight;
+}
 
 function startSensor() {
 
@@ -38,34 +46,40 @@ function startSensor() {
         let beta = event.beta;
         let gamma = event.gamma;
 
-        // 重力判定
-        const isLandscapeLike = Math.abs(gamma) > Math.abs(beta);
+        const isLandscape = getIsLandscape();
 
         let roll, pitch;
 
-        if (!isLandscapeLike) {
+        if (!isLandscape) {
+            // 縦
             roll = gamma;
             pitch = beta;
         } else {
+            // 横（入れ替え安定版）
             roll = beta;
             pitch = -gamma;
         }
 
-        // 🎯 最終値を作る
-        currentRoll = roll - rollOffset;
-        currentPitch = pitch - pitchOffset;
+        // 🧠 生データ保存
+        lastRoll = roll;
+        lastPitch = pitch;
 
-        update("rollBoat", currentRoll);
-        update("pitchBoat", currentPitch);
+        // 🎯 基準との差分
+        let finalRoll = roll - baseRoll;
+        let finalPitch = pitch - basePitch;
+
+        update("rollBoat", finalRoll);
+        update("pitchBoat", finalPitch);
 
         document.getElementById("rollValue").innerText =
-            `${Math.round(currentRoll)}°`;
+            `${Math.round(finalRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${Math.round(currentPitch)}°`;
+            `${Math.round(finalPitch)}°`;
     });
 }
 
+/* 表示 */
 function update(id, angle) {
 
     document.getElementById(id).style.transform =
