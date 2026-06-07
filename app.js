@@ -4,12 +4,20 @@ let pitchOffset = 0;
 let currentRoll = 0;
 let currentPitch = 0;
 
+let sensorStarted = false;
+
 function resetZero() {
     rollOffset = currentRoll;
     pitchOffset = currentPitch;
 }
 
 function startSensor() {
+
+    if (sensorStarted) {
+        return;
+    }
+
+    sensorStarted = true;
 
     window.addEventListener("deviceorientation", (event) => {
 
@@ -29,7 +37,7 @@ function startSensor() {
             `${roll}°`;
 
         document.getElementById("pitchValue").innerText =
-            `${pitch}°`;
+            `β:${Math.round(event.beta || 0)} γ:${Math.round(event.gamma || 0)}`;
 
     });
 
@@ -52,8 +60,8 @@ function requestPermission() {
                 }
 
             })
-            .catch(err => {
-                alert("エラー: " + err);
+            .catch(error => {
+                alert("エラー: " + error);
             });
 
     } else {
