@@ -1,49 +1,48 @@
 let roll = 0;
-let isRunning = false;
-let baseGamma = null;
 
-async function requestPermission() {
-    try {
-        if (
-            typeof DeviceOrientationEvent !== "undefined" &&
-            typeof DeviceOrientationEvent.requestPermission === "function"
-        ) {
-            const res = await DeviceOrientationEvent.requestPermission();
-            if (res !== "granted") {
-                alert("センサー許可が必要");
-                return;
-            }
-        }
-
+function requestPermission() {
+    // iOS対応
+    if (
+        typeof DeviceOrientationEvent !== "undefined" &&
+        typeof DeviceOrientationEvent.requestPermission === "function"
+    ) {
+        DeviceOrientationEvent.requestPermission()
+            .then(response => {
+                if (response === "granted") {
+                    startSensor();
+                } else {
+                    alert("センサー許可が必要です");
+                }
+            })
+            .catch(console.error);
+    } else {
+        // Android / PC
         startSensor();
-    } catch (e) {
-        console.log(e);
     }
 }
 
 function startSensor() {
-    isRunning = true;
-    window.addEventListener("deviceorientation", handleOrientation);
-}
+    window.addEventListener("deviceorientation", (event) => {
+        let gamma = event.gamma;
 
-function handleOrientation(event) {
-    if (!isRunning) return;
+        if (gamma === null) return;
 
-    let gamma = event.gamma;
-    if (gamma === null) return;
+        // そのままロールに使う（まずはシンプルに動かす）
+        roll = gamma;
 
-    if (baseGamma === null) {
-        baseGamma = gamma;
-    }
+        // 制限
+        if (roll > 45) roll = 45;
+        if (roll < -45) roll = -45;
 
-    roll = gamma - baseGamma;
+        const boat = document.getElementById("rollBoat");
+        const value = document.getElementById("rollValue");
 
-    if (roll > 45) roll = 45;
-    if (roll < -45) roll = -45;
+        if (boat) {
+            boat.style.transform = `translate(-50%, -50%) rotate(${roll}deg)`;
+        }
 
-    document.getElementById("rollBoat").style.transform =
-        `translate(-50%, -50%) rotate(${roll}deg)`;
-
-    document.getElementById("rollValue").innerText =
-        roll.toFixed(1) + "°";
+        if (value) {
+            value.innerText = roll.toFixed(1) + "°";
+        }
+    });
 }
