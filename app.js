@@ -46,7 +46,7 @@ function startSensor() {
             roll = rollRaw;
             pitch = pitchRaw;
         } else {
-            // 横は軸入れ替え（重要）
+            // 横：軸入れ替え（スロープメーター仕様）
             roll = pitchRaw;
             pitch = -rollRaw;
         }
@@ -54,8 +54,11 @@ function startSensor() {
         let r = roll - baseRoll;
         let p = pitch - basePitch;
 
-        update("rollBoat", r);
-        update("pitchBoat", p);
+        document.getElementById("rollBoat").style.transform =
+            `translate(-50%, -50%) rotate(${r}deg)`;
+
+        document.getElementById("pitchBoat").style.transform =
+            `translate(-50%, -50%) rotate(${p}deg)`;
 
         document.getElementById("rollValue").innerText =
             `${Math.round(r)}°`;
@@ -63,9 +66,4 @@ function startSensor() {
         document.getElementById("pitchValue").innerText =
             `${Math.round(p)}°`;
     });
-}
-
-function update(id, angle) {
-    document.getElementById(id).style.transform =
-        `translate(-50%, -50%) rotate(${angle}deg)`;
 }
