@@ -1,124 +1,89 @@
 body{
     margin:0;
-    background: radial-gradient(circle at top, #071a2f, #020814);
-    color:#00e5ff;
-    font-family: Arial, sans-serif;
+    background:#071a2f;
+    color:white;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     overflow:hidden;
 }
 
-/* 全体レイアウト固定 */
 .container{
     height:100vh;
     display:flex;
     justify-content:space-evenly;
     align-items:center;
-    gap:20px;
-    padding:20px;
 }
 
-/* メーター本体 */
 .gauge{
-    width:44vw;
-    height:44vw;
+    width:42vw;
+    height:42vw;
+    border-radius:50%;
+    border:4px solid #00d4ff;
     position:relative;
-
-    border-radius:22px;
-    background: rgba(10, 25, 50, 0.6);
-    backdrop-filter: blur(12px);
-
-    border:1px solid rgba(0,229,255,0.35);
-    box-shadow:
-        0 0 25px rgba(0,229,255,0.15),
-        inset 0 0 30px rgba(0,229,255,0.08);
-
     display:flex;
-    justify-content:center;
-    align-items:center;
     flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle,#102744 0%,#071a2f 100%);
+    box-shadow:0 0 20px rgba(0,212,255,.3), inset 0 0 20px rgba(0,212,255,.15);
 }
 
-h2{
+.gauge h2{
+    position:absolute;
+    top:20px;
+    margin:0;
+    letter-spacing:2px;
+}
+
+/* 操作ボタン */
+.btnArea{
     position:absolute;
     top:10px;
-    margin:0;
-    font-size:18px;
-    letter-spacing:3px;
-    opacity:0.8;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:6px;
+    z-index:20;
 }
 
-/* ダイヤル基準（ここが超重要） */
+.btnArea button{
+    font-size:12px;
+    padding:6px 10px;
+    background:rgba(0,212,255,0.15);
+    border:1px solid rgba(0,212,255,0.4);
+    color:#00d4ff;
+    border-radius:6px;
+}
+
+/* 表示エリア */
 .dial{
-    position:absolute;
-    width:80%;
-    height:80%;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    border-radius:50%;
-}
-
-/* 目盛り */
-.ticks{
-    position:absolute;
+    position:relative;
     width:100%;
-    height:100%;
-    border-radius:50%;
-    background:
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(0,229,255,0.25) 0deg 2deg,
-            transparent 2deg 10deg
-        );
-    opacity:0.6;
+    height:60%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-/* マーカー */
-.marker{
+.sea{
     position:absolute;
-    width:10px;
-    height:10px;
-    background:#00e5ff;
-    border-radius:50%;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    box-shadow:0 0 10px #00e5ff;
-    z-index:5;
+    bottom:0;
+    width:100%;
+    height:50%;
+    background:#0a4d8f;
+    border-bottom-left-radius:50%;
+    border-bottom-right-radius:50%;
 }
 
 /* 船 */
 .boatWrap{
     position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
+    font-size:80px;
     transition:0.08s linear;
-    z-index:6;
+    transform-origin:center;
 }
 
-.boatWrap img{
-    width:150px;
-    filter: drop-shadow(0 0 10px rgba(0,229,255,0.35));
-}
-
-/* 数値 */
-.angleBig{
-    position:absolute;
-    bottom:18px;
-    font-size:44px;
+.angle{
+    margin-top:10px;
+    font-size:40px;
     font-weight:bold;
-    letter-spacing:2px;
-}
-
-/* ボタン */
-button{
-    position:absolute;
-    bottom:10px;
-    left:10px;
-    font-size:12px;
-    padding:6px 10px;
-    background:rgba(0,229,255,0.1);
-    border:1px solid rgba(0,229,255,0.4);
-    color:#00e5ff;
-    border-radius:6px;
 }
