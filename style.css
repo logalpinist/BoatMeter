@@ -20,7 +20,7 @@ body{
 }
 
 .meter{
-    width:48vw;
+    width:44vw;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -40,6 +40,13 @@ body{
     color:#00d4ff;
     text-shadow:0 0 20px rgba(0,212,255,.7);
     margin-bottom:6px;
+}
+
+.logo{
+    font-size:32px;
+    opacity:.25;
+    color:#00d4ff;
+    text-shadow:0 0 15px rgba(0,212,255,.5);
 }
 
 .box{
@@ -154,4 +161,31 @@ button{
 
 button:active{
     transform:scale(.96);
+}
+
+#rotateNotice{
+    display:none;
+}
+
+@media (orientation: portrait){
+
+    #rotateNotice{
+        position:fixed;
+        inset:0;
+
+        display:flex;
+        justify-content:center;
+        align-items:center;
+
+        background:#07121f;
+        color:white;
+
+        font-size:28px;
+        z-index:9999;
+    }
+
+    .container,
+    .controls{
+        display:none;
+    }
 }
