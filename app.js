@@ -1,69 +1,65 @@
 let baseRoll = 0;
 let basePitch = 0;
 
-function startSensor() {
+let rawRoll = 0;
+let rawPitch = 0;
+
+function requestPermission() {
 
     if (
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
     ) {
+
         DeviceOrientationEvent.requestPermission()
-            .then(res => {
-                if (res === "granted") attach();
-            });
+        .then(permissionState => {
+
+            if (permissionState === "granted") {
+                startSensor();
+            }
+
+        })
+        .catch(console.error);
+
     } else {
-        attach();
+
+        startSensor();
+
     }
 }
 
-/* 横判定 */
-function isLandscape() {
-    return Math.abs(window.orientation) === 90;
-}
-
-/* 🔥 リセットは“表示値ベース”でやる */
-let currentRoll = 0;
-let currentPitch = 0;
-
-function resetZero() {
-    baseRoll = currentRoll;
-    basePitch = currentPitch;
-}
-
-function attach() {
+function startSensor() {
 
     window.addEventListener("deviceorientation", (event) => {
 
-        if (event.beta == null || event.gamma == null) return;
+        let roll = event.gamma || 0;
+        let pitch = event.beta || 0;
 
-        let rollRaw = event.gamma;
-        let pitchRaw = event.beta;
+        rawRoll = roll;
+        rawPitch = pitch;
 
-        let roll, pitch;
+        let currentRoll = roll - baseRoll;
+        let currentPitch = pitch - basePitch;
 
-        if (isLandscape()) {
-            roll = pitchRaw;
-            pitch = -rollRaw;
-        } else {
-            roll = rollRaw;
-            pitch = pitchRaw;
-        }
+        document.getElementById("rollValue").innerText =
+            currentRoll.toFixed(1) + "°";
 
-        // 補正後の値（ここが唯一の正解）
-        currentRoll = roll - baseRoll;
-        currentPitch = pitch - basePitch;
+        document.getElementById("pitchValue").innerText =
+            currentPitch.toFixed(1) + "°";
 
-        // 表示（数値と絵を完全一致させる）
         document.getElementById("rollBoat").style.transform =
             `rotate(${currentRoll}deg)`;
 
         document.getElementById("pitchBoat").style.transform =
-            `rotate(${currentPitch}deg)`;
+            `rotate(${-currentPitch}deg)`;
 
-        document.getElementById("rollValue").innerText =
-            Math.round(currentRoll) + "°";
-
-        document.getElementById("pitchValue").innerText =
-            Math.round(currentPitch) + "°";
     });
+
+}
+
+function resetZero() {
+
+    baseRoll = rawRoll;
+    basePitch = rawPitch;
+
 }
