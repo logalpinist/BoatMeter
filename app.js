@@ -16,12 +16,10 @@ function startSensor() {
     }
 }
 
-/* 横判定 */
 function isLandscape() {
     return Math.abs(window.orientation) === 90;
 }
 
-/* 🔥 リセットは“表示値ベース”でやる */
 let currentRoll = 0;
 let currentPitch = 0;
 
@@ -39,7 +37,8 @@ function attach() {
         let rollRaw = event.gamma;
         let pitchRaw = event.beta;
 
-        let roll, pitch;
+        let roll;
+        let pitch;
 
         if (isLandscape()) {
             roll = pitchRaw;
@@ -49,16 +48,14 @@ function attach() {
             pitch = pitchRaw;
         }
 
-        // 補正後の値（ここが唯一の正解）
         currentRoll = roll - baseRoll;
         currentPitch = pitch - basePitch;
 
-        // 表示（数値と絵を完全一致させる）
         document.getElementById("rollBoat").style.transform =
-            `rotate(${currentRoll}deg)`;
+            `translate(-50%, -50%) rotate(${currentRoll}deg)`;
 
         document.getElementById("pitchBoat").style.transform =
-            `rotate(${currentPitch}deg)`;
+            `translate(-50%, -50%) rotate(${currentPitch}deg)`;
 
         document.getElementById("rollValue").innerText =
             Math.round(currentRoll) + "°";
