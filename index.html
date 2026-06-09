@@ -1,63 +1,43 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Boat Meter</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
 <div class="container">
 
-    <button onclick="requestPermission()">
+    <button class="startBtn" onclick="requestPermission()">
         センサー開始
     </button>
 
-    <button onclick="resetZero()">
+    <button class="resetBtn" onclick="resetZero()">
         リセット
     </button>
 
-    <div class="card">
+    <div class="boatArea">
 
-        <h2>ROLL</h2>
-
-        <div class="box">
-
-            <img
-                id="rollBoat"
-                src="boat.png"
-                alt="boat">
-
-        </div>
-
-        <div id="rollValue" class="value">
-            0.0°
+        <div class="boat" id="boat">
+            ⛵
         </div>
 
     </div>
 
-    <div class="card">
+    <div class="meters">
 
-        <h2>PITCH</h2>
-
-        <div class="box">
-
-            <img
-                id="pitchBoat"
-                src="boat.png"
-                alt="boat">
-
+        <div class="meter">
+            <h2>ROLL</h2>
+            <div id="rollValue">0.0°</div>
         </div>
 
-        <div id="pitchValue" class="value">
-            0.0°
+        <div class="meter">
+            <h2>PITCH</h2>
+            <div id="pitchValue">0.0°</div>
         </div>
 
     </div>
