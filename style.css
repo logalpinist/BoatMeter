@@ -1,6 +1,11 @@
 body{
     margin:0;
-    background:#07121f;
+    background:
+        radial-gradient(
+            circle at center,
+            #10263d,
+            #07121f 70%
+        );
     color:white;
     font-family:-apple-system,sans-serif;
     overflow:hidden;
@@ -29,46 +34,97 @@ body{
 }
 
 .value{
-    font-size:36px;
+    font-size:48px;
     font-weight:700;
     line-height:1;
     color:#00d4ff;
-    text-shadow:0 0 12px rgba(0,212,255,.6);
+    text-shadow:0 0 20px rgba(0,212,255,.7);
+    margin-bottom:6px;
 }
 
 .box{
     width:100%;
-    height:170px;
+    height:110px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
+    overflow:hidden;
+
     border-radius:20px;
 
     background:
-    radial-gradient(
-        circle at center,
-        rgba(0,212,255,.12),
-        rgba(0,0,0,0)
-    );
+        radial-gradient(
+            circle at center,
+            rgba(0,212,255,.12),
+            rgba(0,0,0,0)
+        );
 
     border:1px solid rgba(255,255,255,.08);
 
     box-shadow:
         inset 0 0 20px rgba(0,212,255,.08),
         0 0 10px rgba(0,0,0,.4);
+
+    position:relative;
+}
+
+.gauge{
+    width:100%;
+    height:100%;
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.waterLine{
+    position:absolute;
+    width:90%;
+    height:2px;
+    background:rgba(255,255,255,.35);
 }
 
 .box img{
-    width:90%;
-    max-width:240px;
+    width:70%;
+    max-width:120px;
+    max-height:90px;
+
+    object-fit:contain;
 
     transition:.05s linear;
     transform-origin:center center;
 
     filter:
-        drop-shadow(0 0 10px rgba(0,212,255,.3));
+        drop-shadow(0 0 12px rgba(0,212,255,.35));
+}
+
+.mark{
+    position:absolute;
+    font-size:11px;
+    color:rgba(255,255,255,.35);
+}
+
+.left20{
+    left:8px;
+    top:20px;
+}
+
+.left10{
+    left:18px;
+    top:40px;
+}
+
+.right10{
+    right:18px;
+    top:40px;
+}
+
+.right20{
+    right:8px;
+    top:20px;
 }
 
 .controls{
@@ -87,8 +143,15 @@ button{
     border:1px solid #00d4ff;
     border-radius:10px;
 
-    background:transparent;
+    background:rgba(0,212,255,.08);
+
     color:#00d4ff;
 
     font-size:13px;
+
+    backdrop-filter:blur(10px);
+}
+
+button:active{
+    transform:scale(.96);
 }
