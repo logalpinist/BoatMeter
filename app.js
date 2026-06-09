@@ -10,31 +10,42 @@ function startSensor() {
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
     ) {
+
         DeviceOrientationEvent.requestPermission()
             .then(res => {
+
                 if (res === "granted") {
                     attach();
                 }
+
             });
+
     } else {
+
         attach();
+
     }
 }
 
 function isLandscape() {
-    return Math.abs(window.orientation) === 90;
+    return window.innerWidth > window.innerHeight;
 }
 
 function resetZero() {
+
     baseRoll = currentRoll;
     basePitch = currentPitch;
+
 }
 
 function attach() {
 
     window.addEventListener("deviceorientation", (event) => {
 
-        if (event.beta == null || event.gamma == null) return;
+        if (
+            event.beta == null ||
+            event.gamma == null
+        ) return;
 
         let rollRaw = event.gamma;
         let pitchRaw = event.beta;
@@ -43,26 +54,70 @@ function attach() {
         let pitch;
 
         if (isLandscape()) {
+
             roll = pitchRaw;
             pitch = -rollRaw;
+
         } else {
+
             roll = rollRaw;
             pitch = pitchRaw;
+
         }
 
         currentRoll = roll - baseRoll;
         currentPitch = pitch - basePitch;
 
-        document.getElementById("rollBoat").style.transform =
+        document.getElementById("rollBoat")
+            .style.transform =
             `rotate(${currentRoll}deg)`;
 
-        document.getElementById("pitchBoat").style.transform =
+        document.getElementById("pitchBoat")
+            .style.transform =
             `rotate(${currentPitch}deg)`;
 
-        document.getElementById("rollValue").innerText =
+        document.getElementById("rollValue")
+            .innerText =
             `${Math.round(currentRoll)}°`;
 
-        document.getElementById("pitchValue").innerText =
+        document.getElementById("pitchValue")
+            .innerText =
             `${Math.round(currentPitch)}°`;
+
     });
+
 }
+
+function updateOrientation() {
+
+    const notice =
+        document.getElementById(
+            "rotateNotice"
+        );
+
+    if (
+        window.innerHeight >
+        window.innerWidth
+    ) {
+
+        notice.style.display = "flex";
+
+    } else {
+
+        notice.style.display = "none";
+
+    }
+
+}
+
+window.addEventListener(
+    "resize",
+    updateOrientation
+);
+
+window.addEventListener(
+    "orientationchange",
+    updateOrientation
+);
+
+updateOrientation();
