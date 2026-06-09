@@ -6,75 +6,105 @@ body{
     overflow:hidden;
 }
 
-/* 横HUD（超コンパクト） */
 .container{
     height:100vh;
     display:flex;
     justify-content:space-evenly;
     align-items:center;
-
-    padding:0;           /* ←余白削除 */
 }
 
-/* メーター */
 .meter{
-    width:45vw;
-    max-width:420px;
-    min-width:150px;
-
+    width:48vw;
     display:flex;
     flex-direction:column;
     align-items:center;
-
-    gap:4px; /* ←超圧縮 */
 }
 
-/* タイトル小さく */
 .title{
-    font-size:11px;
-    opacity:0.6;
-    margin:0;
+    font-size:22px;
+    opacity:.6;
+    letter-spacing:2px;
 }
 
-/* 数値 */
 .value{
-    font-size:24px;   /* ←縮小 */
+    font-size:72px;
     font-weight:bold;
     line-height:1;
+    margin-bottom:8px;
 }
 
-/* 船エリア（高さ削減が最重要） */
 .box{
-    width:100%;
-    height:180px;   /* ←ここが効く */
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
 }
 
-/* 船サイズ統一＆やや大きめ */
-.box img{
-    width:88%;
-    max-width:240px;
-    transition:0.08s linear;
-    transform-origin:center;
+/* 円形計器 */
+.gauge{
+    position:relative;
+    width:340px;
+    height:340px;
+    border-radius:50%;
+    overflow:hidden;
+
+    border:3px solid rgba(255,255,255,.15);
+
+    background:
+    radial-gradient(
+        circle,
+        #082340 0%,
+        #04111f 70%
+    );
 }
 
-/* ボタン（邪魔しない） */
+/* 海面ライン */
+.waterLine{
+    position:absolute;
+    top:50%;
+    left:0;
+    width:100%;
+    height:3px;
+
+    background:#00cfff;
+
+    box-shadow:
+        0 0 10px #00cfff,
+        0 0 20px #00cfff;
+}
+
+/* 船 */
+.gauge img{
+    position:absolute;
+    left:50%;
+    top:50%;
+
+    width:75%;
+
+    transform:translate(-50%,-50%);
+    transform-origin:center center;
+
+    transition:.05s linear;
+}
+
+/* ボタン */
 .controls{
     position:fixed;
-    bottom:8px;
+    bottom:20px;
     left:50%;
     transform:translateX(-50%);
+
     display:flex;
-    gap:8px;
+    gap:20px;
 }
 
 button{
-    padding:7px 10px;
-    border:1px solid #00d4ff;
+    padding:14px 28px;
+
+    border:2px solid #00d4ff;
+    border-radius:18px;
+
     background:transparent;
     color:#00d4ff;
-    border-radius:8px;
-    font-size:12px;
+
+    font-size:26px;
 }
