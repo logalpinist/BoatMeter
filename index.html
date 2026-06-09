@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boat Slope Meter</title>
 
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Boat Meter">
+
+<meta name="theme-color" content="#07121f">
+
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
+
+<title>Boat Meter</title>
 </head>
 
 <body>
 
-<div class="container">
+<div id="rotateNotice">
+📱 横向きにしてください
+</div>
 
-    <!-- ROLL -->
+<div class="container">
 
     <div class="meter">
 
@@ -34,11 +45,7 @@
                 <div class="mark right10">10</div>
                 <div class="mark right20">20</div>
 
-                <img
-                    id="rollBoat"
-                    src="ponam-rear.png"
-                    alt="Roll Boat"
-                >
+                <img id="rollBoat" src="ponam-rear.png">
 
             </div>
 
@@ -46,13 +53,7 @@
 
     </div>
 
-    <!-- CENTER LOGO -->
-
-    <div class="logo">
-        ⚓
-    </div>
-
-    <!-- PITCH -->
+    <div class="logo">⚓</div>
 
     <div class="meter">
 
@@ -74,11 +75,7 @@
                 <div class="mark right10">10</div>
                 <div class="mark right20">20</div>
 
-                <img
-                    id="pitchBoat"
-                    src="ponam-side.png"
-                    alt="Pitch Boat"
-                >
+                <img id="pitchBoat" src="ponam-side.png">
 
             </div>
 
@@ -89,15 +86,8 @@
 </div>
 
 <div class="controls">
-
-    <button onclick="startSensor()">
-        開始
-    </button>
-
-    <button onclick="resetZero()">
-        リセット
-    </button>
-
+    <button onclick="startSensor()">開始</button>
+    <button onclick="resetZero()">リセット</button>
 </div>
 
 <script src="app.js"></script>
