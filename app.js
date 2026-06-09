@@ -1,6 +1,9 @@
 let baseRoll = 0;
 let basePitch = 0;
 
+let currentRoll = 0;
+let currentPitch = 0;
+
 function startSensor() {
 
     if (
@@ -9,7 +12,9 @@ function startSensor() {
     ) {
         DeviceOrientationEvent.requestPermission()
             .then(res => {
-                if (res === "granted") attach();
+                if (res === "granted") {
+                    attach();
+                }
             });
     } else {
         attach();
@@ -19,9 +24,6 @@ function startSensor() {
 function isLandscape() {
     return Math.abs(window.orientation) === 90;
 }
-
-let currentRoll = 0;
-let currentPitch = 0;
 
 function resetZero() {
     baseRoll = currentRoll;
@@ -52,15 +54,15 @@ function attach() {
         currentPitch = pitch - basePitch;
 
         document.getElementById("rollBoat").style.transform =
-            `translate(-50%, -50%) rotate(${currentRoll}deg)`;
+            `rotate(${currentRoll}deg)`;
 
         document.getElementById("pitchBoat").style.transform =
-            `translate(-50%, -50%) rotate(${currentPitch}deg)`;
+            `rotate(${currentPitch}deg)`;
 
         document.getElementById("rollValue").innerText =
-            Math.round(currentRoll) + "°";
+            `${Math.round(currentRoll)}°`;
 
         document.getElementById("pitchValue").innerText =
-            Math.round(currentPitch) + "°";
+            `${Math.round(currentPitch)}°`;
     });
 }
