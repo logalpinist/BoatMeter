@@ -11,6 +11,7 @@ body{
     display:flex;
     justify-content:space-evenly;
     align-items:center;
+    padding:0 8px;
 }
 
 .meter{
@@ -21,90 +22,73 @@ body{
 }
 
 .title{
-    font-size:22px;
-    opacity:.6;
+    font-size:12px;
     letter-spacing:2px;
+    opacity:.6;
+    margin-bottom:4px;
 }
 
 .value{
-    font-size:72px;
-    font-weight:bold;
+    font-size:36px;
+    font-weight:700;
     line-height:1;
-    margin-bottom:8px;
+    color:#00d4ff;
+    text-shadow:0 0 12px rgba(0,212,255,.6);
 }
 
 .box{
+    width:100%;
+    height:170px;
+
     display:flex;
     justify-content:center;
     align-items:center;
-}
 
-/* 円形計器 */
-.gauge{
-    position:relative;
-    width:340px;
-    height:340px;
-    border-radius:50%;
-    overflow:hidden;
-
-    border:3px solid rgba(255,255,255,.15);
+    border-radius:20px;
 
     background:
     radial-gradient(
-        circle,
-        #082340 0%,
-        #04111f 70%
+        circle at center,
+        rgba(0,212,255,.12),
+        rgba(0,0,0,0)
     );
-}
 
-/* 海面ライン */
-.waterLine{
-    position:absolute;
-    top:50%;
-    left:0;
-    width:100%;
-    height:3px;
-
-    background:#00cfff;
+    border:1px solid rgba(255,255,255,.08);
 
     box-shadow:
-        0 0 10px #00cfff,
-        0 0 20px #00cfff;
+        inset 0 0 20px rgba(0,212,255,.08),
+        0 0 10px rgba(0,0,0,.4);
 }
 
-/* 船 */
-.gauge img{
-    position:absolute;
-    left:50%;
-    top:50%;
-
-    width:75%;
-
-    transform:translate(-50%,-50%);
-    transform-origin:center center;
+.box img{
+    width:90%;
+    max-width:240px;
 
     transition:.05s linear;
+    transform-origin:center center;
+
+    filter:
+        drop-shadow(0 0 10px rgba(0,212,255,.3));
 }
 
-/* ボタン */
 .controls{
     position:fixed;
-    bottom:20px;
+    bottom:8px;
     left:50%;
     transform:translateX(-50%);
 
     display:flex;
-    gap:20px;
+    gap:10px;
 }
 
 button{
-    padding:14px 28px;
+    padding:8px 14px;
 
-    border:2px solid #00d4ff;
-    border-radius:18px;
+    border:1px solid #00d4ff;
+    border-radius:10px;
 
     background:transparent;
     color:#00d4ff;
 
-    font-size:26px;
+    font-size:13px;
 }
