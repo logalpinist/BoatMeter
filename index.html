@@ -1,45 +1,67 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slope Meter</title>
+
+<title>Boat Meter</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <div class="meter">
-        <div class="title">ROLL</div>
+    <button onclick="requestPermission()">
+        センサー開始
+    </button>
 
-        <div class="valueRow">
-            <div class="value" id="rollValue">0°</div>
-        </div>
+    <button onclick="resetZero()">
+        リセット
+    </button>
 
-        <div class="box">
-            <img id="rollBoat" src="ponam-rear.png">
-        </div>
-    </div>
+    <div class="card">
 
-    <div class="meter">
-        <div class="title">PITCH</div>
-
-        <div class="valueRow">
-            <div class="value" id="pitchValue">0°</div>
-        </div>
+        <h2>ROLL</h2>
 
         <div class="box">
-            <img id="pitchBoat" src="ponam-side.png">
+
+            <img
+                id="rollBoat"
+                src="boat.png"
+                alt="boat">
+
         </div>
+
+        <div id="rollValue" class="value">
+            0.0°
+        </div>
+
     </div>
 
-</div>
+    <div class="card">
 
-<div class="controls">
-    <button onclick="startSensor()">開始</button>
-    <button onclick="resetZero()">リセット</button>
+        <h2>PITCH</h2>
+
+        <div class="box">
+
+            <img
+                id="pitchBoat"
+                src="boat.png"
+                alt="boat">
+
+        </div>
+
+        <div id="pitchValue" class="value">
+            0.0°
+        </div>
+
+    </div>
+
 </div>
 
 <script src="app.js"></script>
