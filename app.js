@@ -1,65 +1,69 @@
-let baseRoll = 0;
-let basePitch = 0;
+let rollOffset = 0;
+let pitchOffset = 0;
 
-let rawRoll = 0;
-let rawPitch = 0;
+function requestPermission(){
 
-function requestPermission() {
-
-    if (
+    if(
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
+    ){
 
         DeviceOrientationEvent.requestPermission()
         .then(permissionState => {
 
-            if (permissionState === "granted") {
-                startSensor();
+            if(permissionState === "granted"){
+                window.addEventListener(
+                    "deviceorientation",
+                    handleOrientation
+                );
             }
 
         })
         .catch(console.error);
 
-    } else {
+    }else{
 
-        startSensor();
+        window.addEventListener(
+            "deviceorientation",
+            handleOrientation
+        );
 
     }
-}
-
-function startSensor() {
-
-    window.addEventListener("deviceorientation", (event) => {
-
-        let roll = event.gamma || 0;
-        let pitch = event.beta || 0;
-
-        rawRoll = roll;
-        rawPitch = pitch;
-
-        let currentRoll = roll - baseRoll;
-        let currentPitch = pitch - basePitch;
-
-        document.getElementById("rollValue").innerText =
-            currentRoll.toFixed(1) + "°";
-
-        document.getElementById("pitchValue").innerText =
-            currentPitch.toFixed(1) + "°";
-
-        document.getElementById("rollBoat").style.transform =
-            `rotate(${currentRoll}deg)`;
-
-        document.getElementById("pitchBoat").style.transform =
-            `rotate(${-currentPitch}deg)`;
-
-    });
 
 }
 
-function resetZero() {
+function resetZero(){
 
-    baseRoll = rawRoll;
-    basePitch = rawPitch;
+    currentRollZero = currentRoll;
+    currentPitchZero = currentPitch;
+
+}
+
+let currentRoll = 0;
+let currentPitch = 0;
+
+let currentRollZero = 0;
+let currentPitchZero = 0;
+
+function handleOrientation(event){
+
+    currentRoll = event.gamma || 0;
+    currentPitch = event.beta || 0;
+
+    let roll = currentRoll - currentRollZero;
+    let pitch = currentPitch - currentPitchZero;
+
+    document.getElementById("rollValue").innerText =
+        roll.toFixed(1) + "°";
+
+    document.getElementById("pitchValue").innerText =
+        pitch.toFixed(1) + "°";
+
+    const boat = document.getElementById("boat");
+
+    boat.style.transform =
+        `translate(-50%,-50%)
+         rotate(${roll}deg)
+         translateY(${pitch}px)`;
 
 }
