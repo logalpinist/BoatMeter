@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boat Meter</title>
-
+<title>Slope Meter</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,36 +11,35 @@
 
 <div class="container">
 
-    <button class="startBtn" onclick="requestPermission()">
-        センサー開始
-    </button>
+    <div class="meter">
+        <div class="title">ROLL</div>
 
-    <button class="resetBtn" onclick="resetZero()">
-        リセット
-    </button>
-
-    <div class="boatArea">
-
-        <div class="boat" id="boat">
-            ⛵
+        <div class="valueRow">
+            <div class="value" id="rollValue">0°</div>
         </div>
 
+        <div class="box">
+            <img id="rollBoat" src="ponam-rear.png">
+        </div>
     </div>
 
-    <div class="meters">
+    <div class="meter">
+        <div class="title">PITCH</div>
 
-        <div class="meter">
-            <h2>ROLL</h2>
-            <div id="rollValue">0.0°</div>
+        <div class="valueRow">
+            <div class="value" id="pitchValue">0°</div>
         </div>
 
-        <div class="meter">
-            <h2>PITCH</h2>
-            <div id="pitchValue">0.0°</div>
+        <div class="box">
+            <img id="pitchBoat" src="ponam-side.png">
         </div>
-
     </div>
 
+</div>
+
+<div class="controls">
+    <button onclick="startSensor()">開始</button>
+    <button onclick="resetZero()">リセット</button>
 </div>
 
 <script src="app.js"></script>
