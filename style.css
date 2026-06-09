@@ -180,7 +180,9 @@ button:active{
         background:#07121f;
         color:white;
 
-        font-size:28px;
+        font-size:24px;
+
+    letter-spacing:1px;
         z-index:9999;
     }
 
