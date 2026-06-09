@@ -1,69 +1,69 @@
-let rollOffset = 0;
-let pitchOffset = 0;
+let baseRoll = 0;
+let basePitch = 0;
 
-function requestPermission(){
+function startSensor() {
 
-    if(
+    if (
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
-    ){
-
+    ) {
         DeviceOrientationEvent.requestPermission()
-        .then(permissionState => {
-
-            if(permissionState === "granted"){
-                window.addEventListener(
-                    "deviceorientation",
-                    handleOrientation
-                );
-            }
-
-        })
-        .catch(console.error);
-
-    }else{
-
-        window.addEventListener(
-            "deviceorientation",
-            handleOrientation
-        );
-
+            .then(res => {
+                if (res === "granted") attach();
+            });
+    } else {
+        attach();
     }
-
 }
 
-function resetZero(){
-
-    currentRollZero = currentRoll;
-    currentPitchZero = currentPitch;
-
+/* 横判定 */
+function isLandscape() {
+    return Math.abs(window.orientation) === 90;
 }
 
+/* 🔥 リセットは“表示値ベース”でやる */
 let currentRoll = 0;
 let currentPitch = 0;
 
-let currentRollZero = 0;
-let currentPitchZero = 0;
+function resetZero() {
+    baseRoll = currentRoll;
+    basePitch = currentPitch;
+}
 
-function handleOrientation(event){
+function attach() {
 
-    currentRoll = event.gamma || 0;
-    currentPitch = event.beta || 0;
+    window.addEventListener("deviceorientation", (event) => {
 
-    let roll = currentRoll - currentRollZero;
-    let pitch = currentPitch - currentPitchZero;
+        if (event.beta == null || event.gamma == null) return;
 
-    document.getElementById("rollValue").innerText =
-        roll.toFixed(1) + "°";
+        let rollRaw = event.gamma;
+        let pitchRaw = event.beta;
 
-    document.getElementById("pitchValue").innerText =
-        pitch.toFixed(1) + "°";
+        let roll, pitch;
 
-    const boat = document.getElementById("boat");
+        if (isLandscape()) {
+            roll = pitchRaw;
+            pitch = -rollRaw;
+        } else {
+            roll = rollRaw;
+            pitch = pitchRaw;
+        }
 
-    boat.style.transform =
-        `translate(-50%,-50%)
-         rotate(${roll}deg)
-         translateY(${pitch}px)`;
+        // 補正後の値（ここが唯一の正解）
+        currentRoll = roll - baseRoll;
+        currentPitch = pitch - basePitch;
 
+        // 表示（数値と絵を完全一致させる）
+        document.getElementById("rollBoat").style.transform =
+            `rotate(${currentRoll}deg)`;
+
+        document.getElementById("pitchBoat").style.transform =
+            `rotate(${currentPitch}deg)`;
+
+        document.getElementById("rollValue").innerText =
+            Math.round(currentRoll) + "°";
+
+        document.getElementById("pitchValue").innerText =
+            Math.round(currentPitch) + "°";
+    });
 }
