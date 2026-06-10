@@ -11,230 +11,94 @@ body{
     overflow:hidden;
 }
 
-.container{
-    height:calc(100vh - 80px);
-
-    display:flex;
-    justify-content:space-evenly;
+#rotateMessage{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#07121f;
+    color:white;
+    font-size:22px;
     align-items:center;
-
-    padding:0 8px;
+    justify-content:center;
+    z-index:999;
 }
 
-.meter{
-    width:44vw;
+@media (orientation:portrait){
 
+    #rotateMessage{
+        display:flex;
+    }
+
+    #app{
+        display:none;
+    }
+
+}
+
+#app{
+    width:100vw;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+.topBar{
+    height:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+}
+
+button{
+    padding:8px 14px;
+    border:none;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.gauges{
+    flex:1;
+    display:flex;
+}
+
+.gauge{
+    flex:1;
     display:flex;
     flex-direction:column;
     align-items:center;
 }
 
-.title{
-    font-size:12px;
-    letter-spacing:2px;
-    opacity:.6;
-    margin-bottom:4px;
+.window{
+    width:95%;
+    height:75%;
+    position:relative;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,.2);
+    border-radius:16px;
+    background:rgba(255,255,255,.05);
+}
+
+.boat{
+    position:absolute;
+    left:50%;
+    top:50%;
+    font-size:240px;
+    transform:translate(-50%,-50%);
+    transform-origin:center center;
+}
+
+.pitch-boat{
+    position:absolute;
+    left:50%;
+    top:50%;
+    font-size:180px;
+    transform:translate(-50%,-50%);
+    transform-origin:center center;
 }
 
 .value{
-    font-size:48px;
-    font-weight:700;
-    line-height:1;
-
-    color:#00d4ff;
-
-    text-shadow:
-        0 0 20px rgba(0,212,255,.7);
-
-    margin-bottom:8px;
-}
-
-.box{
-    width:100%;
-    height:140px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    overflow:hidden;
-
-    border-radius:20px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(0,212,255,.12),
-            rgba(0,0,0,0)
-        );
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        inset 0 0 20px rgba(0,212,255,.08),
-        0 0 10px rgba(0,0,0,.4);
-
-    position:relative;
-}
-
-.gauge{
-    width:100%;
-    height:100%;
-
-    position:relative;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.waterLine{
-    position:absolute;
-
-    width:90%;
-    height:2px;
-
-    background:
-        rgba(255,255,255,.25);
-}
-
-.boatMask{
-
-    width:110px;
-    height:110px;
-
-    border-radius:50%;
-
-    overflow:hidden;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #20384f,
-            #09131f 80%
-        );
-
-    border:3px solid
-        rgba(255,255,255,.15);
-
-    box-shadow:
-        inset 0 0 25px rgba(255,255,255,.08),
-        0 0 20px rgba(0,212,255,.2);
-
-    z-index:10;
-}
-
-.boatMask img{
-
-    width:125%;
-    height:125%;
-
-    object-fit:cover;
-
-    transition:.05s linear;
-
-    transform-origin:center center;
-
-    filter:
-        drop-shadow(
-            0 0 12px
-            rgba(0,212,255,.35)
-        );
-}
-
-.mark{
-    position:absolute;
-
-    font-size:11px;
-
-    color:
-        rgba(255,255,255,.35);
-}
-
-.left20{
-    left:18px;
-    top:22px;
-}
-
-.left10{
-    left:30px;
-    top:52px;
-}
-
-.right10{
-    right:30px;
-    top:52px;
-}
-
-.right20{
-    right:18px;
-    top:22px;
-}
-
-.controls{
-
-    position:fixed;
-
-    bottom:20px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    display:flex;
-
-    gap:10px;
-
-    z-index:100;
-}
-
-button{
-
-    padding:10px 18px;
-
-    border:1px solid #00d4ff;
-
-    border-radius:12px;
-
-    background:
-        rgba(0,212,255,.12);
-
-    color:#00d4ff;
-
-    font-size:14px;
-
-    backdrop-filter:blur(12px);
-
-    cursor:pointer;
-}
-
-button:active{
-    transform:scale(.96);
-}
-
-#rotateNotice{
-
-    position:fixed;
-
-    inset:0;
-
-    display:none;
-
-    justify-content:center;
-    align-items:center;
-
-    background:#07121f;
-
-    color:
-        rgba(255,255,255,.75);
-
-    font-size:20px;
-
-    letter-spacing:1px;
-
-    z-index:9999;
+    margin-top:10px;
+    font-size:26px;
+    font-weight:bold;
 }
