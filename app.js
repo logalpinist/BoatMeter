@@ -58,7 +58,6 @@ function resetZero() {
 
     document.getElementById("pitchValue")
         .innerText = "0°";
-
 }
 
 function attach() {
@@ -67,7 +66,6 @@ function attach() {
         "deviceorientation",
         handleOrientation
     );
-
 }
 
 function handleOrientation(event) {
@@ -109,10 +107,12 @@ function handleOrientation(event) {
     ).style.transform =
         `rotate(${currentRoll}deg)`;
 
+    /* ピッチは向きを反転 */
+
     document.getElementById(
         "pitchBoat"
     ).style.transform =
-        `rotate(${currentPitch}deg)`;
+        `rotate(${-currentPitch}deg)`;
 
     document.getElementById(
         "rollValue"
@@ -144,7 +144,6 @@ function updateOrientation() {
 
         notice.style.display =
             "none";
-
     }
 }
 
