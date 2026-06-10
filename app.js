@@ -38,13 +38,6 @@ function startSensor() {
     }
 }
 
-function isLandscape() {
-
-    return window.innerWidth >
-           window.innerHeight;
-
-}
-
 function resetZero() {
 
     baseRoll = rawRoll;
@@ -53,11 +46,13 @@ function resetZero() {
     currentRoll = 0;
     currentPitch = 0;
 
-    document.getElementById("rollValue")
-        .innerText = "0°";
+    document.getElementById(
+        "rollValue"
+    ).innerText = "0°";
 
-    document.getElementById("pitchValue")
-        .innerText = "0°";
+    document.getElementById(
+        "pitchValue"
+    ).innerText = "0°";
 }
 
 function attach() {
@@ -75,21 +70,37 @@ function handleOrientation(event) {
         event.gamma == null
     ) return;
 
-    let rollRaw = event.gamma;
-    let pitchRaw = event.beta;
-
     let roll;
     let pitch;
 
-    if (isLandscape()) {
+    const angle =
+        screen.orientation
+            ? screen.orientation.angle
+            : window.orientation || 0;
 
-        roll = pitchRaw;
-        pitch = -rollRaw;
+    if (angle === 90) {
+
+        /* 横向き（ホームバー右） */
+
+        roll = event.beta;
+        pitch = -event.gamma;
+
+    } else if (
+        angle === -90 ||
+        angle === 270
+    ) {
+
+        /* 横向き（ホームバー左） */
+
+        roll = -event.beta;
+        pitch = event.gamma;
 
     } else {
 
-        roll = rollRaw;
-        pitch = pitchRaw;
+        /* 縦向き */
+
+        roll = event.gamma;
+        pitch = event.beta;
 
     }
 
@@ -106,8 +117,6 @@ function handleOrientation(event) {
         "rollBoat"
     ).style.transform =
         `rotate(${currentRoll}deg)`;
-
-    /* ピッチは向きを反転 */
 
     document.getElementById(
         "pitchBoat"
@@ -144,6 +153,7 @@ function updateOrientation() {
 
         notice.style.display =
             "none";
+
     }
 }
 
