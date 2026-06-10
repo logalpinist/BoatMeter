@@ -2,34 +2,54 @@
 <html lang="ja">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Boat Meter">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color" content="#07121f">
+<meta name="apple-mobile-web-app-capable"
+      content="yes">
 
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
+<meta name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent">
+
+<meta name="apple-mobile-web-app-title"
+      content="Boat Meter">
+
+<meta name="theme-color"
+      content="#07121f">
+
+<link rel="manifest"
+      href="manifest.json">
+
+<link rel="stylesheet"
+      href="style.css">
 
 <title>Boat Meter</title>
+
 </head>
 
 <body>
 
 <div id="rotateNotice">
-横向きにしてください
+    横向きにしてください
 </div>
 
 <div class="container">
 
+    <!-- ROLL -->
+
     <div class="meter">
 
-        <div class="title">ROLL</div>
+        <div class="title">
+            ROLL
+        </div>
 
-        <div class="value" id="rollValue">0°</div>
+        <div class="value"
+             id="rollValue">
+            0°
+        </div>
 
         <div class="box">
 
@@ -37,16 +57,30 @@
 
                 <div class="waterLine"></div>
 
-                <div class="mark left20">20</div>
-                <div class="mark left10">10</div>
+                <div class="mark left20">
+                    20
+                </div>
 
-                <div class="mark right10">10</div>
-                <div class="mark right20">20</div>
+                <div class="mark left10">
+                    10
+                </div>
 
-                <img
-                    id="rollBoat"
-                    src="ponam-rear.png"
-                    alt="Roll">
+                <div class="mark right10">
+                    10
+                </div>
+
+                <div class="mark right20">
+                    20
+                </div>
+
+                <div class="boatMask">
+
+                    <img
+                        id="rollBoat"
+                        src="ponam-rear.png"
+                        alt="Roll">
+
+                </div>
 
             </div>
 
@@ -54,11 +88,18 @@
 
     </div>
 
+    <!-- PITCH -->
+
     <div class="meter">
 
-        <div class="title">PITCH</div>
+        <div class="title">
+            PITCH
+        </div>
 
-        <div class="value" id="pitchValue">0°</div>
+        <div class="value"
+             id="pitchValue">
+            0°
+        </div>
 
         <div class="box">
 
@@ -66,16 +107,30 @@
 
                 <div class="waterLine"></div>
 
-                <div class="mark left20">20</div>
-                <div class="mark left10">10</div>
+                <div class="mark left20">
+                    20
+                </div>
 
-                <div class="mark right10">10</div>
-                <div class="mark right20">20</div>
+                <div class="mark left10">
+                    10
+                </div>
 
-                <img
-                    id="pitchBoat"
-                    src="ponam-side.png"
-                    alt="Pitch">
+                <div class="mark right10">
+                    10
+                </div>
+
+                <div class="mark right20">
+                    20
+                </div>
+
+                <div class="boatMask">
+
+                    <img
+                        id="pitchBoat"
+                        src="ponam-side.png"
+                        alt="Pitch">
+
+                </div>
 
             </div>
 
@@ -86,11 +141,19 @@
 </div>
 
 <div class="controls">
-    <button onclick="startSensor()">開始</button>
-    <button onclick="resetZero()">リセット</button>
+
+    <button onclick="startSensor()">
+        開始
+    </button>
+
+    <button onclick="resetZero()">
+        リセット
+    </button>
+
 </div>
 
 <script src="app.js"></script>
 
 </body>
+
 </html>
