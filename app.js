@@ -1,10 +1,17 @@
 let baseRoll = 0;
 let basePitch = 0;
 
+let rawRoll = 0;
+let rawPitch = 0;
+
 let currentRoll = 0;
 let currentPitch = 0;
 
+let sensorAttached = false;
+
 function startSensor() {
+
+    if (sensorAttached) return;
 
     if (
         typeof DeviceOrientationEvent !== "undefined" &&
@@ -15,7 +22,10 @@ function startSensor() {
             .then(res => {
 
                 if (res === "granted") {
+
                     attach();
+                    sensorAttached = true;
+
                 }
 
             });
@@ -23,69 +33,96 @@ function startSensor() {
     } else {
 
         attach();
+        sensorAttached = true;
 
     }
 }
 
 function isLandscape() {
-    return window.innerWidth > window.innerHeight;
+
+    return window.innerWidth >
+           window.innerHeight;
+
 }
 
 function resetZero() {
 
-    baseRoll = currentRoll;
-    basePitch = currentPitch;
+    baseRoll = rawRoll;
+    basePitch = rawPitch;
+
+    currentRoll = 0;
+    currentPitch = 0;
+
+    document.getElementById("rollValue")
+        .innerText = "0°";
+
+    document.getElementById("pitchValue")
+        .innerText = "0°";
 
 }
 
 function attach() {
 
-    window.addEventListener("deviceorientation", (event) => {
+    window.addEventListener(
+        "deviceorientation",
+        handleOrientation
+    );
 
-        if (
-            event.beta == null ||
-            event.gamma == null
-        ) return;
+}
 
-        let rollRaw = event.gamma;
-        let pitchRaw = event.beta;
+function handleOrientation(event) {
 
-        let roll;
-        let pitch;
+    if (
+        event.beta == null ||
+        event.gamma == null
+    ) return;
 
-        if (isLandscape()) {
+    let rollRaw = event.gamma;
+    let pitchRaw = event.beta;
 
-            roll = pitchRaw;
-            pitch = -rollRaw;
+    let roll;
+    let pitch;
 
-        } else {
+    if (isLandscape()) {
 
-            roll = rollRaw;
-            pitch = pitchRaw;
+        roll = pitchRaw;
+        pitch = -rollRaw;
 
-        }
+    } else {
 
-        currentRoll = roll - baseRoll;
-        currentPitch = pitch - basePitch;
+        roll = rollRaw;
+        pitch = pitchRaw;
 
-        document.getElementById("rollBoat")
-            .style.transform =
-            `rotate(${currentRoll}deg)`;
+    }
 
-        document.getElementById("pitchBoat")
-            .style.transform =
-            `rotate(${currentPitch}deg)`;
+    rawRoll = roll;
+    rawPitch = pitch;
 
-        document.getElementById("rollValue")
-            .innerText =
-            `${Math.round(currentRoll)}°`;
+    currentRoll =
+        rawRoll - baseRoll;
 
-        document.getElementById("pitchValue")
-            .innerText =
-            `${Math.round(currentPitch)}°`;
+    currentPitch =
+        rawPitch - basePitch;
 
-    });
+    document.getElementById(
+        "rollBoat"
+    ).style.transform =
+        `rotate(${currentRoll}deg)`;
 
+    document.getElementById(
+        "pitchBoat"
+    ).style.transform =
+        `rotate(${currentPitch}deg)`;
+
+    document.getElementById(
+        "rollValue"
+    ).innerText =
+        `${Math.round(currentRoll)}°`;
+
+    document.getElementById(
+        "pitchValue"
+    ).innerText =
+        `${Math.round(currentPitch)}°`;
 }
 
 function updateOrientation() {
@@ -100,14 +137,15 @@ function updateOrientation() {
         window.innerWidth
     ) {
 
-        notice.style.display = "flex";
+        notice.style.display =
+            "flex";
 
     } else {
 
-        notice.style.display = "none";
+        notice.style.display =
+            "none";
 
     }
-
 }
 
 window.addEventListener(
