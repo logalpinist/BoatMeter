@@ -1,161 +1,75 @@
-let baseRoll = 0;
-let basePitch = 0;
+let rollOffset = 0;
+let pitchOffset = 0;
 
-let rawRoll = 0;
-let rawPitch = 0;
+function requestPermission(){
 
-let currentRoll = 0;
-let currentPitch = 0;
-
-let sensorAttached = false;
-
-function startSensor() {
-
-    if (sensorAttached) return;
-
-    if (
+    if(
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
+    ){
 
         DeviceOrientationEvent.requestPermission()
-            .then(res => {
+        .then(response=>{
 
-                if (res === "granted") {
+            if(response==="granted"){
+                startSensor();
+            }
 
-                    attach();
-                    sensorAttached = true;
+        });
 
-                }
-
-            });
-
-    } else {
-
-        attach();
-        sensorAttached = true;
-
+    }else{
+        startSensor();
     }
 }
 
-function isLandscape() {
+function resetLevel(){
 
-    return window.innerWidth >
-           window.innerHeight;
+    navigator.vibrate?.(50);
 
+    if(lastRoll !== null){
+        rollOffset = lastRoll;
+    }
+
+    if(lastPitch !== null){
+        pitchOffset = lastPitch;
+    }
 }
 
-function resetZero() {
+let lastRoll = null;
+let lastPitch = null;
 
-    baseRoll = rawRoll;
-    basePitch = rawPitch;
-
-    currentRoll = 0;
-    currentPitch = 0;
-
-    document.getElementById("rollValue")
-        .innerText = "0°";
-
-    document.getElementById("pitchValue")
-        .innerText = "0°";
-
-}
-
-function attach() {
+function startSensor(){
 
     window.addEventListener(
         "deviceorientation",
-        handleOrientation
+        event=>{
+
+            let roll = event.gamma || 0;
+            let pitch = event.beta || 0;
+
+            roll -= rollOffset;
+            pitch -= pitchOffset;
+
+            lastRoll = event.gamma || 0;
+            lastPitch = event.beta || 0;
+
+            document.getElementById(
+                "rollValue"
+            ).innerText = roll.toFixed(1);
+
+            document.getElementById(
+                "pitchValue"
+            ).innerText = pitch.toFixed(1);
+
+            document.getElementById(
+                "rollBoat"
+            ).style.transform =
+            `translate(-50%,-50%) rotate(${roll}deg)`;
+
+            document.getElementById(
+                "pitchBoat"
+            ).style.transform =
+            `translate(-50%,-50%) rotate(${pitch}deg)`;
+        }
     );
-
 }
-
-function handleOrientation(event) {
-
-    if (
-        event.beta == null ||
-        event.gamma == null
-    ) return;
-
-    let rollRaw = event.gamma;
-    let pitchRaw = event.beta;
-
-    let roll;
-    let pitch;
-
-    if (isLandscape()) {
-
-        roll = pitchRaw;
-        pitch = -rollRaw;
-
-    } else {
-
-        roll = rollRaw;
-        pitch = pitchRaw;
-
-    }
-
-    rawRoll = roll;
-    rawPitch = pitch;
-
-    currentRoll =
-        rawRoll - baseRoll;
-
-    currentPitch =
-        rawPitch - basePitch;
-
-    document.getElementById(
-        "rollBoat"
-    ).style.transform =
-        `rotate(${currentRoll}deg)`;
-
-    document.getElementById(
-        "pitchBoat"
-    ).style.transform =
-        `rotate(${currentPitch}deg)`;
-
-    document.getElementById(
-        "rollValue"
-    ).innerText =
-        `${Math.round(currentRoll)}°`;
-
-    document.getElementById(
-        "pitchValue"
-    ).innerText =
-        `${Math.round(currentPitch)}°`;
-}
-
-function updateOrientation() {
-
-    const notice =
-        document.getElementById(
-            "rotateNotice"
-        );
-
-    if (
-        window.innerHeight >
-        window.innerWidth
-    ) {
-
-        notice.style.display =
-            "flex";
-
-    } else {
-
-        notice.style.display =
-            "none";
-
-    }
-}
-
-window.addEventListener(
-    "resize",
-    updateOrientation
-);
-
-window.addEventListener(
-    "orientationchange",
-    updateOrientation
-);
-
-updateOrientation();
