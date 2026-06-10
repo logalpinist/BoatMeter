@@ -12,16 +12,18 @@ body{
 }
 
 .container{
-    height:calc(100vh - 90px);
+
+    height:calc(100vh - 85px);
 
     display:flex;
     justify-content:space-evenly;
-    align-items:center;
+    align-items:flex-start;
 
-    padding:10px 8px 0;
+    padding:5px 8px 0;
 }
 
 .meter{
+
     width:44vw;
 
     display:flex;
@@ -30,15 +32,22 @@ body{
 }
 
 .title{
-    font-size:10px;
+
+    font-size:14px;
+    font-weight:700;
+
     letter-spacing:2px;
-    opacity:.6;
-    margin-bottom:2px;
+
+    opacity:.8;
+
+    margin-bottom:4px;
 }
 
 .value{
-    font-size:36px;
+
+    font-size:28px;
     font-weight:700;
+
     line-height:1;
 
     color:#00d4ff;
@@ -46,12 +55,13 @@ body{
     text-shadow:
         0 0 20px rgba(0,212,255,.7);
 
-    margin-bottom:4px;
+    margin-bottom:8px;
 }
 
 .box{
+
     width:100%;
-    height:120px;
+    height:145px;
 
     display:flex;
     justify-content:center;
@@ -78,6 +88,7 @@ body{
 }
 
 .gauge{
+
     width:100%;
     height:100%;
 
@@ -89,6 +100,7 @@ body{
 }
 
 .waterLine{
+
     position:absolute;
 
     width:90%;
@@ -100,8 +112,8 @@ body{
 
 .boatMask{
 
-    width:110px;
-    height:110px;
+    width:125px;
+    height:125px;
 
     border-radius:50%;
 
@@ -146,14 +158,14 @@ body{
         );
 }
 
-/* PITCHだけ少し小さく */
-
 #pitchBoat{
-    width:95% !important;
-    height:95% !important;
+
+    width:135% !important;
+    height:135% !important;
 }
 
 .mark{
+
     position:absolute;
 
     font-size:11px;
@@ -186,7 +198,7 @@ body{
 
     position:fixed;
 
-    bottom:20px;
+    bottom:12px;
 
     left:50%;
 
@@ -194,14 +206,14 @@ body{
 
     display:flex;
 
-    gap:10px;
+    gap:12px;
 
     z-index:100;
 }
 
 button{
 
-    padding:10px 18px;
+    padding:8px 18px;
 
     border:1px solid #00d4ff;
 
