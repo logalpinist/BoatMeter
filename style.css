@@ -1,1 +1,193 @@
-body{ margin:0; background: radial-gradient( circle at center, #10263d, #07121f 70% ); color:white; font-family:-apple-system,sans-serif; overflow:hidden; } .container{ height:calc(100vh - 85px); display:flex; justify-content:space-evenly; align-items:flex-start; padding:5px 8px 0; } .meter{ width:44vw; display:flex; flex-direction:column; align-items:center; } .title{ font-size:14px; font-weight:700; letter-spacing:2px; opacity:.8; margin-bottom:4px; } .value{ font-size:28px; font-weight:700; line-height:1; color:#00d4ff; text-shadow: 0 0 20px rgba(0,212,255,.7); margin-bottom:8px; } .box{ width:100%; height:145px; display:flex; justify-content:center; align-items:center; overflow:hidden; border-radius:20px; background: radial-gradient( circle at center, rgba(0,212,255,.12), rgba(0,0,0,0) ); border:1px solid rgba(255,255,255,.08); box-shadow: inset 0 0 20px rgba(0,212,255,.08), 0 0 10px rgba(0,0,0,.4); position:relative; } .gauge{ width:100%; height:100%; position:relative; display:flex; justify-content:center; align-items:center; } .waterLine{ position:absolute; width:90%; height:2px; background: rgba(255,255,255,.25); } .boatMask{ width:125px; height:125px; border-radius:50%; overflow:hidden; display:flex; justify-content:center; align-items:center; background: radial-gradient( circle at center, #20384f, #09131f 80% ); border:3px solid rgba(255,255,255,.15); box-shadow: inset 0 0 25px rgba(255,255,255,.08), 0 0 20px rgba(0,212,255,.2); z-index:10; } .boatMask img{ width:125%; height:125%; object-fit:cover; transition:.05s linear; transform-origin:center center; filter: drop-shadow( 0 0 12px rgba(0,212,255,.35) ); } #pitchBoat{ width:110% !important; height:110% !important; } /* 目盛数字非表示 */ .mark{ display:none; } .controls{ position:fixed; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:12px; z-index:100; } button{ padding:8px 18px; border:1px solid #00d4ff; border-radius:12px; background: rgba(0,212,255,.12); color:#00d4ff; font-size:14px; backdrop-filter:blur(12px); cursor:pointer; } button:active{ transform:scale(.96); } #rotateNotice{ position:fixed; inset:0; display:none; justify-content:center; align-items:center; background:#07121f; color: rgba(255,255,255,.75); font-size:20px; letter-spacing:1px; z-index:9999; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+        radial-gradient(
+            circle at center,
+            #10263d,
+            #07121f 70%
+        );
+    color:white;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    overflow:hidden;
+}
+
+#rotateNotice{
+    display:none;
+}
+
+.container{
+    height:calc(100vh - 80px);
+
+    display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+
+    padding:5px;
+}
+
+.meter{
+    width:48vw;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.title{
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:2px;
+
+    margin-bottom:4px;
+}
+
+.value{
+    font-size:30px;
+    font-weight:700;
+
+    margin-bottom:6px;
+}
+
+.window{
+    width:42vw;
+    height:42vw;
+
+    max-width:320px;
+    max-height:320px;
+
+    border-radius:50%;
+
+    border:4px solid #00d4ff;
+
+    overflow:hidden;
+
+    position:relative;
+
+    background:
+        radial-gradient(
+            circle,
+            #163450,
+            #0b1724
+        );
+
+    box-shadow:
+        0 0 20px rgba(0,212,255,.4);
+}
+
+.fixedLine{
+    position:absolute;
+
+    top:50%;
+    left:0;
+
+    width:100%;
+    height:3px;
+
+    background:white;
+
+    opacity:.5;
+
+    transform:translateY(-50%);
+
+    z-index:5;
+}
+
+.movingGroup{
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    left:0;
+    top:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.movingLine{
+    position:absolute;
+
+    width:100%;
+    height:3px;
+
+    background:#00d4ff;
+
+    opacity:.9;
+}
+
+.boat{
+    position:absolute;
+
+    width:75%;
+
+    pointer-events:none;
+}
+
+.rollBoat{
+    width:72%;
+}
+
+.pitchBoat{
+    width:78%;
+}
+
+.buttons{
+    height:80px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+}
+
+button{
+    border:none;
+
+    background:#00d4ff;
+    color:#07121f;
+
+    font-size:18px;
+    font-weight:700;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+@media (orientation:portrait){
+
+    #rotateNotice{
+        display:flex;
+
+        position:fixed;
+        inset:0;
+
+        background:#07121f;
+
+        justify-content:center;
+        align-items:center;
+
+        font-size:28px;
+        font-weight:700;
+
+        z-index:9999;
+    }
+
+    .container,
+    .buttons{
+        display:none;
+    }
+}
