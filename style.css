@@ -244,3 +244,31 @@ button:active{
 
     z-index:9999;
 }
+
+
+.controls{
+    position:fixed !important;
+
+    bottom:20px !important;
+    left:50% !important;
+
+    transform:translateX(-50%) !important;
+
+    display:flex !important;
+
+    gap:20px !important;
+
+    z-index:9999 !important;
+}
+
+.controls button{
+
+    width:180px !important;
+    height:70px !important;
+
+    flex:none !important;
+
+    font-size:22px !important;
+
+    border-radius:18px !important;
+}
