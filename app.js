@@ -1,1 +1,102 @@
-let baseRoll = 0; let basePitch = 0; let rawRoll = 0; let rawPitch = 0; let currentRoll = 0; let currentPitch = 0; let sensorAttached = false; function startSensor() { if (sensorAttached) return; if ( typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function" ) { DeviceOrientationEvent.requestPermission() .then(res => { if (res === "granted") { attach(); sensorAttached = true; } }); } else { attach(); sensorAttached = true; } } function resetZero() { baseRoll = rawRoll; basePitch = rawPitch; currentRoll = 0; currentPitch = 0; document.getElementById( "rollValue" ).innerText = "0°"; document.getElementById( "pitchValue" ).innerText = "0°"; } function attach() { window.addEventListener( "deviceorientation", handleOrientation ); } function handleOrientation(event) { if ( event.beta == null || event.gamma == null ) return; let roll; let pitch; const angle = screen.orientation ? screen.orientation.angle : window.orientation || 0; if (angle === 90) { /* 横向き（ホームバー右） */ roll = event.beta; pitch = -event.gamma; } else if ( angle === -90 || angle === 270 ) { /* 横向き（ホームバー左） */ roll = -event.beta; pitch = event.gamma; } else { /* 縦向き */ roll = event.gamma; pitch = event.beta; } rawRoll = roll; rawPitch = pitch; currentRoll = rawRoll - baseRoll; currentPitch = rawPitch - basePitch; document.getElementById( "rollBoat" ).style.transform = rotate(${currentRoll}deg); document.getElementById( "pitchBoat" ).style.transform = rotate(${currentPitch}deg); document.getElementById( "rollValue" ).innerText = ${Math.round(currentRoll)}°; document.getElementById( "pitchValue" ).innerText = ${Math.round(currentPitch)}°; } function updateOrientation() { const notice = document.getElementById( "rotateNotice" ); if ( window.innerHeight > window.innerWidth ) { notice.style.display = "flex"; } else { notice.style.display = "none"; } } window.addEventListener( "resize", updateOrientation ); window.addEventListener( "orientationchange", updateOrientation ); updateOrientation();
+let rollOffset = 0;
+let pitchOffset = 0;
+
+let currentRoll = 0;
+let currentPitch = 0;
+
+function startSensor(){
+
+    if(
+        typeof DeviceOrientationEvent !== "undefined" &&
+        typeof DeviceOrientationEvent.requestPermission === "function"
+    ){
+
+        DeviceOrientationEvent
+            .requestPermission()
+            .then(permission => {
+
+                if(permission === "granted"){
+                    window.addEventListener(
+                        "deviceorientation",
+                        handleOrientation
+                    );
+                }
+
+            })
+            .catch(console.error);
+
+    }else{
+
+        window.addEventListener(
+            "deviceorientation",
+            handleOrientation
+        );
+
+    }
+}
+
+function resetZero(){
+
+    rollOffset = currentRoll;
+    pitchOffset = currentPitch;
+
+}
+
+function handleOrientation(event){
+
+    if(
+        event.beta === null ||
+        event.gamma === null
+    ){
+        return;
+    }
+
+    let roll =
+        event.gamma;
+
+    let pitch =
+        event.beta - 90;
+
+    currentRoll = roll;
+    currentPitch = pitch;
+
+    roll -= rollOffset;
+    pitch -= pitchOffset;
+
+    roll = Math.max(
+        -45,
+        Math.min(45, roll)
+    );
+
+    pitch = Math.max(
+        -45,
+        Math.min(45, pitch)
+    );
+
+    document.getElementById(
+        "rollValue"
+    ).innerText =
+        `${roll.toFixed(1)}°`;
+
+    document.getElementById(
+        "pitchValue"
+    ).innerText =
+        `${pitch.toFixed(1)}°`;
+
+    const rollGroup =
+        document.getElementById(
+            "rollGroup"
+        );
+
+    rollGroup.style.transform =
+        `rotate(${roll}deg)`;
+
+    const pitchGroup =
+        document.getElementById(
+            "pitchGroup"
+        );
+
+    pitchGroup.style.transform =
+        `translateY(${pitch * 1.8}px)`;
+
+}
