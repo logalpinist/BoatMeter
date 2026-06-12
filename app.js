@@ -126,12 +126,16 @@ function handleOrientation(event) {
     document.getElementById(
         "rollValue"
     ).innerText =
-        `${Math.round(currentRoll)}°`;
+        `${Math.abs(
+            Math.round(currentRoll)
+        )}°`;
 
     document.getElementById(
         "pitchValue"
     ).innerText =
-        `${Math.round(currentPitch)}°`;
+        `${Math.abs(
+            Math.round(currentPitch)
+        )}°`;
 }
 
 function updateOrientation() {
