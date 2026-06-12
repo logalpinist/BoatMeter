@@ -1,23 +1,22 @@
 body{
     margin:0;
-    overflow:hidden;
-    color:white;
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     background:
         radial-gradient(
             circle at center,
-            #12345a 0%,
-            #07111d 70%,
-            #02060c 100%
+            #10263d,
+            #07121f 70%
         );
+    color:white;
+    font-family:-apple-system,sans-serif;
+    overflow:hidden;
 }
 
 .container{
-    height:calc(100vh - 155px);
+    height:100vh;
     display:flex;
     justify-content:space-evenly;
-    align-items:flex-start;
-    padding-top:10px;
+    align-items:center;
+    padding:0 8px;
 }
 
 .meter{
@@ -28,133 +27,184 @@ body{
 }
 
 .title{
-    font-size:18px;
-    font-weight:700;
-    letter-spacing:6px;
-    opacity:.9;
-    margin-bottom:6px;
+    font-size:12px;
+    letter-spacing:2px;
+    opacity:.6;
+    margin-bottom:4px;
 }
 
 .value{
-    font-size:54px;
+    font-size:48px;
     font-weight:700;
     line-height:1;
     color:#00d4ff;
     text-shadow:0 0 20px rgba(0,212,255,.7);
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
 
 .box{
     width:100%;
-    height:145px;
-    position:relative;
+    height:140px;
+
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:28px;
+
     overflow:hidden;
-    background:rgba(255,255,255,.04);
+
+    border-radius:20px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0,212,255,.12),
+            rgba(0,0,0,0)
+        );
+
     border:1px solid rgba(255,255,255,.08);
+
     box-shadow:
-        inset 0 0 25px rgba(0,212,255,.08),
-        0 0 30px rgba(0,0,0,.5);
+        inset 0 0 20px rgba(0,212,255,.08),
+        0 0 10px rgba(0,0,0,.4);
+
+    position:relative;
 }
 
 .gauge{
     width:100%;
     height:100%;
+    position:relative;
+
     display:flex;
     justify-content:center;
     align-items:center;
-    position:relative;
 }
 
 .waterLine{
     position:absolute;
     width:90%;
-    height:3px;
-    background:rgba(255,255,255,.45);
-    box-shadow:0 0 10px rgba(255,255,255,.25);
-    z-index:1;
+    height:2px;
+    background:rgba(255,255,255,.25);
 }
 
 .boatMask{
-    width:115px;
-    height:115px;
+
+    width:110px;
+    height:110px;
+
     border-radius:50%;
+
     overflow:hidden;
-    position:relative;
+
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:10;
+
     background:
         radial-gradient(
-            circle,
-            #17314f,
-            #09131f
+            circle at center,
+            #20384f,
+            #09131f 80%
         );
-    border:4px solid rgba(255,255,255,.12);
+
+    border:3px solid rgba(255,255,255,.15);
+
     box-shadow:
-        inset 0 0 25px rgba(255,255,255,.05),
-        0 0 25px rgba(0,212,255,.2);
+        inset 0 0 25px rgba(255,255,255,.08),
+        0 0 20px rgba(0,212,255,.2);
+
+    z-index:10;
 }
 
 .boatMask img{
-    display:block;
-    width:125%;
-    height:125%;
-    object-fit:cover;
+
+    width:85%;
+    height:85%;
+
+    object-fit:contain;
+
     transition:.05s linear;
+
     transform-origin:center center;
+
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(0,212,255,.35)
+        );
 }
 
-#pitchBoat{
-    width:88%;
-    height:88%;
-    object-fit:contain;
-    position:relative;
-    top:-4px;
+.mark{
+    position:absolute;
+    font-size:11px;
+    color:rgba(255,255,255,.35);
+}
+
+.left20{
+    left:18px;
+    top:22px;
+}
+
+.left10{
+    left:30px;
+    top:52px;
+}
+
+.right10{
+    right:30px;
+    top:52px;
+}
+
+.right20{
+    right:18px;
+    top:22px;
 }
 
 .controls{
     position:fixed;
+    bottom:8px;
     left:50%;
-    bottom:18px;
     transform:translateX(-50%);
+
     display:flex;
-    flex-direction:row;
-    gap:20px;
-    z-index:9999;
+    gap:10px;
 }
 
-.controls button{
-    width:160px;
-    height:60px;
-    flex:none;
-    box-sizing:border-box;
-    font-size:20px;
-    color:#00d4ff;
-    border-radius:16px;
-    border:2px solid #00d4ff;
+button{
+    padding:8px 14px;
+
+    border:1px solid #00d4ff;
+    border-radius:10px;
+
     background:rgba(0,212,255,.08);
+
+    color:#00d4ff;
+
+    font-size:13px;
+
     backdrop-filter:blur(10px);
-    cursor:pointer;
 }
 
-.controls button:active{
-    transform:scale(.97);
+button:active{
+    transform:scale(.96);
 }
 
 #rotateNotice{
     position:fixed;
     inset:0;
-    background:#07111d;
+
     display:none;
+
     justify-content:center;
     align-items:center;
-    text-align:center;
-    font-size:22px;
-    color:white;
-    z-index:99999;
+
+    background:#07121f;
+
+    color:rgba(255,255,255,.75);
+
+    font-size:20px;
+
+    letter-spacing:1px;
+
+    z-index:9999;
 }
