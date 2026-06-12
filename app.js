@@ -19,11 +19,11 @@ function startSensor() {
     ) {
 
         DeviceOrientationEvent.requestPermission()
-            .then(res => {
+            .then(result => {
 
-                if (res === "granted") {
+                if (result === "granted") {
 
-                    attach();
+                    attachSensor();
                     sensorAttached = true;
 
                 }
@@ -32,10 +32,18 @@ function startSensor() {
 
     } else {
 
-        attach();
+        attachSensor();
         sensorAttached = true;
 
     }
+}
+
+function attachSensor() {
+
+    window.addEventListener(
+        "deviceorientation",
+        handleOrientation
+    );
 }
 
 function resetZero() {
@@ -55,14 +63,6 @@ function resetZero() {
     ).innerText = "0°";
 }
 
-function attach() {
-
-    window.addEventListener(
-        "deviceorientation",
-        handleOrientation
-    );
-}
-
 function handleOrientation(event) {
 
     if (
@@ -80,8 +80,6 @@ function handleOrientation(event) {
 
     if (angle === 90) {
 
-        /* 横向き（ホームバー右） */
-
         roll = event.beta;
         pitch = -event.gamma;
 
@@ -90,14 +88,10 @@ function handleOrientation(event) {
         angle === 270
     ) {
 
-        /* 横向き（ホームバー左） */
-
         roll = -event.beta;
         pitch = event.gamma;
 
     } else {
-
-        /* 縦向き */
 
         roll = event.gamma;
         pitch = event.beta;
@@ -150,13 +144,11 @@ function updateOrientation() {
         window.innerWidth
     ) {
 
-        notice.style.display =
-            "flex";
+        notice.style.display = "flex";
 
     } else {
 
-        notice.style.display =
-            "none";
+        notice.style.display = "none";
 
     }
 }
