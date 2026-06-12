@@ -54,13 +54,15 @@ function resetZero() {
     currentRoll = 0;
     currentPitch = 0;
 
-    document.getElementById(
-        "rollValue"
-    ).innerText = "0°";
+    updateDisplay();
+}
 
-    document.getElementById(
-        "pitchValue"
-    ).innerText = "0°";
+function clamp(value, min, max) {
+
+    return Math.min(
+        max,
+        Math.max(min, value)
+    );
 }
 
 function handleOrientation(event) {
@@ -70,42 +72,33 @@ function handleOrientation(event) {
         event.gamma == null
     ) return;
 
-    let roll;
-    let pitch;
+    /*
+     * 横向き固定前提
+     * ROLL = 左右傾き
+     * PITCH = 前後傾き
+     */
 
-    const angle =
-        screen.orientation
-            ? screen.orientation.angle
-            : window.orientation || 0;
-
-    if (angle === 90) {
-
-        roll = event.beta;
-        pitch = -event.gamma;
-
-    } else if (
-        angle === -90 ||
-        angle === 270
-    ) {
-
-        roll = -event.beta;
-        pitch = event.gamma;
-
-    } else {
-
-        roll = event.gamma;
-        pitch = event.beta;
-
-    }
-
-    rawRoll = roll;
-    rawPitch = pitch;
+    rawRoll = event.gamma;
+    rawPitch = event.beta;
 
     currentRoll =
-        rawRoll - baseRoll;
+        clamp(
+            rawRoll - baseRoll,
+            -90,
+            90
+        );
 
     currentPitch =
-        rawPitch - basePitch;
+        clamp(
+            rawPitch - basePitch,
+            -90,
+            90
+        );
+
+    updateDisplay();
+}
+
+function updateDisplay() {
 
     document.getElementById(
         "rollBoat"
@@ -144,11 +137,13 @@ function updateOrientation() {
         window.innerWidth
     ) {
 
-        notice.style.display = "flex";
+        notice.style.display =
+            "flex";
 
     } else {
 
-        notice.style.display = "none";
+        notice.style.display =
+            "none";
 
     }
 }
@@ -163,4 +158,12 @@ window.addEventListener(
     updateOrientation
 );
 
-updateOrientation();
+window.addEventListener(
+    "load",
+    () => {
+
+        updateOrientation();
+        updateDisplay();
+
+    }
+);
