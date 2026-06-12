@@ -9,44 +9,43 @@ let currentPitch = 0;
 
 let sensorAttached = false;
 
-function startSensor(){
+function startSensor() {
 
-    if(sensorAttached) return;
+    if (sensorAttached) return;
 
-    if(
+    if (
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
-    ){
+    ) {
 
         DeviceOrientationEvent.requestPermission()
-            .then(result => {
+            .then(res => {
 
-                if(result === "granted"){
+                if (res === "granted") {
 
-                    attachSensor();
+                    attach();
                     sensorAttached = true;
 
                 }
 
             });
 
-    }else{
+    } else {
 
-        attachSensor();
+        attach();
         sensorAttached = true;
 
     }
 }
 
-function attachSensor(){
+function isLandscape() {
 
-    window.addEventListener(
-        "deviceorientation",
-        handleOrientation
-    );
+    return window.innerWidth >
+           window.innerHeight;
+
 }
 
-function resetZero(){
+function resetZero() {
 
     baseRoll = rawRoll;
     basePitch = rawPitch;
@@ -54,97 +53,97 @@ function resetZero(){
     currentRoll = 0;
     currentPitch = 0;
 
-    updateDisplay();
+    document.getElementById("rollValue")
+        .innerText = "0°";
+
+    document.getElementById("pitchValue")
+        .innerText = "0°";
+
 }
 
-function clamp(value,min,max){
+function attach() {
 
-    return Math.min(
-        max,
-        Math.max(min,value)
+    window.addEventListener(
+        "deviceorientation",
+        handleOrientation
     );
+
 }
 
-function handleOrientation(event){
+function handleOrientation(event) {
 
-    if(
+    if (
         event.beta == null ||
         event.gamma == null
     ) return;
 
-    /*
-        横画面固定前提。
-        まずは安定重視。
-        開始後にリセットを押した姿勢を0°にする。
-    */
+    let rollRaw = event.gamma;
+    let pitchRaw = event.beta;
 
-    rawRoll = event.gamma;
-    rawPitch = event.beta;
+    let roll;
+    let pitch;
 
-    currentRoll = clamp(
-        rawRoll - baseRoll,
-        -90,
-        90
-    );
+    if (isLandscape()) {
 
-    currentPitch = clamp(
-        rawPitch - basePitch,
-        -90,
-        90
-    );
+        roll = pitchRaw;
+        pitch = -rollRaw;
 
-    updateDisplay();
+    } else {
+
+        roll = rollRaw;
+        pitch = pitchRaw;
+
+    }
+
+    rawRoll = roll;
+    rawPitch = pitch;
+
+    currentRoll =
+        rawRoll - baseRoll;
+
+    currentPitch =
+        rawPitch - basePitch;
+
+    document.getElementById(
+        "rollBoat"
+    ).style.transform =
+        `rotate(${currentRoll}deg)`;
+
+    document.getElementById(
+        "pitchBoat"
+    ).style.transform =
+        `rotate(${currentPitch}deg)`;
+
+    document.getElementById(
+        "rollValue"
+    ).innerText =
+        `${Math.round(currentRoll)}°`;
+
+    document.getElementById(
+        "pitchValue"
+    ).innerText =
+        `${Math.round(currentPitch)}°`;
 }
 
-function updateDisplay(){
-
-    const rollBoat =
-        document.getElementById("rollBoat");
-
-    const pitchBoat =
-        document.getElementById("pitchBoat");
-
-    const rollValue =
-        document.getElementById("rollValue");
-
-    const pitchValue =
-        document.getElementById("pitchValue");
-
-    if(rollBoat){
-        rollBoat.style.transform =
-            `rotate(${currentRoll}deg)`;
-    }
-
-    if(pitchBoat){
-        pitchBoat.style.transform =
-            `rotate(${currentPitch}deg)`;
-    }
-
-    if(rollValue){
-        rollValue.innerText =
-            `${Math.abs(Math.round(currentRoll))}°`;
-    }
-
-    if(pitchValue){
-        pitchValue.innerText =
-            `${Math.abs(Math.round(currentPitch))}°`;
-    }
-}
-
-function updateOrientation(){
+function updateOrientation() {
 
     const notice =
-        document.getElementById("rotateNotice");
+        document.getElementById(
+            "rotateNotice"
+        );
 
-    if(!notice) return;
+    if (
+        window.innerHeight >
+        window.innerWidth
+    ) {
 
-    if(window.innerHeight > window.innerWidth){
+        notice.style.display =
+            "flex";
 
-        notice.style.display = "flex";
+    } else {
 
-    }else{
-
-        notice.style.display = "none";
+        notice.style.display =
+            "none";
 
     }
 }
@@ -159,12 +158,4 @@ window.addEventListener(
     updateOrientation
 );
 
-window.addEventListener(
-    "load",
-    () => {
-
-        updateOrientation();
-        updateDisplay();
-
-    }
-);
+updateOrientation();
