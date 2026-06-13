@@ -9,6 +9,7 @@ let currentPitch = 0;
 
 let sensorAttached = false;
 
+
 function startSensor() 
 {
 
