@@ -11,34 +11,35 @@ let sensorAttached = false;
 
 function startSensor() {
 
-```
-if (sensorAttached) return;
+    alert("開始ボタンは押せています");
 
-if (
-    typeof DeviceOrientationEvent !== "undefined" &&
-    typeof DeviceOrientationEvent.requestPermission === "function"
-) {
+    if (sensorAttached) return;
 
-    DeviceOrientationEvent.requestPermission()
-        .then(res => {
+    if (
+        typeof DeviceOrientationEvent !== "undefined" &&
+        typeof DeviceOrientationEvent.requestPermission === "function"
+    ) {
 
-            if (res === "granted") {
+        DeviceOrientationEvent.requestPermission()
+            .then(res => {
 
-                attach();
-                sensorAttached = true;
+                alert("センサー許可: " + res);
 
-            }
+                if (res === "granted") {
+                    attach();
+                    sensorAttached = true;
+                }
 
-        });
+            })
+            .catch(err => {
+                alert("エラー: " + err);
+            });
 
-} else {
-
-    attach();
-    sensorAttached = true;
-
-}
-```
-
+    } else {
+        attach();
+        sensorAttached = true;
+        alert("センサー開始");
+    }
 }
 
 function isLandscape() {
