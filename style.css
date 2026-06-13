@@ -229,3 +229,22 @@ body{
         display:flex !important;
     }
 }
+.boatMask{
+    position:relative !important;
+    overflow:hidden !important;
+    z-index:10 !important;
+}
+
+.boatMask img{
+    position:relative !important;
+    z-index:1 !important;
+    display:block !important;
+}
+
+.waterLine{
+    z-index:1 !important;
+}
+
+.controls{
+    z-index:99999 !important;
+}
