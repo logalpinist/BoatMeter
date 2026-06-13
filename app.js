@@ -9,9 +9,8 @@ let currentPitch = 0;
 
 let sensorAttached = false;
 
-function startSensor() {
-
-    alert("開始ボタンは押せています");
+function startSensor() 
+{
 
     if (sensorAttached) return;
 
@@ -22,8 +21,6 @@ function startSensor() {
 
         DeviceOrientationEvent.requestPermission()
             .then(res => {
-
-                alert("センサー許可: " + res);
 
                 if (res === "granted") {
                     attach();
@@ -39,8 +36,6 @@ function startSensor() {
 
         attach();
         sensorAttached = true;
-        alert("センサー開始");
-
     }
 }
 
