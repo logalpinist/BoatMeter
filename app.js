@@ -108,17 +108,33 @@ function handleOrientation(event) {
     let roll;
     let pitch;
 
-    if (isLandscape()) {
+  if (isLandscape()) {
 
+    const angle =
+        screen.orientation
+            ? screen.orientation.angle
+            : window.orientation || 0;
+
+    if (
+        angle === -90 ||
+        angle === 270
+    ) {
+        // 左に倒した横画面：今OKな向き
         roll = pitchRaw;
         pitch = -rollRaw;
 
     } else {
-
-        roll = rollRaw;
-        pitch = pitchRaw;
-
+        // 右に倒した横画面：反対なので符号反転
+        roll = -pitchRaw;
+        pitch = rollRaw;
     }
+
+} else {
+
+    roll = rollRaw;
+    pitch = pitchRaw;
+
+}
 
     rawRoll = roll;
     rawPitch = pitch;
