@@ -263,9 +263,33 @@ transform:scale(.96);
 
     .container{
         display:flex !important;
+        
     }
 
     .controls{
         display:flex !important;
     }
+}
+/* ボタンを最前面に固定 */
+.controls{
+    position:fixed !important;
+    left:50% !important;
+    bottom:8px !important;
+    transform:translateX(-50%) !important;
+    display:flex !important;
+    gap:10px !important;
+    z-index:999999 !important;
+    pointer-events:auto !important;
+}
+
+.controls button{
+    position:relative !important;
+    z-index:1000000 !important;
+    pointer-events:auto !important;
+}
+
+.gauge,
+.boatMask,
+.boatMask img{
+    pointer-events:none !important;
 }
