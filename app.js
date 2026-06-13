@@ -120,12 +120,12 @@ function handleOrientation(event) {
         angle === 270
     ) {
         // 左に倒した横画面：今OKな向き
-        roll = pitchRaw;
-        pitch = -rollRaw;
+        roll = -pitchRaw;
+        pitch = rollRaw;
 
     } else {
         // 右に倒した横画面：反対なので符号反転
-        roll = -pitchRaw;
+        roll = pitchRaw;
         pitch = rollRaw;
     }
 
