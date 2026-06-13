@@ -170,3 +170,14 @@ window.addEventListener(
 );
 
 updateOrientation();
+
+window.addEventListener(
+    "load",
+    () => {
+        document.getElementById("rollBoat").style.transform =
+            "rotate(0deg)";
+
+        document.getElementById("pitchBoat").style.transform =
+            "rotate(0deg)";
+    }
+);
