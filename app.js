@@ -24,25 +24,27 @@ function startSensor()
             .then(res => {
 
 if (res === "granted") {
+    
+    document.getElementById("rollValue")
+    .style.visibility = "hidden";
+
+document.getElementById("pitchValue")
+    .style.visibility = "hidden";
 
     attach();
     sensorAttached = true;
 
-    setTimeout(() => {
+  setTimeout(() => {
 
-        baseRoll = rawRoll;
-        basePitch = rawPitch;
+    resetZero();
 
-        currentRoll = 0;
-        currentPitch = 0;
+    document.getElementById("rollValue")
+        .style.visibility = "visible";
 
-        document.getElementById("rollValue")
-            .innerText = "0°";
+    document.getElementById("pitchValue")
+        .style.visibility = "visible";
 
-        document.getElementById("pitchValue")
-            .innerText = "0°";
-
-    }, 300);
+}, 300);
 
     document.getElementById("startBtn")
         .style.display = "none";
