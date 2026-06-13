@@ -120,8 +120,8 @@ body{
 }
 
 #pitchBoat{
-    width:150%;
-    height:150%;
+    width:160%;
+    height:160%;
     object-fit:contain;
 
     position:relative;
