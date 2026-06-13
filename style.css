@@ -130,18 +130,34 @@ z-index:10;
 
 }
 
-.boatMask img{
+.boatMask{
+    width:110px;
+    height:110px;
+    aspect-ratio:1 / 1;
 
-    width:100%;
-    height:100%;
+    flex:none;
 
-    object-fit:cover;
+    border-radius:50%;
+    overflow:hidden;
 
-    display:block;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-    transition:.05s linear;
+    background:
+        radial-gradient(
+            circle at center,
+            #20384f,
+            #09131f 80%
+        );
 
-    transform-origin:center center;
+    border:3px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        inset 0 0 25px rgba(255,255,255,.08),
+        0 0 20px rgba(0,212,255,.2);
+
+    z-index:10;
 }
 
 #rollBoat{
