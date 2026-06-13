@@ -153,7 +153,7 @@ function handleOrientation(event) {
     document.getElementById(
         "pitchBoat"
     ).style.transform =
-        `rotate(${currentPitch}deg)`;
+        `rotate(${-currentPitch}deg)`;
 
     document.getElementById(
         "rollValue"
