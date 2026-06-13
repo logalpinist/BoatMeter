@@ -138,11 +138,11 @@ function handleOrientation(event) {
     rawRoll = roll;
     rawPitch = pitch;
 
-    currentRoll =
-        rawRoll - baseRoll;
+currentRoll =
+    normalizeAngle(rawRoll - baseRoll);
 
-    currentPitch =
-        rawPitch - basePitch;
+currentPitch =
+    normalizeAngle(rawPitch - basePitch);
 
     document.getElementById(
         "rollBoat"
@@ -219,3 +219,15 @@ window.addEventListener(
             "rotate(0deg)";
     }
 );
+function normalizeAngle(angle) {
+
+    while (angle > 90) {
+        angle -= 180;
+    }
+
+    while (angle < -90) {
+        angle += 180;
+    }
+
+    return angle;
+}
