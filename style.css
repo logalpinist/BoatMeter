@@ -293,3 +293,16 @@ transform:scale(.96);
 .boatMask img{
     pointer-events:none !important;
 }
+#rotateNotice{
+    pointer-events:none !important;
+}
+
+.controls{
+    z-index:2147483647 !important;
+    pointer-events:auto !important;
+}
+
+.controls button{
+    z-index:2147483647 !important;
+    pointer-events:auto !important;
+}
