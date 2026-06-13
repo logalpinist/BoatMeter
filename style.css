@@ -219,12 +219,11 @@ button:active{
 transform:scale(.96);
 }
 
+/* ===== 縦横切替 ===== */
+
 #rotateNotice{
     position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
+    inset:0;
 
     display:none;
 
@@ -235,13 +234,40 @@ transform:scale(.96);
     height:100vh;
 
     background:#07121f;
+
     color:rgba(255,255,255,.8);
 
     font-size:20px;
     text-align:center;
+
     letter-spacing:1px;
 
     z-index:99999;
-```
+}
 
+@media (orientation: portrait){
+
+    #rotateNotice{
+        display:flex !important;
+    }
+
+    .container,
+    .controls{
+        display:none !important;
+    }
+}
+
+@media (orientation: landscape){
+
+    #rotateNotice{
+        display:none !important;
+    }
+
+    .container{
+        display:flex !important;
+    }
+
+    .controls{
+        display:flex !important;
+    }
 }
