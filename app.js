@@ -36,110 +36,99 @@ function startSensor() {
             });
 
     } else {
+
         attach();
         sensorAttached = true;
         alert("センサー開始");
+
     }
 }
 
 function isLandscape() {
 
-```
-return window.innerWidth >
-       window.innerHeight;
-```
+    return window.innerWidth >
+           window.innerHeight;
 
 }
 
 function resetZero() {
 
-```
-baseRoll = rawRoll;
-basePitch = rawPitch;
+    baseRoll = rawRoll;
+    basePitch = rawPitch;
 
-currentRoll = 0;
-currentPitch = 0;
+    currentRoll = 0;
+    currentPitch = 0;
 
-document.getElementById("rollValue")
-    .innerText = "0°";
+    document.getElementById("rollValue")
+        .innerText = "0°";
 
-document.getElementById("pitchValue")
-    .innerText = "0°";
-```
+    document.getElementById("pitchValue")
+        .innerText = "0°";
 
 }
 
 function attach() {
 
-```
-window.addEventListener(
-    "deviceorientation",
-    handleOrientation
-);
-```
+    window.addEventListener(
+        "deviceorientation",
+        handleOrientation
+    );
 
 }
 
 function handleOrientation(event) {
 
-```
-if (
-    event.beta == null ||
-    event.gamma == null
-) return;
+    if (
+        event.beta == null ||
+        event.gamma == null
+    ) return;
 
-let rollRaw = event.gamma;
-let pitchRaw = event.beta;
+    let rollRaw = event.gamma;
+    let pitchRaw = event.beta;
 
-let roll;
-let pitch;
+    let roll;
+    let pitch;
 
-if (isLandscape()) {
+    if (isLandscape()) {
 
-    roll = pitchRaw;
-    pitch = -rollRaw;
+        roll = pitchRaw;
+        pitch = -rollRaw;
 
-} else {
+    } else {
 
-    roll = rollRaw;
-    pitch = pitchRaw;
+        roll = rollRaw;
+        pitch = pitchRaw;
 
-}
+    }
 
-rawRoll = roll;
-rawPitch = pitch;
+    rawRoll = roll;
+    rawPitch = pitch;
 
-currentRoll =
-    rawRoll - baseRoll;
+    currentRoll =
+        rawRoll - baseRoll;
 
-currentPitch =
-    rawPitch - basePitch;
+    currentPitch =
+        rawPitch - basePitch;
 
-document.getElementById(
-    "rollBoat"
-).style.transform =
-    `rotate(${currentRoll}deg)`;
+    document.getElementById(
+        "rollBoat"
+    ).style.transform =
+        `rotate(${currentRoll}deg)`;
 
-document.getElementById(
-    "pitchBoat"
-).style.transform =
-    `rotate(${currentPitch}deg)`;
+    document.getElementById(
+        "pitchBoat"
+    ).style.transform =
+        `rotate(${currentPitch}deg)`;
 
-document.getElementById(
-    "rollValue"
-).innerText =
-    `${Math.abs(
-        Math.round(currentRoll)
-    )}°`;
+    document.getElementById(
+        "rollValue"
+    ).innerText =
+        `${Math.abs(Math.round(currentRoll))}°`;
 
-document.getElementById(
-    "pitchValue"
-).innerText =
-    `${Math.abs(
-        Math.round(currentPitch)
-    )}°`;
-```
-
+    document.getElementById(
+        "pitchValue"
+    ).innerText =
+        `${Math.abs(Math.round(currentPitch))}°`;
 }
 
 function updateOrientation() {
@@ -148,6 +137,8 @@ function updateOrientation() {
         document.getElementById(
             "rotateNotice"
         );
+
+    if (!notice) return;
 
     const landscape =
         window.matchMedia(
@@ -166,18 +157,20 @@ function updateOrientation() {
 
     }
 }
-```
-
-}
 
 window.addEventListener(
-"resize",
-updateOrientation
+    "resize",
+    updateOrientation
 );
 
 window.addEventListener(
-"orientationchange",
-updateOrientation
+    "orientationchange",
+    updateOrientation
+);
+
+window.addEventListener(
+    "load",
+    updateOrientation
 );
 
 updateOrientation();
