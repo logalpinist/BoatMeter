@@ -24,8 +24,25 @@ function startSensor()
             .then(res => {
 
 if (res === "granted") {
+
     attach();
     sensorAttached = true;
+
+    setTimeout(() => {
+
+        baseRoll = rawRoll;
+        basePitch = rawPitch;
+
+        currentRoll = 0;
+        currentPitch = 0;
+
+        document.getElementById("rollValue")
+            .innerText = "0°";
+
+        document.getElementById("pitchValue")
+            .innerText = "0°";
+
+    }, 300);
 
     document.getElementById("startBtn")
         .style.display = "none";
