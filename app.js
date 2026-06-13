@@ -143,25 +143,27 @@ document.getElementById(
 
 function updateOrientation() {
 
-```
-const notice =
-    document.getElementById(
-        "rotateNotice"
-    );
+    const notice =
+        document.getElementById(
+            "rotateNotice"
+        );
 
-if (
-    window.innerHeight >
-    window.innerWidth
-) {
+    const landscape =
+        window.matchMedia(
+            "(orientation: landscape)"
+        ).matches;
 
-    notice.style.display =
-        "flex";
+    if (landscape) {
 
-} else {
+        notice.style.display =
+            "none";
 
-    notice.style.display =
-        "none";
+    } else {
 
+        notice.style.display =
+            "flex";
+
+    }
 }
 ```
 
