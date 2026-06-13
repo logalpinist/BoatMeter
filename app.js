@@ -23,10 +23,13 @@ function startSensor()
         DeviceOrientationEvent.requestPermission()
             .then(res => {
 
-                if (res === "granted") {
-                    attach();
-                    sensorAttached = true;
-                }
+if (res === "granted") {
+    attach();
+    sensorAttached = true;
+
+    document.getElementById("startBtn")
+        .style.display = "none";
+}
 
             })
             .catch(err => {
