@@ -8,7 +8,17 @@ let currentRoll = 0;
 let currentPitch = 0;
 
 let sensorAttached = false;
+let wakeLock = null;
 
+async function keepScreenAwake() {
+    if (!("wakeLock" in navigator)) return;
+
+    try {
+        wakeLock = await navigator.wakeLock.request("screen");
+    } catch (err) {
+        console.log("Wake Lock error:", err);
+    }
+}
 
 function startSensor() 
 {
@@ -24,6 +34,8 @@ function startSensor()
             .then(res => {
 
 if (res === "granted") {
+
+keepScreenAwake();
     
     document.getElementById("rollValue")
     .style.visibility = "hidden";
