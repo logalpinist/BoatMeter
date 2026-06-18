@@ -336,9 +336,12 @@ function recordSample() {
     });
 }
 
-function downloadCsv() {
+async function downloadCsv() {
 
-    if (records.length === 0) return;
+    if (records.length === 0) {
+        alert("保存するデータがありません");
+        return;
+    }
 
     let csv =
         "time,roll,pitch,lat,lng,speed\n";
@@ -349,25 +352,28 @@ function downloadCsv() {
             `${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed}\n`;
     });
 
-    const blob = new Blob(
-        [csv],
-        { type: "text/csv;charset=utf-8;" }
-    );
+    const fileName =
+        makeCsvFileName();
 
-    const url =
-        URL.createObjectURL(blob);
+    const file =
+        new File(
+            [csv],
+            fileName,
+            { type: "text/csv" }
+        );
 
-    const a =
-        document.createElement("a");
-
-    a.href = url;
-    a.download = makeCsvFileName();
-
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
+    if (
+        navigator.canShare &&
+        navigator.canShare({ files: [file] })
+    ) {
+        await navigator.share({
+            files: [file],
+            title: "BoatMeter CSV",
+            text: "記録データ"
+        });
+    } else {
+        alert("この環境では共有保存に対応していません");
+    }
 }
 
 function makeCsvFileName() {
