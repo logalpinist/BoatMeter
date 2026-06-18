@@ -1,3 +1,5 @@
+let gpsReady = false;
+
 let baseRoll = 0;
 let basePitch = 0;
 
