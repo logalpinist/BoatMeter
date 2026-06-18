@@ -256,8 +256,8 @@ body{
 
 .recIndicator{
     position:fixed;
-    top:0;
-    left:5;
+    top:12;
+    left:20;
     right:auto;
     display:none;
     color:#ff4b4b;
