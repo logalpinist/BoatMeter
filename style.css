@@ -253,10 +253,12 @@ body{
 .controls{
     z-index:99999 !important;
 }
+
 .recIndicator{
     position:fixed;
-    top:10px;
-    right:14px;
+    top:12px;
+    left:max(14px, env(safe-area-inset-left));
+    right:auto;
     display:none;
     color:#ff4b4b;
     font-size:14px;
@@ -265,7 +267,6 @@ body{
     z-index:99999;
     animation:recBlink 1s infinite;
 }
-
 @keyframes recBlink{
     0%{
         opacity:1;
