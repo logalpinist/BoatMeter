@@ -257,7 +257,7 @@ body{
 .recIndicator{
     position:fixed;
     top:0;
-    left:0;
+    left:5;
     right:auto;
     display:none;
     color:#ff4b4b;
