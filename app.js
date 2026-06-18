@@ -10,6 +10,8 @@ let currentPitch = 0;
 let sensorAttached = false;
 let wakeLock = null;
 
+let displayLocked = false;
+
 async function keepScreenAwake() {
     if (!("wakeLock" in navigator)) return;
 
@@ -20,10 +22,14 @@ async function keepScreenAwake() {
     }
 }
 
-function startSensor() 
-{
+function startSensor() {
 
     if (sensorAttached) return;
+
+    displayLocked = true;
+
+    document.getElementById("rollValue").style.visibility = "hidden";
+    document.getElementById("pitchValue").style.visibility = "hidden";
 
     if (
         typeof DeviceOrientationEvent !== "undefined" &&
@@ -33,37 +39,30 @@ function startSensor()
         DeviceOrientationEvent.requestPermission()
             .then(res => {
 
-if (res === "granted") {
+                if (res === "granted") {
 
-keepScreenAwake();
-    
-    document.getElementById("rollValue")
-    .style.visibility = "hidden";
+                    keepScreenAwake();
 
-document.getElementById("pitchValue")
-    .style.visibility = "hidden";
+                    attach();
+                    sensorAttached = true;
 
-    attach();
-    sensorAttached = true;
+                    setTimeout(() => {
 
-  setTimeout(() => {
+                        resetZero();
 
-    resetZero();
+                        displayLocked = false;
+                        updateDisplay();
 
-    document.getElementById("rollValue")
-        .style.visibility = "visible";
+                        document.getElementById("rollValue").style.visibility = "visible";
+                        document.getElementById("pitchValue").style.visibility = "visible";
 
-    document.getElementById("pitchValue")
-        .style.visibility = "visible";
+                    }, 300);
 
-}, 300);
-
-    document.getElementById("startBtn")
-        .style.display = "none";
-}
-
+                    document.getElementById("startBtn").style.display = "none";
+                }
             })
             .catch(err => {
+                displayLocked = false;
                 alert("エラー: " + err);
             });
 
@@ -71,13 +70,24 @@ document.getElementById("pitchValue")
 
         attach();
         sensorAttached = true;
+
+        setTimeout(() => {
+
+            resetZero();
+
+            displayLocked = false;
+            updateDisplay();
+
+            document.getElementById("rollValue").style.visibility = "visible";
+            document.getElementById("pitchValue").style.visibility = "visible";
+
+        }, 300);
     }
 }
 
 function isLandscape() {
 
-    return window.innerWidth >
-           window.innerHeight;
+    return window.innerWidth > window.innerHeight;
 
 }
 
@@ -88,13 +98,6 @@ function resetZero() {
 
     currentRoll = 0;
     currentPitch = 0;
-
-    document.getElementById("rollValue")
-        .innerText = "0°";
-
-    document.getElementById("pitchValue")
-        .innerText = "0°";
-
 }
 
 function attach() {
@@ -119,61 +122,58 @@ function handleOrientation(event) {
     let roll;
     let pitch;
 
-  if (isLandscape()) {
+    if (isLandscape()) {
 
-    const angle =
-        screen.orientation
-            ? screen.orientation.angle
-            : window.orientation || 0;
+        const angle =
+            screen.orientation
+                ? screen.orientation.angle
+                : window.orientation || 0;
 
-    if (
-        angle === -90 ||
-        angle === 270
-    ) {
-        // 左に倒した横画面：今OKな向き
-        roll = -pitchRaw;
-        pitch = -rollRaw;
+        if (
+            angle === -90 ||
+            angle === 270
+        ) {
+            roll = -pitchRaw;
+            pitch = -rollRaw;
+
+        } else {
+            roll = pitchRaw;
+            pitch = rollRaw;
+        }
 
     } else {
-        // 右に倒した横画面：反対なので符号反転
-        roll = pitchRaw;
-        pitch = rollRaw;
+
+        roll = rollRaw;
+        pitch = pitchRaw;
+
     }
-
-} else {
-
-    roll = rollRaw;
-    pitch = pitchRaw;
-
-}
 
     rawRoll = roll;
     rawPitch = pitch;
 
-currentRoll =
-    normalizeAngle(rawRoll - baseRoll);
+    currentRoll =
+        normalizeAngle(rawRoll - baseRoll);
 
-currentPitch =
-    normalizeAngle(rawPitch - basePitch);
+    currentPitch =
+        normalizeAngle(rawPitch - basePitch);
 
-    document.getElementById(
-        "rollBoat"
-    ).style.transform =
+    updateDisplay();
+}
+
+function updateDisplay() {
+
+    if (displayLocked) return;
+
+    document.getElementById("rollBoat").style.transform =
         `rotate(${currentRoll}deg)`;
 
-    document.getElementById(
-        "pitchBoat"
-    ).style.transform =
+    document.getElementById("pitchBoat").style.transform =
         `rotate(${-currentPitch}deg)`;
 
-    document.getElementById(
-        "rollValue"
-    ).innerText =
+    document.getElementById("rollValue").innerText =
         `${Math.abs(Math.round(currentRoll))}°`;
 
-    document.getElementById(
-        "pitchValue"
-    ).innerText =
+    document.getElementById("pitchValue").innerText =
         `${Math.abs(Math.round(currentPitch))}°`;
 }
 
@@ -231,6 +231,7 @@ window.addEventListener(
             "rotate(0deg)";
     }
 );
+
 function normalizeAngle(angle) {
 
     while (angle > 90) {
