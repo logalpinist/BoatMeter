@@ -295,6 +295,7 @@ function normalizeAngle(angle) {
 
     return angle;
 }
+
 function toggleRecording() {
 
     if (!isRecording) {
@@ -305,24 +306,20 @@ function toggleRecording() {
         document.getElementById("recordBtn").innerText =
             "記録停止";
 
-       document.getElementById(
-    "recIndicator"
-).style.display =
-    "block";
+        document.getElementById("recIndicator").style.display =
+            "block";
 
-document.getElementById(
-    "recIndicator"
-).innerText =
-    gpsReady
-        ? "● REC"
-        : "GPS待機中...";
+        document.getElementById("recIndicator").innerText =
+            gpsReady
+                ? "● REC"
+                : "GPS待機中...";
 
         recordTimer = setInterval(
             recordSample,
             200
         );
 
-     } else {
+    } else {
 
         isRecording = false;
 
@@ -342,6 +339,7 @@ document.getElementById(
             downloadCsv();
         }
     }
+}
 
 function recordSample() {
 
