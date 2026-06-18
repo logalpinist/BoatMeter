@@ -253,3 +253,29 @@ body{
 .controls{
     z-index:99999 !important;
 }
+.recIndicator{
+    position:fixed;
+    top:10px;
+    right:14px;
+    display:none;
+    color:#ff4b4b;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:1px;
+    z-index:99999;
+    animation:recBlink 1s infinite;
+}
+
+@keyframes recBlink{
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.25;
+    }
+
+    100%{
+        opacity:1;
+    }
+}
