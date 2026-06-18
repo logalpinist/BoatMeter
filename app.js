@@ -319,6 +319,13 @@ function toggleRecording() {
 
 function recordSample() {
 
+    if (
+        currentLat === "" ||
+        currentLng === ""
+    ) {
+        return;
+    }
+
     records.push({
         time: new Date().toISOString(),
         roll: currentRoll.toFixed(2),
