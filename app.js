@@ -288,17 +288,12 @@ function toggleRecording() {
     if (!isRecording) {
 
         records = [];
-
         isRecording = true;
 
-        document.getElementById(
-            "recordBtn"
-        ).innerText =
+        document.getElementById("recordBtn").innerText =
             "記録停止";
 
-        document.getElementById(
-            "recIndicator"
-        ).style.display =
+        document.getElementById("recIndicator").style.display =
             "block";
 
         recordTimer = setInterval(
@@ -310,20 +305,76 @@ function toggleRecording() {
 
         isRecording = false;
 
-        clearInterval(
-            recordTimer
-        );
+        clearInterval(recordTimer);
 
-        document.getElementById(
-            "recordBtn"
-        ).innerText =
+        document.getElementById("recordBtn").innerText =
             "記録開始";
 
-        document.getElementById(
-            "recIndicator"
-        ).style.display =
+        document.getElementById("recIndicator").style.display =
             "none";
 
         downloadCsv();
     }
+}
+
+function recordSample() {
+
+    records.push({
+        time: new Date().toISOString(),
+        roll: currentRoll.toFixed(2),
+        pitch: currentPitch.toFixed(2),
+        lat: currentLat,
+        lng: currentLng,
+        speed: currentSpeed
+    });
+}
+
+function downloadCsv() {
+
+    if (records.length === 0) return;
+
+    let csv =
+        "time,roll,pitch,lat,lng,speed\n";
+
+    records.forEach(row => {
+
+        csv +=
+            `${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed}\n`;
+    });
+
+    const blob = new Blob(
+        [csv],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+    a.download = makeCsvFileName();
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+}
+
+function makeCsvFileName() {
+
+    const d = new Date();
+
+    const yyyy = d.getFullYear();
+
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+
+    const hh = String(d.getHours()).padStart(2, "0");
+    const mi = String(d.getMinutes()).padStart(2, "0");
+    const ss = String(d.getSeconds()).padStart(2, "0");
+
+    return `BoatMeter_${yyyy}-${mm}-${dd}_${hh}${mi}${ss}.csv`;
 }
