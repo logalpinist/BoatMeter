@@ -11,8 +11,17 @@ let sensorAttached = false;
 let wakeLock = null;
 
 let displayLocked = false;
+let isRecording = false;
 
+let records = [];
+
+let currentLat = "";
+let currentLng = "";
+let currentSpeed = "";
+
+let recordTimer = null;
 async function keepScreenAwake() {
+
     if (!("wakeLock" in navigator)) return;
 
     try {
@@ -22,8 +31,38 @@ async function keepScreenAwake() {
     }
 }
 
-function startSensor() {
+function startGps() {
 
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.watchPosition(
+
+        pos => {
+
+            currentLat =
+                pos.coords.latitude;
+
+            currentLng =
+                pos.coords.longitude;
+
+            currentSpeed =
+                pos.coords.speed ?? 0;
+        },
+
+        err => {
+            console.log(err);
+        },
+
+        {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: 10000
+        }
+    );
+}
+
+
+function startSensor() {
     if (sensorAttached) return;
 
     displayLocked = true;
@@ -42,7 +81,7 @@ function startSensor() {
                 if (res === "granted") {
 
                     keepScreenAwake();
-
+                    startGps();
                     attach();
                     sensorAttached = true;
 
