@@ -283,3 +283,47 @@ function normalizeAngle(angle) {
 
     return angle;
 }
+function toggleRecording() {
+
+    if (!isRecording) {
+
+        records = [];
+
+        isRecording = true;
+
+        document.getElementById(
+            "recordBtn"
+        ).innerText =
+            "記録停止";
+
+        document.getElementById(
+            "recIndicator"
+        ).style.display =
+            "block";
+
+        recordTimer = setInterval(
+            recordSample,
+            200
+        );
+
+    } else {
+
+        isRecording = false;
+
+        clearInterval(
+            recordTimer
+        );
+
+        document.getElementById(
+            "recordBtn"
+        ).innerText =
+            "記録開始";
+
+        document.getElementById(
+            "recIndicator"
+        ).style.display =
+            "none";
+
+        downloadCsv();
+    }
+}
