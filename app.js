@@ -301,7 +301,7 @@ function toggleRecording() {
             200
         );
 
-    } else {
+     } else {
 
         isRecording = false;
 
@@ -313,9 +313,14 @@ function toggleRecording() {
         document.getElementById("recIndicator").style.display =
             "none";
 
-        downloadCsv();
+        const save = confirm(
+            "CSVを保存しますか？"
+        );
+
+        if (save) {
+            downloadCsv();
+        }
     }
-}
 
 function recordSample() {
 
