@@ -49,6 +49,16 @@ function startGps() {
 
             currentSpeed =
                 pos.coords.speed ?? 0;
+
+            gpsReady = true;
+
+if (isRecording) {
+
+    document.getElementById(
+        "recIndicator"
+    ).innerText =
+        "● REC";
+}
         },
 
         err => {
@@ -295,8 +305,17 @@ function toggleRecording() {
         document.getElementById("recordBtn").innerText =
             "記録停止";
 
-        document.getElementById("recIndicator").style.display =
-            "block";
+       document.getElementById(
+    "recIndicator"
+).style.display =
+    "block";
+
+document.getElementById(
+    "recIndicator"
+).innerText =
+    gpsReady
+        ? "● REC"
+        : "GPS待機中...";
 
         recordTimer = setInterval(
             recordSample,
@@ -326,12 +345,9 @@ function toggleRecording() {
 
 function recordSample() {
 
-    if (
-        currentLat === "" ||
-        currentLng === ""
-    ) {
-        return;
-    }
+if (!gpsReady) {
+    return;
+}
 
     records.push({
         time: new Date().toISOString(),
