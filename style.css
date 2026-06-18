@@ -255,17 +255,19 @@ body{
 }
 
 .recIndicator{
-    position:fixed;
-    top:12;
-    left:20;
-    right:auto;
-    display:none;
-    color:#ff4b4b;
-    font-size:14px;
-    font-weight:700;
-    letter-spacing:1px;
-    z-index:99999;
-    animation:recBlink 1s infinite;
+    position:fixed !important;
+    top:50px !important;
+    left:50px !important;
+
+    display:block !important;
+
+    background:red !important;
+    color:white !important;
+
+    font-size:24px !important;
+    padding:10px !important;
+
+    z-index:999999 !important;
 }
 
 @keyframes recBlink{
