@@ -215,7 +215,8 @@ body{
     }
 
     .container,
-    .controls{
+    .controls,
+    .recIndicator{
         display:none !important;
     }
 }
