@@ -256,18 +256,19 @@ body{
 
 .recIndicator{
     position:fixed !important;
-    top:50px !important;
-    left:50px !important;
+    top:8px !important;
+    left:8px !important;
 
-    display:block !important;
+    display:none;
 
-    background:red !important;
-    color:white !important;
-
-    font-size:24px !important;
-    padding:10px !important;
+    color:#ff4b4b;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:1px;
 
     z-index:999999 !important;
+
+    animation:recBlink 1s infinite;
 }
 
 @keyframes recBlink{
