@@ -309,6 +309,8 @@ function toggleRecording() {
         document.getElementById("recIndicator").style.display =
             "block";
 
+alert("REC表示");
+        
         document.getElementById("recIndicator").innerText =
             gpsReady
                 ? "● REC"
