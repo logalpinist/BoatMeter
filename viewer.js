@@ -1,3 +1,5 @@
+let trackLine = null;
+
 let rows = [];
 
 const map =
@@ -25,6 +27,8 @@ function loadCsv(event){
 
     const file =
         event.target.files[0];
+
+    if(!file) return;
 
     const reader =
         new FileReader();
@@ -83,22 +87,26 @@ function drawTrack(){
 
     const points =
         rows.map(
-            r=>[
+            r => [
                 r.lat,
                 r.lng
             ]
         );
 
-    L.polyline(
-        points,
-        {
-            weight:4
-        }
-    ).addTo(map);
+    if(trackLine){
+        map.removeLayer(trackLine);
+    }
+
+    trackLine =
+        L.polyline(
+            points,
+            {
+                weight:4
+            }
+        ).addTo(map);
 
     map.fitBounds(points);
 }
-
 function goBack() {
     window.location.href = "index.html";
 }
