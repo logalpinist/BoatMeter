@@ -1,3 +1,5 @@
+let chart = null;
+
 let marker = null;
 
 let trackLine = null;
@@ -82,9 +84,10 @@ function parseCsv(text){
         });
     }
 
-   drawTrack();
+drawTrack();
 initSlider();
 showPosition(0);
+drawChart();
     
 }
 
@@ -154,4 +157,67 @@ function showPosition(index){
                 row.lng
             ]).addTo(map);
     }
+}
+
+function drawChart(){
+
+    const ctx =
+        document
+        .getElementById("chart")
+        .getContext("2d");
+
+    if(chart){
+        chart.destroy();
+    }
+
+    chart =
+        new Chart(ctx,{
+
+            type:"line",
+
+            data:{
+
+                labels:
+                    rows.map(
+                        r => r.elapsed
+                    ),
+
+                datasets:[
+
+                    {
+                        label:"ROLL",
+                        data:
+                            rows.map(
+                                r => r.roll
+                            )
+                    },
+
+                    {
+                        label:"PITCH",
+                        data:
+                            rows.map(
+                                r => r.pitch
+                            )
+                    }
+                ]
+            },
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false,
+
+                animation:false,
+
+                scales:{
+                    x:{
+                        title:{
+                            display:true,
+                            text:"秒"
+                        }
+                    }
+                }
+            }
+        });
 }
