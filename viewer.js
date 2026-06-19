@@ -98,3 +98,9 @@ function drawTrack(){
 
     map.fitBounds(points);
 }
+
+function goBack() {
+
+    window.location.href =
+        "index.html";
+}
