@@ -6,6 +6,53 @@ let trackLine = null;
 
 let rows = [];
 
+const cursorPlugin = {
+    id:"cursorPlugin",
+
+    afterDraw(chart){
+
+        if(rows.length === 0) return;
+
+        const slider =
+            document.getElementById("slider");
+
+        const index =
+            Number(slider.value);
+
+        const meta =
+            chart.getDatasetMeta(0);
+
+        const point =
+            meta.data[index];
+
+        if(!point) return;
+
+        const ctx =
+            chart.ctx;
+
+        const x =
+            point.x;
+
+        const top =
+            chart.chartArea.top;
+
+        const bottom =
+            chart.chartArea.bottom;
+
+        ctx.save();
+
+        ctx.beginPath();
+        ctx.moveTo(x, top);
+        ctx.lineTo(x, bottom);
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(255,255,255,.9)";
+        ctx.stroke();
+
+        ctx.restore();
+    }
+};
+
 const map =
     L.map("map")
         .setView(
@@ -112,8 +159,8 @@ function parseCsv(text){
 
 drawTrack();
 initSlider();
-showPosition(0);
 drawChart();
+showPosition(0);
     
 }
 
@@ -164,27 +211,6 @@ function initSlider(){
         };
 }
 
-function showPosition(index){
-
-    const row =
-        rows[index];
-
-    if(!row) return;
-
-    if(marker){
-        marker.setLatLng([
-            row.lat,
-            row.lng
-        ]);
-    }else{
-        marker =
-            L.marker([
-                row.lat,
-                row.lng
-            ]).addTo(map);
-    }
-}
-
 function drawChart(){
 
     const ctx =
@@ -197,7 +223,8 @@ function drawChart(){
     }
 
     chart =
-        new Chart(ctx,{
+       new Chart(ctx,{
+    plugins:[cursorPlugin],
 
             type:"line",
 
@@ -266,4 +293,31 @@ function drawChart(){
 }
             }
         });
+}
+function showPosition(index){
+
+    const row =
+        rows[index];
+
+    if(!row) return;
+
+    if(marker){
+        marker.setLatLng([
+            row.lat,
+            row.lng
+        ]);
+    }else{
+        marker =
+            L.marker([
+                row.lat,
+                row.lng
+            ]).addTo(map);
+    }
+
+document.getElementById("infoPanel").innerText =
+    `TIME ${Math.round(row.elapsed)}s  ROLL ${row.roll.toFixed(1)}°  PITCH ${row.pitch.toFixed(1)}°`;
+    
+    if(chart){
+    chart.update("none");
+}
 }
