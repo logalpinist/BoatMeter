@@ -437,3 +437,9 @@ function makeCsvFileName() {
 
     return `BoatMeter_${yyyy}-${mm}-${dd}_${hh}${mi}${ss}.csv`;
 }
+
+function openViewer() {
+
+    window.location.href =
+        "viewer.html";
+}
