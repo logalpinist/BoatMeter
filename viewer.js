@@ -116,12 +116,11 @@ function goBack() {
     window.location.href = "index.html";
 }
 
+
 function initSlider(){
 
     const slider =
-        document.getElementById(
-            "slider"
-        );
+        document.getElementById("slider");
 
     slider.max =
         rows.length - 1;
@@ -130,7 +129,6 @@ function initSlider(){
 
     slider.oninput =
         function(){
-
             showPosition(
                 Number(this.value)
             );
@@ -144,20 +142,16 @@ function showPosition(index){
 
     if(!row) return;
 
-    const lat = row.lat;
-    const lng = row.lng;
-
     if(marker){
-
-        marker.setLatLng(
-            [lat,lng]
-        );
-
+        marker.setLatLng([
+            row.lat,
+            row.lng
+        ]);
     }else{
-
         marker =
-            L.marker(
-                [lat,lng]
-            ).addTo(map);
+            L.marker([
+                row.lat,
+                row.lng
+            ]).addTo(map);
     }
 }
