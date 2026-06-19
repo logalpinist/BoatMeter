@@ -304,9 +304,6 @@ function showPosition(index){
 
     if(!row) return;
 
-    ...
-}
-
     if(marker){
         marker.setLatLng([
             row.lat,
@@ -320,9 +317,10 @@ function showPosition(index){
             ]).addTo(map);
     }
 
-document.getElementById("infoPanel").innerText =
-    `11s | R ${row.roll.toFixed(1)}° | P ${row.pitch.toFixed(1)}°`;    
+    document.getElementById("infoPanel").innerText =
+        `${Math.round(row.elapsed)}s | R ${row.roll.toFixed(1)}° | P ${row.pitch.toFixed(1)}°`;
+
     if(chart){
-    chart.update("none");
-}
+        chart.update("none");
+    }
 }
