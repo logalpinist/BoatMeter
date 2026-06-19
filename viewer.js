@@ -1,3 +1,5 @@
+let marker = null;
+
 let trackLine = null;
 
 let rows = [];
