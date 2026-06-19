@@ -84,21 +84,26 @@ input[type=file]{
     height:100% !important;
 }
 
-#slider{
+.chartWrap{
+    width:50%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
 
-    position:fixed;
-
-    left:52%;
-    right:20px;
-
-    bottom:12px;
-
-    width:auto;
-
-    margin:0;
-}    
+#chart{
+    width:100%;
+    flex:1;
+}
+    
     input[type=file]::file-selector-button{
     margin-right:6px;
+}
+
+#slider{
+    width:90%;
+    margin:8px auto 12px;
+    display:block;
 }
     
 </style>
@@ -119,12 +124,20 @@ input[type=file]{
     <div id="map"></div>
 
     <div class="chartWrap">
+
         <canvas id="chart"></canvas>
+
+        <input
+            type="range"
+            id="slider"
+            value="0"
+            min="0"
+            max="0">
+
     </div>
 
 </div>
 
-<input type="range" id="slider" value="0" min="0" max="0">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="viewer.js"></script>
