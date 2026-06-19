@@ -119,10 +119,12 @@ function startSensor() {
                 alert("エラー: " + err);
             });
 
-    } else {
+} else {
 
-        attach();
-        sensorAttached = true;
+    startGps();
+
+    attach();
+    sensorAttached = true;
 
         setTimeout(() => {
 
