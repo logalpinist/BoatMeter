@@ -211,20 +211,23 @@ function drawChart(){
                 animation:false,
 
                 scales:{
-    x:{
-        title:{
-            display:true,
-            text:"秒"
-        },
-
-        ticks:{
-            callback:function(value){
-                return Math.round(
-                    this.getLabelForValue(value)
-                );
-            }
-        }
+   x:{
+    title:{
+        display:true,
+        text:"秒"
     },
+
+    ticks:{
+        autoSkip:true,
+        maxTicksLimit:8,
+
+        callback:function(value){
+            return Math.round(
+                this.getLabelForValue(value)
+            );
+        }
+    }
+},
 
     y:{
         min:-30,
