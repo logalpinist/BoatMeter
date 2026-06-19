@@ -19,8 +19,8 @@ body{
 header{
     position:fixed;
 
-    left:12px;
-    bottom:12px;
+    left:10px;
+    bottom:10px;
 
     z-index:9999;
 
@@ -85,10 +85,16 @@ input[type=file]{
 }
 
 #slider{
-    display:block;
-    width:88%;
-    margin:10px auto;
-}    
+    width:70%;
+    margin:8px auto;
+
+    position:fixed;
+    left:50%;
+    bottom:10px;
+
+    transform:translateX(-50%);
+}
+    
 input[type=file]::file-selector-button{
     margin-right:6px;
 }
