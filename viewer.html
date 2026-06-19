@@ -1,41 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BoatMeter Viewer</title>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
 <style>
-
-header{
-
-    padding:12px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-}
-
-header button{
-
-    padding:8px 12px;
-
-    border:1px solid #00d4ff;
-
-    border-radius:10px;
-
-    background:rgba(0,212,255,.08);
-
-    color:#00d4ff;
-
-    font-size:14px;
-}
-      
 body{
     margin:0;
     background:#07121f;
@@ -43,18 +15,22 @@ body{
     font-family:sans-serif;
 }
 
-<header>
+header{
+    padding:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+}
 
-<button onclick="goBack()">
-    ← 戻る
-</button>
-
-<input
-type="file"
-id="csvFile"
-accept=".csv">
-
-</header>
+header button{
+    padding:8px 12px;
+    border:1px solid #00d4ff;
+    border-radius:10px;
+    background:rgba(0,212,255,.08);
+    color:#00d4ff;
+    font-size:14px;
+}
 
 #map{
     width:100%;
@@ -69,41 +45,26 @@ accept=".csv">
     width:95%;
     margin:10px;
 }
-
 </style>
-
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet/dist/leaflet.css">
-
-<script
-src="https://unpkg.com/leaflet/dist/leaflet.js">
-</script>
-
 </head>
 
 <body>
 
 <header>
+    <button onclick="goBack()">
+        ← 戻る
+    </button>
 
-<input
-type="file"
-id="csvFile"
-accept=".csv">
-
+    <input type="file" id="csvFile" accept=".csv">
 </header>
 
 <div id="map"></div>
 
 <canvas id="chart"></canvas>
 
-<input
-type="range"
-id="slider"
-value="0"
-min="0"
-max="0">
+<input type="range" id="slider" value="0" min="0" max="0">
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="viewer.js"></script>
 
 </body>
