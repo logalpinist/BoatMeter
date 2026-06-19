@@ -185,20 +185,20 @@ function drawChart(){
                 datasets:[
 
                     {
-                        label:"ROLL",
-                        data:
-                            rows.map(
-                                r => r.roll
-                            )
-                    },
+    label:"ROLL",
+    borderWidth:3,
+    pointRadius:0,
+    tension:0.2,
+    data: rows.map(r => r.roll)
+},
 
-                    {
-                        label:"PITCH",
-                        data:
-                            rows.map(
-                                r => r.pitch
-                            )
-                    }
+{
+    label:"PITCH",
+    borderWidth:3,
+    pointRadius:0,
+    tension:0.2,
+    data: rows.map(r => r.pitch)
+}
                 ]
             },
 
