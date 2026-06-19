@@ -283,13 +283,13 @@ function drawChart(){
 },
 
     y:{
-        min:-30,
-        max:30,
+    min:-45,
+    max:45,
 
-        ticks:{
-            stepSize:10
-        }
+    ticks:{
+        stepSize:15
     }
+}
 }
             }
         });
