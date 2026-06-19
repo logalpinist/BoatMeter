@@ -321,8 +321,7 @@ function showPosition(index){
     }
 
 document.getElementById("infoPanel").innerText =
-    `TIME ${Math.round(row.elapsed)}s  ROLL ${row.roll.toFixed(1)}°  PITCH ${row.pitch.toFixed(1)}°`;
-    
+    `11s | R ${row.roll.toFixed(1)}° | P ${row.pitch.toFixed(1)}°`;    
     if(chart){
     chart.update("none");
 }
