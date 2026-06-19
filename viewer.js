@@ -296,10 +296,16 @@ function drawChart(){
 }
 function showPosition(index){
 
+    document.getElementById("slider").value =
+        index;
+
     const row =
         rows[index];
 
     if(!row) return;
+
+    ...
+}
 
     if(marker){
         marker.setLatLng([
