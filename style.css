@@ -172,18 +172,27 @@ body{
 }
 
 .controls button{
-    width:72px;
-    height:42px;
+    width:64px;
+    height:36px;
+
     padding:0;
+
     border:1px solid #00d4ff;
-    border-radius:10px;
+    border-radius:8px;
+
     background:rgba(0,212,255,.08);
+
     color:#00d4ff;
-    font-size:12px;
+
+    font-size:11px;
+
     backdrop-filter:blur(10px);
+
     pointer-events:auto;
+
     white-space:nowrap;
 }
+
 .controls button:active{
     transform:scale(.96);
 }
