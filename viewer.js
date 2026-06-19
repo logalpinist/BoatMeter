@@ -82,7 +82,10 @@ function parseCsv(text){
         });
     }
 
-    drawTrack();
+   drawTrack();
+initSlider();
+showPosition(0);
+    
 }
 
 function drawTrack(){
@@ -113,3 +116,48 @@ function goBack() {
     window.location.href = "index.html";
 }
 
+function initSlider(){
+
+    const slider =
+        document.getElementById(
+            "slider"
+        );
+
+    slider.max =
+        rows.length - 1;
+
+    slider.value = 0;
+
+    slider.oninput =
+        function(){
+
+            showPosition(
+                Number(this.value)
+            );
+        };
+}
+
+function showPosition(index){
+
+    const row =
+        rows[index];
+
+    if(!row) return;
+
+    const lat = row.lat;
+    const lng = row.lng;
+
+    if(marker){
+
+        marker.setLatLng(
+            [lat,lng]
+        );
+
+    }else{
+
+        marker =
+            L.marker(
+                [lat,lng]
+            ).addTo(map);
+    }
+}
