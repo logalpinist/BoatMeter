@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1">
+
+<title>BoatMeter Viewer</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#07121f;
+    color:white;
+    font-family:sans-serif;
+}
+
+header{
+    padding:12px;
+    text-align:center;
+}
+
+#map{
+    height:45vh;
+}
+
+#chart{
+    height:35vh;
+}
+
+#slider{
+    width:95%;
+    margin:10px;
+}
+
+</style>
+
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+<script
+src="https://unpkg.com/leaflet/dist/leaflet.js">
+</script>
+
+</head>
+
+<body>
+
+<header>
+
+<input
+type="file"
+id="csvFile"
+accept=".csv">
+
+</header>
+
+<div id="map"></div>
+
+<canvas id="chart"></canvas>
+
+<input
+type="range"
+id="slider"
+value="0"
+min="0"
+max="0">
+
+<script src="viewer.js"></script>
+
+</body>
+</html>
