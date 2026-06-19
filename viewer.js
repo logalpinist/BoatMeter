@@ -222,7 +222,7 @@ const maxAngle = Math.max(
         r => Math.abs(r.pitch)
     )
 
-);
+)+5;
     const ctx =
         document
         .getElementById("chart")
@@ -292,12 +292,14 @@ const maxAngle = Math.max(
     }
 },
 
-    y:{
-    min:-45,
-    max:45,
+   y:{
+
+    min:-Math.ceil(maxAngle / 5) * 5,
+
+    max: Math.ceil(maxAngle / 5) * 5,
 
     ticks:{
-        stepSize:15
+        stepSize:5
     }
 }
 }
