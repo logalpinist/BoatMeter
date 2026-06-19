@@ -212,7 +212,17 @@ function initSlider(){
 }
 
 function drawChart(){
+const maxAngle = Math.max(
 
+    ...rows.map(
+        r => Math.abs(r.roll)
+    ),
+
+    ...rows.map(
+        r => Math.abs(r.pitch)
+    )
+
+);
     const ctx =
         document
         .getElementById("chart")
