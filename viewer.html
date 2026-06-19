@@ -95,6 +95,19 @@ input[type=file]{
     margin:8px auto 12px;
     display:block;
 }
+
+#infoPanel{
+
+    text-align:center;
+
+    color:#00d4ff;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    padding:6px 0;
+}
     
 </style>
 </head>
@@ -114,6 +127,21 @@ input[type=file]{
     <div id="map"></div>
 
     <div class="chartWrap">
+
+    <div id="infoPanel">
+        TIME 0s　ROLL 0°　PITCH 0°
+    </div>
+
+    <canvas id="chart"></canvas>
+
+    <input
+        type="range"
+        id="slider"
+        value="0"
+        min="0"
+        max="0">
+
+</div>
 
         <canvas id="chart"></canvas>
 
