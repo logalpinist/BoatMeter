@@ -13,6 +13,32 @@ const map =
             10
         );
 
+if (navigator.geolocation) {
+
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+
+            map.setView(
+                [
+                    pos.coords.latitude,
+                    pos.coords.longitude
+                ],
+                15
+            );
+        },
+
+        err => {
+            console.log(err);
+        },
+
+        {
+            enableHighAccuracy:true,
+            timeout:10000,
+            maximumAge:0
+        }
+    );
+}
+
 L.tileLayer(
     "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
