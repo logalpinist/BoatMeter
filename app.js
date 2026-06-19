@@ -310,7 +310,7 @@ isRecording = true;
 sessionStartTime = Date.now();
 
         document.getElementById("recordBtn").innerText =
-            "記録停止";
+            "停止";
 
         document.getElementById("recIndicator").style.display =
             "block";
@@ -332,7 +332,7 @@ sessionStartTime = Date.now();
         clearInterval(recordTimer);
 
         document.getElementById("recordBtn").innerText =
-            "記録開始";
+            "開始";
 
         document.getElementById("recIndicator").style.display =
             "none";
