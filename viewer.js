@@ -211,13 +211,22 @@ function drawChart(){
                 animation:false,
 
                 scales:{
-                    x:{
-                        title:{
-                            display:true,
-                            text:"秒"
-                        }
-                    }
-                }
+    x:{
+        title:{
+            display:true,
+            text:"秒"
+        }
+    },
+
+    y:{
+        min:-30,
+        max:30,
+
+        ticks:{
+            stepSize:10
+        }
+    }
+}
             }
         });
 }
