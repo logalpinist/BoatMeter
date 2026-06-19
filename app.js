@@ -22,6 +22,8 @@ let currentLng = "";
 let currentSpeed = "";
 
 let recordTimer = null;
+let sessionStartTime = 0;
+
 async function keepScreenAwake() {
 
     if (!("wakeLock" in navigator)) return;
@@ -300,8 +302,10 @@ function toggleRecording() {
 
     if (!isRecording) {
 
-        records = [];
-        isRecording = true;
+     records = [];
+isRecording = true;
+
+sessionStartTime = Date.now();
 
         document.getElementById("recordBtn").innerText =
             "記録停止";
@@ -347,14 +351,35 @@ if (!gpsReady) {
     return;
 }
 
-    records.push({
-        time: new Date().toISOString(),
-        roll: currentRoll.toFixed(2),
-        pitch: currentPitch.toFixed(2),
-        lat: currentLat,
-        lng: currentLng,
-        speed: currentSpeed
-    });
+const elapsed =
+    (
+        Date.now() -
+        sessionStartTime
+    ) / 1000;
+
+records.push({
+
+    elapsed:
+        elapsed.toFixed(1),
+
+    time:
+        new Date().toISOString(),
+
+    roll:
+        currentRoll.toFixed(2),
+
+    pitch:
+        currentPitch.toFixed(2),
+
+    lat:
+        currentLat,
+
+    lng:
+        currentLng,
+
+    speed:
+        currentSpeed
+});
 }
 
 async function downloadCsv() {
@@ -364,13 +389,13 @@ async function downloadCsv() {
         return;
     }
 
-    let csv =
-        "time,roll,pitch,lat,lng,speed\n";
+let csv =
+    "elapsed,time,roll,pitch,lat,lng,speed\n";
 
     records.forEach(row => {
 
         csv +=
-            `${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed}\n`;
+           `${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed}\n`
     });
 
     const fileName =
