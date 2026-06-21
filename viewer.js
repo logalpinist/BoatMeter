@@ -371,5 +371,9 @@ function togglePlay(){
 
         showPosition(value);
 
-    }, 200);
+    }, Number(
+    document.getElementById(
+        "speedSelect"
+    ).value
+));
 }
