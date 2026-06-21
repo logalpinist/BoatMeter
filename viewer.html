@@ -137,6 +137,21 @@ input[type=file]{
 
     padding:2px 0;
 }
+
+#speedSelect{
+
+    height:24px;
+
+    border:1px solid #00d4ff;
+
+    border-radius:8px;
+
+    background:#07121f;
+
+    color:#00d4ff;
+
+    font-size:11px;
+}
     
 </style>
 </head>
@@ -186,5 +201,25 @@ input[type=file]{
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="viewer.js"></script>
 
+<select id="speedSelect">
+
+    <option value="500">
+        0.5x
+    </option>
+
+    <option value="200" selected>
+        1x
+    </option>
+
+    <option value="100">
+        2x
+    </option>
+
+    <option value="50">
+        4x
+    </option>
+
+</select>
+    
 </body>
 </html>
