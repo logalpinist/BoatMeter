@@ -18,46 +18,32 @@ body{
 
 header{
     position:fixed;
-
     left:10px;
     bottom:10px;
-
     z-index:9999;
-
     display:flex;
     gap:6px;
     align-items:center;
-
     padding:0;
-
     transform:scale(.75);
     transform-origin:bottom left;
 }
     
 header button,
 input[type=file]::file-selector-button{
-
     padding:8px 12px;
-
     border:1px solid #00d4ff;
-
     border-radius:10px;
-
     background:
         rgba(0,212,255,.08);
-
     color:#00d4ff;
-
     font-size:13px;
     font-weight:600;
-
     backdrop-filter:blur(10px);
 }
     
 input[type=file]{
-
     max-width:220px;
-
     color:white;
     font-size:12px;
 }
@@ -105,52 +91,32 @@ input[type=file]{
 }
 
 #playBtn{
-
     padding:2px 8px;
-
     min-width:32px;
-
     height:24px;
-
     border:1px solid #00d4ff;
-
     border-radius:8px;
-
     background:rgba(0,212,255,.08);
-
     color:#00d4ff;
-
     font-size:12px;
-
     font-weight:600;
 }
 
     #infoBar{
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     gap:8px;
-
     padding:2px 0;
 }
 
 #speedSelect{
-
-    height:24px;
-
+    padding:6px 8px;
     border:1px solid #00d4ff;
-
-    border-radius:8px;
-
-    background:#07121f;
-
+    border-radius:10px;
+    background:rgba(0,212,255,.08);
     color:#00d4ff;
-
-    font-size:11px;
+    font-size:12px;
 }
     
 </style>
@@ -164,6 +130,25 @@ input[type=file]{
     </button>
 
     <input type="file" id="csvFile" accept=".csv">
+    <select id="speedSelect" style="display:none;">
+
+    <option value="500">0.5x</option>
+    <option value="200" selected>1x</option>
+    <option value="100">2x</option>
+    <option value="50">4x</option>
+    <option value="25">8x</option>
+    <option value="12">16x</option>
+
+</select>
+
+<button
+    id="playBtn"
+    onclick="togglePlay()"
+    style="display:none;">
+
+    ▶ 再生
+
+</button>
 </header>
 
 <div class="main">
