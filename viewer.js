@@ -1,7 +1,7 @@
+let playTimer = null;
+let isPlaying = false;
 let chart = null;
-
 let marker = null;
-
 let trackLine = null;
 
 let rows = [];
@@ -332,4 +332,45 @@ function showPosition(index){
     if(chart){
         chart.update("none");
     }
+}
+
+function togglePlay(){
+
+    const slider =
+        document.getElementById("slider");
+
+    const btn =
+        document.getElementById("playBtn");
+
+    if(isPlaying){
+
+        clearInterval(playTimer);
+        isPlaying = false;
+        btn.innerText = "▶ 再生";
+        return;
+    }
+
+    if(rows.length === 0) return;
+
+    isPlaying = true;
+    btn.innerText = "⏸ 停止";
+
+    playTimer = setInterval(() => {
+
+        let value =
+            Number(slider.value);
+
+        if(value >= rows.length - 1){
+
+            clearInterval(playTimer);
+            isPlaying = false;
+            btn.innerText = "▶ 再生";
+            return;
+        }
+
+        value++;
+
+        showPosition(value);
+
+    }, 200);
 }
