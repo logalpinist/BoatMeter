@@ -335,6 +335,19 @@ function showPosition(index){
             ]).addTo(map);
     }
 
+if(isPlaying){
+
+    map.panTo(
+        [
+            row.lat,
+            row.lng
+        ],
+        {
+            animate:false
+        }
+    );
+}
+    
   document.getElementById("infoPanel").innerHTML =
     `${Math.round(row.elapsed)}s | ` +
     `<span class="rollText">R ${row.roll.toFixed(1)}°</span>` +
