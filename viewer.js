@@ -271,11 +271,14 @@ const maxAngle = Math.max(
             options:{
 
                 responsive:true,
-
                 maintainAspectRatio:false,
-
                 animation:false,
-
+                plugins:{
+                    legend:{
+                        display:false
+                    }
+                },
+                
                 scales:{
    x:{
     title:{
@@ -332,9 +335,11 @@ function showPosition(index){
             ]).addTo(map);
     }
 
-    document.getElementById("infoPanel").innerText =
-        `${Math.round(row.elapsed)}s | R ${row.roll.toFixed(1)}° | P ${row.pitch.toFixed(1)}°`;
-
+  document.getElementById("infoPanel").innerHTML =
+    `${Math.round(row.elapsed)}s | ` +
+    `<span class="rollText">R ${row.roll.toFixed(1)}°</span>` +
+    ` | ` +
+    `<span class="pitchText">P ${row.pitch.toFixed(1)}°</span>`;
     if(chart){
         chart.update("none");
     }
