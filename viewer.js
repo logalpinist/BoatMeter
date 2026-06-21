@@ -336,8 +336,6 @@ function showPosition(index){
 
 function togglePlay(){
 
-    alert("再生ボタンOK");
-
     const slider =
         document.getElementById("slider");
     const btn =
