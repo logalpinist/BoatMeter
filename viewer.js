@@ -38,17 +38,14 @@ const cursorPlugin = {
 
         const bottom =
             chart.chartArea.bottom;
-
+        
         ctx.save();
-
         ctx.beginPath();
         ctx.moveTo(x, top);
         ctx.lineTo(x, bottom);
-
         ctx.lineWidth = 2;
         ctx.strokeStyle = "rgba(255,255,255,.9)";
         ctx.stroke();
-
         ctx.restore();
     }
 };
@@ -161,6 +158,15 @@ drawTrack();
 initSlider();
 drawChart();
 showPosition(0);
+
+document.getElementById("csvFile")
+    .style.display = "none";
+
+document.getElementById("speedSelect")
+    .style.display = "block";
+
+document.getElementById("playBtn")
+    .style.display = "block";
     
 }
 
@@ -345,14 +351,14 @@ function togglePlay(){
 
         clearInterval(playTimer);
         isPlaying = false;
-        btn.innerText = "▶ 再生";
+        btn.innerText = "▶";
         return;
     }
 
     if(rows.length === 0) return;
 
     isPlaying = true;
-    btn.innerText = "⏸ 停止";
+    btn.innerText = "⏸";
 
     playTimer = setInterval(() => {
 
@@ -363,7 +369,7 @@ function togglePlay(){
 
             clearInterval(playTimer);
             isPlaying = false;
-            btn.innerText = "▶ 再生";
+            btn.innerText = "▶";
             return;
         }
 
