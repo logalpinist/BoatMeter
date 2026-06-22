@@ -103,7 +103,11 @@ function loadCsv(event){
         event.target.files[0];
 
     if(!file) return;
-
+    
+document.getElementById("fileName")
+    .innerText =
+    file.name.replace(".csv","");
+    
     const reader =
         new FileReader();
 
