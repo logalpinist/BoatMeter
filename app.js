@@ -506,8 +506,7 @@ csv +=
     ) {
         await navigator.share({
             files: [file],
-            title: "BoatMeter CSV",
-            text: "記録データ"
+            title: "BoatMeter CSV"
         });
     } else {
         alert("この環境では共有保存に対応していません");
