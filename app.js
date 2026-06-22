@@ -384,6 +384,94 @@ records.push({
 });
 }
 
+function calculateHeading(records){
+
+    let lastHeading = "";
+
+    return records.map((row, index) => {
+
+        if(index === 0){
+            return {
+                ...row,
+                heading:""
+            };
+        }
+
+        const prev =
+            records[index - 1];
+
+        const lat1 =
+            Number(prev.lat);
+
+        const lon1 =
+            Number(prev.lng);
+
+        const lat2 =
+            Number(row.lat);
+
+        const lon2 =
+            Number(row.lng);
+
+        if(
+            lat1 === lat2 &&
+            lon1 === lon2
+        ){
+            return {
+                ...row,
+                heading:lastHeading
+            };
+        }
+
+        const y =
+            Math.sin(
+                (lon2 - lon1) *
+                Math.PI / 180
+            ) *
+            Math.cos(
+                lat2 *
+                Math.PI / 180
+            );
+
+        const x =
+            Math.cos(
+                lat1 *
+                Math.PI / 180
+            ) *
+            Math.sin(
+                lat2 *
+                Math.PI / 180
+            ) -
+
+            Math.sin(
+                lat1 *
+                Math.PI / 180
+            ) *
+            Math.cos(
+                lat2 *
+                Math.PI / 180
+            ) *
+            Math.cos(
+                (lon2 - lon1) *
+                Math.PI / 180
+            );
+
+        let heading =
+            Math.atan2(y, x) *
+            180 / Math.PI;
+
+        heading =
+            (heading + 360) % 360;
+
+        lastHeading =
+            heading.toFixed(1);
+
+        return {
+            ...row,
+            heading:lastHeading
+        };
+    });
+}
+
 async function downloadCsv() {
 
     if (records.length === 0) {
@@ -391,13 +479,15 @@ async function downloadCsv() {
         return;
     }
 
-let csv =
-    "elapsed,time,roll,pitch,lat,lng,speed\n";
+    const analyzedRecords =
+        calculateHeading(records);
 
-    records.forEach(row => {
+    let csv =
+        "elapsed,time,roll,pitch,lat,lng,speed,heading\n";  
+    analyzedRecords.forEach(row => {
 
-        csv +=
-           `${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed}\n`
+csv +=
+    `${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed},${row.heading}\n`;
     });
 
     const fileName =
