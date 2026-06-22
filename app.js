@@ -530,6 +530,42 @@ function calculateTurnRate(records){
     });
 }
 
+function calculateRadius(records){
+
+    return records.map(row => {
+
+        const speed =
+            Number(row.speed);
+
+        const turnRate =
+            Number(row.turnRate);
+
+        if(
+            isNaN(speed) ||
+            isNaN(turnRate) ||
+            Math.abs(turnRate) < 0.01
+        ){
+            return {
+                ...row,
+                radius:""
+            };
+        }
+
+        const omega =
+            turnRate *
+            Math.PI / 180;
+
+        const radius =
+            speed / omega;
+
+        return {
+            ...row,
+            radius:
+                radius.toFixed(1)
+        };
+    });
+}
+
 async function downloadCsv() {
 
     if (records.length === 0) {
@@ -537,21 +573,25 @@ async function downloadCsv() {
         return;
     }
 
-  const headingRecords =
+ const headingRecords =
     calculateHeading(records);
 
-const analyzedRecords =
+const turnRecords =
     calculateTurnRate(
         headingRecords
     );
+
+const analyzedRecords =
+    calculateRadius(
+        turnRecords
+    );
     
-  let csv =
-"elapsed,time,roll,pitch,lat,lng,speed,heading,turnRate\n";  
+ let csv =
+"elapsed,time,roll,pitch,lat,lng,speed,heading,turnRate,radius\n";
     analyzedRecords.forEach(row => {
 
 csv +=
-`${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed},${row.heading},${row.turnRate}\n`;    });
-
+`${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed},${row.heading},${row.turnRate},${row.radius}\n`;
     const fileName =
         makeCsvFileName();
 
