@@ -573,26 +573,29 @@ async function downloadCsv() {
         return;
     }
 
+    const headingRecords =
+        calculateHeading(records);
 
- const headingRecords =
-    calculateHeading(records);
+    const turnRecords =
+        calculateTurnRate(
+            headingRecords
+        );
 
-const turnRecords =
-    calculateTurnRate(
-        headingRecords
-    );
+    const analyzedRecords =
+        calculateRadius(
+            turnRecords
+        );
 
-const analyzedRecords =
-    calculateRadius(
-        turnRecords
-    );
-    
- let csv =
+    let csv =
 "elapsed,time,roll,pitch,lat,lng,speed,heading,turnRate,radius\n";
+
     analyzedRecords.forEach(row => {
 
-csv +=
+        csv +=
 `${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed},${row.heading},${row.turnRate},${row.radius}\n`;
+
+    });
+
     const fileName =
         makeCsvFileName();
 
@@ -608,7 +611,7 @@ csv +=
         navigator.canShare({ files: [file] })
     ) {
         await navigator.share({
-            files: [file],
+            files: [file]
         });
     } else {
         alert("この環境では共有保存に対応していません");
