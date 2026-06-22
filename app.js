@@ -472,6 +472,64 @@ function calculateHeading(records){
     });
 }
 
+function calculateTurnRate(records){
+
+    return records.map((row,index)=>{
+
+        if(index === 0){
+            return {
+                ...row,
+                turnRate:""
+            };
+        }
+
+        const prev =
+            records[index - 1];
+
+        const h1 =
+            Number(prev.heading);
+
+        const h2 =
+            Number(row.heading);
+
+        if(
+            isNaN(h1) ||
+            isNaN(h2)
+        ){
+            return {
+                ...row,
+                turnRate:""
+            };
+        }
+
+        let delta =
+            h2 - h1;
+
+        if(delta > 180){
+            delta -= 360;
+        }
+
+        if(delta < -180){
+            delta += 360;
+        }
+
+        const dt =
+            Number(row.elapsed) -
+            Number(prev.elapsed);
+
+        const turnRate =
+            dt > 0
+                ? delta / dt
+                : 0;
+
+        return {
+            ...row,
+            turnRate:
+                turnRate.toFixed(2)
+        };
+    });
+}
+
 async function downloadCsv() {
 
     if (records.length === 0) {
@@ -479,16 +537,20 @@ async function downloadCsv() {
         return;
     }
 
-    const analyzedRecords =
-        calculateHeading(records);
+  const headingRecords =
+    calculateHeading(records);
 
-    let csv =
-        "elapsed,time,roll,pitch,lat,lng,speed,heading\n";  
+const analyzedRecords =
+    calculateTurnRate(
+        headingRecords
+    );
+    
+  let csv =
+"elapsed,time,roll,pitch,lat,lng,speed,heading,turnRate\n";  
     analyzedRecords.forEach(row => {
 
 csv +=
-    `${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed},${row.heading}\n`;
-    });
+`${row.elapsed},${row.time},${row.roll},${row.pitch},${row.lat},${row.lng},${row.speed},${row.heading},${row.turnRate}\n`;    });
 
     const fileName =
         makeCsvFileName();
