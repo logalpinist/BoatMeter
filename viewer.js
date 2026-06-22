@@ -159,15 +159,14 @@ initSlider();
 drawChart();
 showPosition(0);
 
-document.getElementById("csvFile")
+document.getElementById("fileLabel")
     .style.display = "none";
 
 document.getElementById("speedSelect")
     .style.display = "block";
 
 document.getElementById("playBtn")
-    .style.display = "block";
-    
+    .style.display = "block";    
 }
 
 function drawTrack(){
