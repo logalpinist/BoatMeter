@@ -359,6 +359,7 @@ if(isPlaying){
         }
     );
 }
+    
 document.getElementById("infoPanel").innerHTML =
     `<span class="metric">${Math.round(row.elapsed)}s</span>` +
     `<span class="rollText metric">R ${row.roll.toFixed(1)}°</span>` +
@@ -372,7 +373,8 @@ document.getElementById("infoPanel").innerHTML =
         row.radius == null
             ? "-"
             : row.radius.toFixed(0)
-    }m</span>`;    
+    }m</span>`;
+    
     if(chart){
         chart.update("none");
     }
