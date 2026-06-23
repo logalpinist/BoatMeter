@@ -138,24 +138,33 @@ function parseCsv(text){
         const c =
             lines[i].split(",");
 
-        rows.push({
+       rows.push({
 
-            elapsed:
-                Number(c[0]),
+    elapsed:Number(c[0]),
 
-            lat:
-                Number(c[4]),
+    lat:Number(c[4]),
+    lng:Number(c[5]),
 
-            lng:
-                Number(c[5]),
+    roll:Number(c[2]),
+    pitch:Number(c[3]),
 
-            roll:
-                Number(c[2]),
+    speed:Number(c[6]),
 
-            pitch:
-                Number(c[3])
+    heading:
+        c[7] === ""
+            ? null
+            : Number(c[7]),
 
-        });
+    turnRate:
+        c[8] === ""
+            ? null
+            : Number(c[8]),
+
+    radius:
+        c[9] === ""
+            ? null
+            : Number(c[9])
+});
     }
 
 drawTrack();
@@ -350,12 +359,21 @@ if(isPlaying){
         }
     );
 }
-    
-  document.getElementById("infoPanel").innerHTML =
+    document.getElementById("infoPanel").innerHTML =
     `${Math.round(row.elapsed)}s | ` +
     `<span class="rollText">R ${row.roll.toFixed(1)}°</span>` +
     ` | ` +
-    `<span class="pitchText">P ${row.pitch.toFixed(1)}°</span>`;
+    `<span class="pitchText">P ${row.pitch.toFixed(1)}°</span>` +
+    ` | TR ${
+        row.turnRate == null
+            ? "-"
+            : row.turnRate.toFixed(1)
+    }°/s` +
+    ` | RAD ${
+        row.radius == null
+            ? "-"
+            : row.radius.toFixed(0)
+    }m`;
     if(chart){
         chart.update("none");
     }
