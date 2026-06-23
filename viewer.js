@@ -359,21 +359,22 @@ if(isPlaying){
         }
     );
 }
-    document.getElementById("infoPanel").innerHTML =
+document.getElementById("infoPanel").innerHTML =
     `${Math.round(row.elapsed)}s | ` +
     `<span class="rollText">R ${row.roll.toFixed(1)}°</span>` +
     ` | ` +
     `<span class="pitchText">P ${row.pitch.toFixed(1)}°</span>` +
-    ` | TR ${
+    ` | T ${
         row.turnRate == null
             ? "-"
             : row.turnRate.toFixed(1)
-    }°/s` +
-    ` | RAD ${
+    }` +
+    ` | ${
         row.radius == null
             ? "-"
             : row.radius.toFixed(0)
     }m`;
+    
     if(chart){
         chart.update("none");
     }
