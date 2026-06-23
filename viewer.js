@@ -360,20 +360,34 @@ if(isPlaying){
     );
 }
 document.getElementById("infoPanel").innerHTML =
-    `${Math.round(row.elapsed)}s | ` +
-    `<span class="rollText">R ${row.roll.toFixed(1)}°</span>` +
-    ` | ` +
-    `<span class="pitchText">P ${row.pitch.toFixed(1)}°</span>` +
-    ` | T ${
-        row.turnRate == null
-            ? "-"
-            : row.turnRate.toFixed(1)
-    }` +
-    ` | ${
-        row.radius == null
-            ? "-"
-            : row.radius.toFixed(0)
-    }m`;
+
+`<span class="metric">
+${Math.round(row.elapsed)}s
+</span>
+
+<span class="rollText metric">
+R ${row.roll.toFixed(1)}°
+</span>
+
+<span class="pitchText metric">
+P ${row.pitch.toFixed(1)}°
+</span>
+
+<span class="metric">
+T ${
+row.turnRate == null
+? "-"
+: row.turnRate.toFixed(1)
+}
+</span>
+
+<span class="metric">
+${
+row.radius == null
+? "-"
+: row.radius.toFixed(0)
+}m
+</span>`;
     
     if(chart){
         chart.update("none");
