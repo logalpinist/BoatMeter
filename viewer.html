@@ -77,8 +77,9 @@ header{
     color:#00d4ff;
     font-size:8px;
     font-weight:700;
-    padding:2px 0;
-    box-sizing:border-box;
+
+    font-family:monospace;
+
     white-space:nowrap;
 }
     
@@ -124,6 +125,17 @@ header button,
 
 .pitchText{
     color:#ff5f85;
+}
+
+.metric{
+
+    display:inline-block;
+
+    width:55px;
+
+    text-align:right;
+
+    font-family:monospace;
 }
     
 </style>
@@ -180,8 +192,29 @@ header button,
     <div class="chartWrap">
         <div id="infoBar">
 
-    <div id="infoPanel"></div>
+  <div id="infoPanel">
 
+<span class="metric">
+0s
+</span>
+
+<span class="rollText metric">
+R 0.0°
+</span>
+
+<span class="pitchText metric">
+P 0.0°
+</span>
+
+<span class="metric">
+T 0.0
+</span>
+
+<span class="metric">
+0m
+</span>
+
+</div>
 </div>
 
 <canvas id="chart"></canvas>
