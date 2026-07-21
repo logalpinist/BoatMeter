@@ -1,134 +1,486 @@
-<!DOCTYPE html>
-<html lang="ja">
+html,
+body{
+    width:100%;
+    height:100%;
+}
 
-<head>
+body{
+    margin:0;
 
-<meta charset="UTF-8">
+    background:
+        radial-gradient(
+            circle at center,
+            #10263d,
+            #07121f 70%
+        );
 
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    color:white;
+    font-family:-apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
 
-<meta name="apple-mobile-web-app-capable"
-      content="yes">
+    overflow:hidden;
+}
 
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent">
 
-<meta name="apple-mobile-web-app-title"
-      content="Boat Meter">
+/* =========================
+   メイン画面
+========================= */
 
-<meta name="theme-color"
-      content="#07121f">
+.container{
+    width:100%;
+    height:100dvh;
 
-<link rel="manifest"
-      href="manifest.json">
+    box-sizing:border-box;
 
-<link rel="stylesheet"
-      href="style.css">
+    display:flex;
+    justify-content:space-evenly;
+    align-items:flex-start;
 
-<title>Boat Meter</title>
+    gap:3vw;
 
-</head>
+    padding:
+        max(8px, env(safe-area-inset-top))
+        8px
+        62px;
+}
 
-<body>
 
-<div id="rotateNotice">
-    横向きにしてください
-</div>
+/* =========================
+   ROLL / PITCH 共通
+========================= */
 
-<div class="container">
+.meter{
+    width:44vw;
+    min-width:0;
 
-    <div class="meter">
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
 
-        <div class="title">
-            ROLL
-        </div>
+.title{
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:3px;
 
-        <div class="value"
-             id="rollValue">
-            0°
-        </div>
+    color:rgba(255,255,255,.62);
 
-        <div class="box">
+    line-height:1;
+    margin:2px 0 6px;
+}
 
-            <div class="gauge">
+.value{
+    font-size:clamp(44px, 7vw, 56px);
+    font-weight:700;
+    line-height:1;
 
-                <div class="waterLine"></div>
+    color:#00d4ff;
 
-                <div class="boatMask">
+    text-shadow:
+        0 0 12px rgba(0,212,255,.6),
+        0 0 24px rgba(0,212,255,.35);
 
-                    <img
-                        id="rollBoat"
-                        src="ponam-rear.png"
-                        alt="Roll">
+    margin-bottom:10px;
+}
 
-                </div>
 
-            </div>
+/* =========================
+   メーター外枠
+========================= */
 
-        </div>
+.box{
+    position:relative;
 
-    </div>
+    width:100%;
+    height:clamp(165px, 29vh, 185px);
 
-    <div class="meter">
+    flex:none;
 
-        <div class="title">
-            PITCH
-        </div>
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-        <div class="value"
-             id="pitchValue">
-            0°
-        </div>
+    overflow:hidden;
 
-        <div class="box">
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:20px;
 
-            <div class="gauge">
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0,212,255,.15),
+            rgba(0,212,255,.04) 42%,
+            rgba(0,0,0,0) 75%
+        );
 
-                <div class="waterLine"></div>
+    box-shadow:
+        inset 0 0 24px rgba(0,212,255,.08),
+        0 0 12px rgba(0,0,0,.4);
+}
 
-                <div class="boatMask">
+.gauge{
+    position:relative;
 
-                    <img
-                        id="pitchBoat"
-                        class="pitchBoat"
-                        src="ponam-side.png"
-                        alt="Pitch">
+    width:100%;
+    height:100%;
 
-                </div>
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-            </div>
+    pointer-events:none;
+}
 
-        </div>
 
-    </div>
+/* =========================
+   水平基準線
+========================= */
 
-</div>
+.waterLine{
+    position:absolute;
 
-<div id="recIndicator" class="recIndicator">
-    GPS待機中...
-</div>
+    left:5%;
+    top:50%;
 
-<div class="controls">
+    width:90%;
+    height:2px;
 
-  <button id="startBtn" onclick="startSensor()">
-    取得
-</button>
+    transform:translateY(-50%);
 
-<button onclick="resetZero()">
-    ゼロ
-</button>
+    background:rgba(255,255,255,.28);
 
-<button id="recordBtn" onclick="toggleRecording()">
-    記録
-</button>
+    z-index:1;
 
-<button onclick="location.href='viewer.html'">
-    解析
-</button>
+    pointer-events:none;
+}
 
-</div>
-<script src="app.js"></script>
 
-</body>
+/* =========================
+   丸窓
+========================= */
 
-</html>
+.boatMask{
+    position:relative;
+
+    width:clamp(148px, 20vw, 165px);
+    height:clamp(148px, 20vw, 165px);
+
+    aspect-ratio:1 / 1;
+    flex:none;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    border:3px solid rgba(255,255,255,.17);
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #20384f,
+            #09131f 80%
+        );
+
+    box-shadow:
+        inset 0 0 28px rgba(255,255,255,.09),
+        0 0 22px rgba(0,212,255,.24);
+
+    z-index:10;
+
+    pointer-events:none;
+}
+
+.boatMask img{
+    position:relative;
+    z-index:1;
+
+    display:block;
+
+    flex:none;
+
+    transform-origin:center center;
+
+    transition:transform .05s linear;
+
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(0,212,255,.35)
+        );
+
+    pointer-events:none;
+}
+
+
+/* =========================
+   船画像
+========================= */
+
+#rollBoat{
+    width:125%;
+    height:125%;
+
+    object-fit:cover;
+}
+
+#pitchBoat{
+    position:relative;
+    top:-4px;
+
+    width:170%;
+    height:170%;
+
+    object-fit:contain;
+}
+
+
+/* =========================
+   角度目盛り
+========================= */
+
+.mark{
+    position:absolute;
+
+    font-size:11px;
+
+    color:rgba(255,255,255,.35);
+}
+
+.left20{
+    left:18px;
+    top:22px;
+}
+
+.left10{
+    left:30px;
+    top:52px;
+}
+
+.right10{
+    right:30px;
+    top:52px;
+}
+
+.right20{
+    right:18px;
+    top:22px;
+}
+
+
+/* =========================
+   操作ボタン
+========================= */
+
+.controls{
+    position:fixed;
+
+    left:50%;
+    bottom:
+        max(
+            8px,
+            env(safe-area-inset-bottom)
+        );
+
+    transform:translateX(-50%);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:7px;
+
+    z-index:99999;
+
+    pointer-events:auto;
+}
+
+.controls button{
+    width:auto;
+    min-width:72px;
+    height:38px;
+
+    box-sizing:border-box;
+
+    padding:0 13px;
+
+    border:1px solid #00d4ff;
+    border-radius:10px;
+
+    background:rgba(0,212,255,.08);
+
+    color:#00d4ff;
+
+    font-size:13px;
+    font-weight:500;
+
+    white-space:nowrap;
+
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+
+    box-shadow:
+        inset 0 0 8px rgba(0,212,255,.04);
+
+    cursor:pointer;
+    pointer-events:auto;
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+.controls button:active{
+    transform:scale(.96);
+
+    background:rgba(0,212,255,.16);
+}
+
+
+/* =========================
+   記録表示
+========================= */
+
+.recIndicator{
+    position:fixed;
+
+    top:max(8px, env(safe-area-inset-top));
+    left:max(8px, env(safe-area-inset-left));
+
+    display:none;
+
+    color:#ff4b4b;
+
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:1px;
+
+    z-index:999999;
+
+    animation:recBlink 1s infinite;
+
+    pointer-events:none;
+}
+
+@keyframes recBlink{
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.25;
+    }
+
+    100%{
+        opacity:1;
+    }
+}
+
+
+/* =========================
+   縦画面案内
+========================= */
+
+#rotateNotice{
+    position:fixed;
+    inset:0;
+
+    width:100vw;
+    height:100dvh;
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    box-sizing:border-box;
+    padding:20px;
+
+    background:#07121f;
+
+    color:rgba(255,255,255,.8);
+
+    font-size:20px;
+    text-align:center;
+    letter-spacing:1px;
+
+    z-index:999999;
+}
+
+
+/* =========================
+   縦向き
+========================= */
+
+@media (orientation:portrait){
+
+    #rotateNotice{
+        display:flex !important;
+    }
+
+    .container,
+    .controls,
+    .recIndicator{
+        display:none !important;
+    }
+}
+
+
+/* =========================
+   横向き
+========================= */
+
+@media (orientation:landscape){
+
+    #rotateNotice{
+        display:none !important;
+    }
+
+    .container{
+        display:flex !important;
+    }
+
+    .controls{
+        display:flex !important;
+    }
+}
+
+
+/* =========================
+   高さが小さい端末
+========================= */
+
+@media (orientation:landscape) and (max-height:390px){
+
+    .container{
+        padding-top:4px;
+        padding-bottom:54px;
+    }
+
+    .title{
+        margin-top:0;
+        margin-bottom:4px;
+    }
+
+    .value{
+        font-size:42px;
+        margin-bottom:6px;
+    }
+
+    .box{
+        height:155px;
+    }
+
+    .boatMask{
+        width:142px;
+        height:142px;
+    }
+
+    .controls button{
+        min-width:68px;
+        height:35px;
+        padding:0 10px;
+        font-size:12px;
+    }
+}
