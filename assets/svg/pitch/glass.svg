@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" aria-hidden="true">
+  <g transform="translate(120 120)">
+    <path d="M-28 -3
+             C-7 -10 6 -10 20 -2
+             C25 1 23 7 15 9
+             C4 12 -13 12 -24 7 Z"
+          fill="#10263D"
+          opacity="0.96"/>
+
+    <path d="M-24 -2
+             C-4 -7 11 -7 22 -1"
+          fill="none"
+          stroke="#FFFFFF"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          opacity="0.72"/>
+
+    <path d="M-34 6
+             C-10 12 14 12 34 7"
+          fill="none"
+          stroke="#00D4FF"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          opacity="0.78"/>
+  </g>
+</svg>
